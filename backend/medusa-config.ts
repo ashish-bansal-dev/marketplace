@@ -15,5 +15,9 @@ module.exports = defineConfig({
   },
   admin: {
     disable: true,
-  } 
+  },
+  modules: [{
+    resolve: './src/modules/seller',
+  },
+  ],
 })
