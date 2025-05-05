@@ -4,10 +4,9 @@ A modern e-commerce platform built with Medusa, Next.js, and React, featuring a 
 
 ## Project Structure
 
-The project is organized into four main applications:
+The project is organized into three main applications:
 
-- `backend/`: Medusa backend server
-- `admin-panel/`: Admin dashboard (Vite + React)
+- `backend/`: Medusa backend server (ships with built-in admin dashboard at `/app`)
 - `vendor-panel/`: Vendor dashboard (Vite + React)
 - `storefront/`: Customer-facing storefront (Next.js)
 
@@ -21,24 +20,26 @@ The project is organized into four main applications:
 ## Getting Started
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd marketplace
 ```
 
 2. Install dependencies:
+
 ```bash
 # Install dependencies for each application
 cd backend && yarn install
-cd ../admin-panel && yarn install
 cd ../vendor-panel && yarn install
 cd ../storefront && yarn install
 ```
 
 3. Set up environment variables:
-Create `.env` files in each application directory with the following configurations:
+   Create `.env` files in each application directory with the following configurations:
 
 ### Backend (.env)
+
 ```env
 DATABASE_URL=postgres://localhost/medusa-store
 STORE_CORS=http://localhost:8000
@@ -49,14 +50,8 @@ COOKIE_SECRET=supersecret
 REDIS_URL=redis://localhost:6379
 ```
 
-### Admin Panel (.env)
-```env
-VITE_MEDUSA_BASE=/admin
-VITE_MEDUSA_BACKEND_URL=http://localhost:9000
-VITE_MEDUSA_STOREFRONT_URL=http://localhost:8000
-```
-
 ### Vendor Panel (.env)
+
 ```env
 VITE_MEDUSA_BASE=/vendor
 VITE_MEDUSA_BACKEND_URL=http://localhost:9000
@@ -64,29 +59,30 @@ VITE_MEDUSA_STOREFRONT_URL=http://localhost:8000
 ```
 
 ### Storefront (.env)
+
 ```env
 NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
 ```
 
 4. Start the development servers:
+
 ```bash
 # Start each service in a separate terminal
 cd backend && yarn dev
-cd admin-panel && yarn dev
 cd vendor-panel && yarn dev
 cd storefront && yarn dev
 ```
 
 ## Port Configuration
 
-- Backend: 9000
-- Admin Panel: 3000/
+- Backend (API & Admin Dashboard): 9000 (admin dashboard at http://localhost:9000/app)
 - Vendor Panel: 3001/
 - Storefront: 8000
 
 ## Features
 
 ### Core Features
+
 - Product Management
 - Order Processing
 - Customer Management
@@ -97,13 +93,16 @@ cd storefront && yarn dev
 - Multi-region Support
 
 ### Dashboard Features
-#### Admin Panel
+
+#### Admin Dashboard (Built-in)
+
 - System-wide management
 - Vendor management
 - Analytics and reporting
 - Settings and configuration
 
 #### Vendor Panel
+
 - Product Management
 - Order Management
 - Sales Analytics
@@ -112,6 +111,7 @@ cd storefront && yarn dev
 - Performance Metrics
 
 ### Role-Based Access Control (RBAC)
+
 - Admin: Full system access and vendor management
 - Vendor: Access to vendor panel and own products
 - Customer: Access to storefront and personal account
@@ -120,16 +120,19 @@ cd storefront && yarn dev
 ## Development
 
 ### Backend Development
-The backend is built with Medusa and provides the core e-commerce functionality, including vendor management and RBAC.
+
+The backend is built with Medusa and provides the core e-commerce functionality, including vendor management and RBAC. The admin dashboard is shipped by default at `/app` on port 9000.
 
 ### Dashboard Development
-The dashboard is built with Vite and React, providing a modern interface for both admin and vendor management. It includes:
-- Admin interface for system management
+
+The vendor dashboard is built with Vite and React, providing a modern interface for vendor management. It includes:
+
 - Vendor interface for product and order management
 - Role-based access control
 - Analytics and reporting tools
 
 ### Storefront Development
+
 The storefront is built with Next.js, offering a fast and SEO-friendly shopping experience for customers.
 
 ## Contributing
@@ -142,4 +145,4 @@ The storefront is built with Next.js, offering a fast and SEO-friendly shopping 
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.
