@@ -16,3 +16,4 @@ interface ImportMeta {
 declare const __BACKEND_URL__: string | undefined
 declare const __STOREFRONT_URL__: string | undefined
 declare const __BASE__: string
+declare const __DISABLE_SELLERS_REGISTRATION__: string | undefined

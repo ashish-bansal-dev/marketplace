@@ -114,7 +114,7 @@ export const Login = () => {
                   render={({ field }) => {
                     return (
                       <Form.Item>
-                        <Form.Label>{}</Form.Label>
+                        <Form.Label>{ }</Form.Label>
                         <Form.Control>
                           <Input
                             type="password"
@@ -166,6 +166,19 @@ export const Login = () => {
             ]}
           />
         </span>
+        {__DISABLE_SELLERS_REGISTRATION__ === "false" && (
+          <span className="text-ui-fg-muted txt-small">
+            <Trans
+              i18nKey="login.notSellerYet"
+              components={[
+                <Link
+                  to="/register"
+                  className="text-ui-fg-interactive transition-fg hover:text-ui-fg-interactive-hover focus-visible:text-ui-fg-interactive-hover font-medium outline-none"
+                />,
+              ]}
+            />
+          </span>
+        )}
       </div>
     </div>
   )

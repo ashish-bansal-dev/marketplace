@@ -9943,11 +9943,28 @@
         },
         "hint": {
           "type": "string"
+          },
+        "notSellerYet": {
+          "type": "string"
         }
       },
-      "required": ["forgotPassword", "title", "hint"],
+      "required": ["forgotPassword", "title", "hint", "notSellerYet"],
       "additionalProperties": false
     },
+    "register": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "alreadySeller": {
+          "type": "string"
+        }
+      },
+
     "invite": {
       "type": "object",
       "properties": {

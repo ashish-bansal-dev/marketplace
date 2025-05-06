@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => {
   const BACKEND_URL = env.VITE_MEDUSA_BACKEND_URL || "http://localhost:9000"
   const STOREFRONT_URL =
     env.VITE_MEDUSA_STOREFRONT_URL || "http://localhost:8000"
+  const DISABLE_SELLERS_REGISTRATION =
+    env.VITE_DISABLE_SELLERS_REGISTRATION || "false"
+
 
   /**
    * Add this to your .env file to specify the project to load admin extensions from.
@@ -30,6 +33,7 @@ export default defineConfig(({ mode }) => {
       __BASE__: JSON.stringify(BASE),
       __BACKEND_URL__: JSON.stringify(BACKEND_URL),
       __STOREFRONT_URL__: JSON.stringify(STOREFRONT_URL),
+      __DISABLE_SELLERS_REGISTRATION__: JSON.stringify(DISABLE_SELLERS_REGISTRATION),
     },
     server: {
       open: true,

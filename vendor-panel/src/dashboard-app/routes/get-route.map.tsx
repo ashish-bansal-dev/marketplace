@@ -1730,6 +1730,13 @@ export function getRouteMap({
               lazy: () => import("../../routes/login"),
             },
             {
+              path: "/register",
+              lazy:
+                __DISABLE_SELLERS_REGISTRATION__ === "false"
+                  ? () => import("../../routes/register")
+                  : undefined,
+            },
+            {
               path: "/reset-password",
               lazy: () => import("../../routes/reset-password"),
             },
