@@ -89,7 +89,10 @@ export const Notifications = () => {
           >
             responseKey="notifications"
             queryKey={notificationQueryKeys.all}
-            queryFn={(params) => sdk.admin.notification.list(params)}
+            queryFn={(params) => sdk.client.fetch("/vendor/notifications", {
+              method: "GET",
+              query: params,
+            }) as Promise<HttpTypes.AdminNotificationListResponse>}
             queryOptions={{ enabled: open }}
             renderEmpty={() => <NotificationsEmptyState t={t} />}
             renderItem={(notification) => {
