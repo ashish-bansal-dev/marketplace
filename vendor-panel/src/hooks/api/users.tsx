@@ -1,24 +1,23 @@
-import { FetchError } from "@medusajs/js-sdk"
-import { HttpTypes } from "@medusajs/types"
+import { FetchError } from '@medusajs/js-sdk'
+import { HttpTypes } from '@medusajs/types'
 import {
   QueryKey,
   UseMutationOptions,
   UseQueryOptions,
   useMutation,
   useQuery,
-} from "@tanstack/react-query"
-import { sdk } from "../../lib/client"
-import { queryClient } from "../../lib/query-client"
-import { queryKeysFactory } from "../../lib/query-key-factory"
+} from '@tanstack/react-query'
+import { sdk } from '../../lib/client'
+import { queryClient } from '../../lib/query-client'
+import { queryKeysFactory } from '../../lib/query-key-factory'
 
-const USERS_QUERY_KEY = "users" as const
+const USERS_QUERY_KEY = 'users' as const
 const usersQueryKeys = {
   ...queryKeysFactory(USERS_QUERY_KEY),
-  me: () => [USERS_QUERY_KEY, "me"],
+  me: () => [USERS_QUERY_KEY, 'me'],
 }
 
 export const useMe = (
-  query?: HttpTypes.AdminUserParams,
   options?: UseQueryOptions<
     HttpTypes.AdminUserResponse,
     FetchError,
@@ -27,13 +26,20 @@ export const useMe = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.user.me(query),
+    queryFn: () =>
+      sdk.client.fetch('/vendor/sellers/me', {
+        method: 'GET',
+        query: {
+          fields:
+            'id,name,description,phone,photo,email,media,address_line,postal_code,country_code,city,region,metadata,gstin',
+        },
+      }) as Promise<HttpTypes.AdminUserResponse>,
     queryKey: usersQueryKeys.me(),
     ...options,
   })
 
   return {
-    ...data,
+    user: data?.seller,
     ...rest,
   }
 }
@@ -45,14 +51,20 @@ export const useUser = (
     UseQueryOptions<
       HttpTypes.AdminUserResponse,
       FetchError,
-      HttpTypes.AdminUserResponse,
+      HttpTypes.AdminUserResponse & {
+        member: any
+      },
       QueryKey
     >,
-    "queryFn" | "queryKey"
+    'queryFn' | 'queryKey'
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.user.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/members/${id}`, {
+        method: 'GET',
+        query,
+      }) as Promise<HttpTypes.AdminUserResponse>,
     queryKey: usersQueryKeys.detail(id),
     ...options,
   })
@@ -66,14 +78,18 @@ export const useUsers = (
     UseQueryOptions<
       HttpTypes.AdminUserListResponse,
       FetchError,
-      HttpTypes.AdminUserListResponse,
+      HttpTypes.AdminUserListResponse & { members: any[] },
       QueryKey
     >,
-    "queryFn" | "queryKey"
+    'queryFn' | 'queryKey'
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.user.list(query),
+    queryFn: () =>
+      sdk.client.fetch('/vendor/members', {
+        method: 'GET',
+        query,
+      }) as Promise<HttpTypes.AdminUserListResponse>,
     queryKey: usersQueryKeys.list(query),
     ...options,
   })

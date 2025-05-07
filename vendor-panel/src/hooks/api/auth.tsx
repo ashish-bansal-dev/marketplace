@@ -7,14 +7,14 @@ export const useSignInWithEmailPass = (
   options?: UseMutationOptions<
     | string
     | {
-        location: string
-      },
+      location: string
+    },
     FetchError,
     HttpTypes.AdminSignUpWithEmailPassword
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.auth.login("user", "emailpass", payload),
+    mutationFn: (payload) => sdk.auth.login("seller", "emailpass", payload),
     onSuccess: async (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
     },
@@ -26,13 +26,28 @@ export const useSignUpWithEmailPass = (
   options?: UseMutationOptions<
     string,
     FetchError,
-    HttpTypes.AdminSignInWithEmailPassword
+    HttpTypes.AdminSignInWithEmailPassword & {
+      confirmPassword: string
+      name: string
+      type: "manufacturer" | "reseller"
+    }
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.auth.register("user", "emailpass", payload),
-    onSuccess: async (data, variables, context) => {
-      options?.onSuccess?.(data, variables, context)
+    mutationFn: (payload) => sdk.auth.register("seller", "emailpass", payload),
+    onSuccess: async (_, variables) => {
+      const seller = {
+        name: variables.name,
+        type: variables.type,
+        member: {
+          name: variables.name,
+          email: variables.email,
+        },
+      }
+      await sdk.client.fetch("/vendor/sellers", {
+        method: "POST",
+        body: seller,
+      })
     },
     ...options,
   })
@@ -43,7 +58,7 @@ export const useResetPasswordForEmailPass = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.auth.resetPassword("user", "emailpass", {
+      sdk.auth.resetPassword("seller", "emailpass", {
         identifier: payload.email,
       }),
     onSuccess: async (data, variables, context) => {
@@ -66,7 +81,7 @@ export const useUpdateProviderForEmailPass = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.auth.updateProvider("user", "emailpass", payload, token),
+      sdk.auth.updateProvider("seller", "emailpass", payload, token),
     onSuccess: async (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
     },
