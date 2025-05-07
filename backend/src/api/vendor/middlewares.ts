@@ -1,6 +1,7 @@
 import { MiddlewareRoute } from "@medusajs/framework/http";
 import { vendorCors } from "./cors";
 import { adminApiKeyRoutesMiddlewares } from "./api-keys/middlewares";
+import { vendorSellersMiddlewares } from "./sellers/middlewares";
 
 export const vendorMiddlewares: MiddlewareRoute[] = [
     {
@@ -8,4 +9,5 @@ export const vendorMiddlewares: MiddlewareRoute[] = [
         middlewares: [vendorCors],
     },
     ...adminApiKeyRoutesMiddlewares,
+    ...vendorSellersMiddlewares,
 ]
