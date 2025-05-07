@@ -20,10 +20,10 @@ import {
   AdminUpdateOrder,
 } from "./validators"
 
-export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorOrderRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/orders",
+    matcher: "/vendor/orders",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersParams,
@@ -33,7 +33,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/orders/:id",
+    matcher: "/vendor/orders/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -43,7 +43,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id",
+    matcher: "/vendor/orders/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateOrder),
       validateAndTransformQuery(
@@ -54,7 +54,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/orders/:id/line-items",
+    matcher: "/vendor/orders/:id/line-items",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderItemsParams,
@@ -64,7 +64,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/orders/:id/changes",
+    matcher: "/vendor/orders/:id/changes",
     middlewares: [
       validateAndTransformQuery(
         AdminOrderChangesParams,
@@ -74,7 +74,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/orders/:id/preview",
+    matcher: "/vendor/orders/:id/preview",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -84,7 +84,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/archive",
+    matcher: "/vendor/orders/:id/archive",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -94,7 +94,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/cancel",
+    matcher: "/vendor/orders/:id/cancel",
     middlewares: [
       // validateAndTransformBody(),
       validateAndTransformQuery(
@@ -105,7 +105,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/complete",
+    matcher: "/vendor/orders/:id/complete",
     middlewares: [
       validateAndTransformBody(AdminCompleteOrder),
       validateAndTransformQuery(
@@ -116,7 +116,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/credit-lines",
+    matcher: "/vendor/orders/:id/credit-lines",
     middlewares: [
       validateAndTransformBody(AdminCreateOrderCreditLines),
       validateAndTransformQuery(
@@ -127,7 +127,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/fulfillments",
+    matcher: "/vendor/orders/:id/fulfillments",
     middlewares: [
       validateAndTransformBody(AdminOrderCreateFulfillment),
       validateAndTransformQuery(
@@ -138,7 +138,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/fulfillments/:fulfillment_id/cancel",
+    matcher: "/vendor/orders/:id/fulfillments/:fulfillment_id/cancel",
     middlewares: [
       validateAndTransformBody(AdminOrderCancelFulfillment),
       validateAndTransformQuery(
@@ -149,7 +149,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/fulfillments/:fulfillment_id/shipments",
+    matcher: "/vendor/orders/:id/fulfillments/:fulfillment_id/shipments",
     middlewares: [
       validateAndTransformBody(AdminOrderCreateShipment),
       validateAndTransformQuery(
@@ -160,7 +160,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/fulfillments/:fulfillment_id/mark-as-delivered",
+    matcher: "/vendor/orders/:id/fulfillments/:fulfillment_id/mark-as-delivered",
     middlewares: [
       validateAndTransformBody(AdminMarkOrderFulfillmentDelivered),
       validateAndTransformQuery(
@@ -171,7 +171,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/transfer",
+    matcher: "/vendor/orders/:id/transfer",
     middlewares: [
       validateAndTransformBody(AdminTransferOrder),
       validateAndTransformQuery(
@@ -182,7 +182,7 @@ export const adminOrderRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/orders/:id/transfer/cancel",
+    matcher: "/vendor/orders/:id/transfer/cancel",
     middlewares: [
       validateAndTransformBody(AdminCancelOrderTransferRequest),
       validateAndTransformQuery(

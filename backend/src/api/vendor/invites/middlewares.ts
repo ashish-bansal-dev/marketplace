@@ -17,10 +17,10 @@ import {
 
 // TODO: Due to issues with our routing (and using router.use for applying middlewares), we have to opt-out of global auth in all routes, and then reapply it here.
 // See https://medusacorp.slack.com/archives/C025KMS13SA/p1716455350491879 for details.
-export const adminInviteRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorInviteRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/invites",
+    matcher: "/vendor/invites",
     middlewares: [
       authenticate("user", ["session", "bearer", "api-key"]),
       validateAndTransformQuery(
@@ -31,7 +31,7 @@ export const adminInviteRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/invites",
+    matcher: "/vendor/invites",
     middlewares: [
       authenticate("user", ["session", "bearer", "api-key"]),
       validateAndTransformBody(AdminCreateInvite),
@@ -43,7 +43,7 @@ export const adminInviteRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "POST",
-    matcher: "/admin/invites/accept",
+    matcher: "/vendor/invites/accept",
     middlewares: [
       authenticate("user", ["session", "bearer"], {
         allowUnregistered: true,
@@ -57,7 +57,7 @@ export const adminInviteRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/invites/:id",
+    matcher: "/vendor/invites/:id",
     middlewares: [
       authenticate("user", ["session", "bearer", "api-key"]),
       validateAndTransformQuery(
@@ -68,12 +68,12 @@ export const adminInviteRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/invites/:id",
+    matcher: "/vendor/invites/:id",
     middlewares: [authenticate("user", ["session", "bearer", "api-key"])],
   },
   {
     method: "POST",
-    matcher: "/admin/invites/:id/resend",
+    matcher: "/vendor/invites/:id/resend",
     middlewares: [
       authenticate("user", ["session", "bearer", "api-key"]),
       validateAndTransformQuery(

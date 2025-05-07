@@ -10,10 +10,10 @@ import {
   AdminMarkPaymentCollectionPaid,
 } from "./validators"
 
-export const adminPaymentCollectionsMiddlewares: MiddlewareRoute[] = [
+export const vendorPaymentCollectionsMiddlewares: MiddlewareRoute[] = [
   {
     method: ["POST"],
-    matcher: "/admin/payment-collections",
+    matcher: "/vendor/payment-collections",
     middlewares: [
       validateAndTransformBody(AdminCreatePaymentCollection),
       validateAndTransformQuery(
@@ -24,7 +24,7 @@ export const adminPaymentCollectionsMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/payment-collections/:id/mark-as-paid",
+    matcher: "/vendor/payment-collections/:id/mark-as-paid",
     middlewares: [
       validateAndTransformBody(AdminMarkPaymentCollectionPaid),
       validateAndTransformQuery(
@@ -35,7 +35,7 @@ export const adminPaymentCollectionsMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/payment-collections/:id",
+    matcher: "/vendor/payment-collections/:id",
     middlewares: [],
   },
 ]

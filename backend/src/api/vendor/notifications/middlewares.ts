@@ -6,10 +6,10 @@ import {
   AdminGetNotificationsParams,
 } from "./validators"
 
-export const adminNotificationRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorNotificationRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/notifications",
+    matcher: "/vendor/notifications",
     middlewares: [
       validateAndTransformQuery(
         AdminGetNotificationsParams,
@@ -19,7 +19,7 @@ export const adminNotificationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/notifications/:id",
+    matcher: "/vendor/notifications/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetNotificationParams,

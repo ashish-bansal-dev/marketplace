@@ -11,10 +11,10 @@ import {
   AdminUpdateRegion,
 } from "./validators"
 
-export const adminRegionRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorRegionRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/regions",
+    matcher: "/vendor/regions",
     middlewares: [
       validateAndTransformQuery(
         AdminGetRegionsParams,
@@ -24,7 +24,7 @@ export const adminRegionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/regions/:id",
+    matcher: "/vendor/regions/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetRegionParams,
@@ -34,7 +34,7 @@ export const adminRegionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/regions",
+    matcher: "/vendor/regions",
     middlewares: [
       validateAndTransformBody(AdminCreateRegion),
       validateAndTransformQuery(
@@ -45,7 +45,7 @@ export const adminRegionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/regions/:id",
+    matcher: "/vendor/regions/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateRegion),
       validateAndTransformQuery(

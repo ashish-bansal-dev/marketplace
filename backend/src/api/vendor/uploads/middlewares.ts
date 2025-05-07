@@ -9,11 +9,11 @@ import { AdminGetUploadParams } from "./validators"
 // services on other machines using streams is not as simple as it used to be.
 const upload = multer({ storage: multer.memoryStorage() })
 
-export const adminUploadRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorUploadRoutesMiddlewares: MiddlewareRoute[] = [
   // TODO: There is a `/protected` route in v1 that might need a bit more thought when implementing
   {
     method: ["POST"],
-    matcher: "/admin/uploads",
+    matcher: "/vendor/uploads",
     middlewares: [
       upload.array("files"),
       validateAndTransformQuery(AdminGetUploadParams, retrieveUploadConfig),
@@ -21,14 +21,14 @@ export const adminUploadRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/uploads/:id",
+    matcher: "/vendor/uploads/:id",
     middlewares: [
       validateAndTransformQuery(AdminGetUploadParams, retrieveUploadConfig),
     ],
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/uploads/:id",
+    matcher: "/vendor/uploads/:id",
     middlewares: [],
   },
 ]

@@ -14,10 +14,10 @@ import {
   AdminUpdateShippingProfile,
 } from "./validators"
 
-export const adminShippingProfilesMiddlewares: MiddlewareRoute[] = [
+export const vendorShippingProfilesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["POST"],
-    matcher: "/admin/shipping-profiles",
+    matcher: "/vendor/shipping-profiles",
     middlewares: [
       validateAndTransformBody(AdminCreateShippingProfile),
       validateAndTransformQuery(
@@ -28,7 +28,7 @@ export const adminShippingProfilesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/shipping-profiles",
+    matcher: "/vendor/shipping-profiles",
     middlewares: [
       validateAndTransformQuery(
         AdminGetShippingProfilesParams,
@@ -38,7 +38,7 @@ export const adminShippingProfilesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/shipping-profiles/:id",
+    matcher: "/vendor/shipping-profiles/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateShippingProfile),
       validateAndTransformQuery(
@@ -49,7 +49,7 @@ export const adminShippingProfilesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/shipping-profiles/:id",
+    matcher: "/vendor/shipping-profiles/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetShippingProfileParams,

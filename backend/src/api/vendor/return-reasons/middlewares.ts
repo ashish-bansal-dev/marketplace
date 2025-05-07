@@ -11,10 +11,10 @@ import {
   AdminUpdateReturnReason,
 } from "./validators"
 
-export const adminReturnReasonRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorReturnReasonRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/return-reasons",
+    matcher: "/vendor/return-reasons",
     middlewares: [
       validateAndTransformQuery(
         AdminGetReturnReasonsParams,
@@ -24,7 +24,7 @@ export const adminReturnReasonRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/return-reasons/:id",
+    matcher: "/vendor/return-reasons/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetReturnReasonsReturnReasonParams,
@@ -34,7 +34,7 @@ export const adminReturnReasonRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/return-reasons",
+    matcher: "/vendor/return-reasons",
     middlewares: [
       validateAndTransformBody(AdminCreateReturnReason),
       validateAndTransformQuery(
@@ -45,7 +45,7 @@ export const adminReturnReasonRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/return-reasons/:id",
+    matcher: "/vendor/return-reasons/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateReturnReason),
       validateAndTransformQuery(
@@ -56,6 +56,6 @@ export const adminReturnReasonRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/return-reasons/:id",
+    matcher: "/vendor/return-reasons/:id",
   },
 ]

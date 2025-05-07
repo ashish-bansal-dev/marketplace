@@ -4,10 +4,10 @@ import { validateAndTransformQuery } from "@medusajs/framework"
 import * as QueryConfig from "./query-config"
 import { AdminFulfillmentProvidersParams } from "./validators"
 
-export const adminFulfillmentProvidersRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorFulfillmentProvidersRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/fulfillment-providers",
+    matcher: "/vendor/fulfillment-providers",
     middlewares: [
       validateAndTransformQuery(
         AdminFulfillmentProvidersParams,
@@ -22,7 +22,7 @@ export const adminFulfillmentProvidersRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/fulfillment-providers/:id/options",
+    matcher: "/vendor/fulfillment-providers/:id/options",
     middlewares: [],
   },
 ]

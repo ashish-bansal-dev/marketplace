@@ -10,10 +10,10 @@ import {
   AdminUpdatePaymentRefundReason,
 } from "./validators"
 
-export const adminRefundReasonsRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorRefundReasonsRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/refund-reasons",
+    matcher: "/vendor/refund-reasons",
     middlewares: [
       validateAndTransformQuery(
         AdminGetRefundReasonsParams,
@@ -23,7 +23,7 @@ export const adminRefundReasonsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/refund-reasons",
+    matcher: "/vendor/refund-reasons",
     middlewares: [
       validateAndTransformBody(AdminCreatePaymentRefundReason),
       validateAndTransformQuery(
@@ -34,7 +34,7 @@ export const adminRefundReasonsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/refund-reasons/:id",
+    matcher: "/vendor/refund-reasons/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdatePaymentRefundReason),
       validateAndTransformQuery(
@@ -45,7 +45,7 @@ export const adminRefundReasonsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/refund-reasons/:id",
+    matcher: "/vendor/refund-reasons/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetRefundReasonsParams,
@@ -55,7 +55,7 @@ export const adminRefundReasonsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/refund-reasons/:id",
+    matcher: "/vendor/refund-reasons/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetRefundReasonsParams,

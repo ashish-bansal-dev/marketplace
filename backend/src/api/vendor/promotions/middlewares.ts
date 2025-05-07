@@ -18,10 +18,10 @@ import {
   AdminUpdatePromotionRule,
 } from "./validators"
 
-export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/promotions",
+    matcher: "/vendor/promotions",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPromotionsParams,
@@ -31,7 +31,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/promotions",
+    matcher: "/vendor/promotions",
     middlewares: [
       validateAndTransformBody(AdminCreatePromotion),
       validateAndTransformQuery(
@@ -42,7 +42,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/promotions/:id",
+    matcher: "/vendor/promotions/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPromotionParams,
@@ -52,7 +52,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/promotions/:id",
+    matcher: "/vendor/promotions/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdatePromotion),
       validateAndTransformQuery(
@@ -63,7 +63,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/promotions/:id/:rule_type",
+    matcher: "/vendor/promotions/:id/:rule_type",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPromotionRuleTypeParams,
@@ -73,7 +73,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/promotions/:id/rules/batch",
+    matcher: "/vendor/promotions/:id/rules/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -89,7 +89,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/promotions/:id/target-rules/batch",
+    matcher: "/vendor/promotions/:id/target-rules/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -105,7 +105,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/promotions/:id/buy-rules/batch",
+    matcher: "/vendor/promotions/:id/buy-rules/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -122,7 +122,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
     matcher:
-      "/admin/promotions/rule-value-options/:rule_type/:rule_attribute_id",
+      "/vendor/promotions/rule-value-options/:rule_type/:rule_attribute_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPromotionsRuleValueParams,
@@ -132,7 +132,7 @@ export const adminPromotionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/promotions/rule-attribute-options/:rule_type",
+    matcher: "/vendor/promotions/rule-attribute-options/:rule_type",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPromotionRuleParams,

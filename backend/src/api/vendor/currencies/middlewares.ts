@@ -3,10 +3,10 @@ import { validateAndTransformQuery } from "@medusajs/framework"
 import * as QueryConfig from "./query-config"
 import { AdminGetCurrenciesParams, AdminGetCurrencyParams } from "./validators"
 
-export const adminCurrencyRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorCurrencyRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/currencies",
+    matcher: "/vendor/currencies",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCurrenciesParams,
@@ -16,7 +16,7 @@ export const adminCurrencyRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/currencies/:code",
+    matcher: "/vendor/currencies/:code",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCurrencyParams,

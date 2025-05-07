@@ -12,10 +12,10 @@ import {
   AdminUpdateSalesChannel,
 } from "./validators"
 
-export const adminSalesChannelRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorSalesChannelRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/sales-channels",
+    matcher: "/vendor/sales-channels",
     middlewares: [
       validateAndTransformQuery(
         AdminGetSalesChannelsParams,
@@ -35,7 +35,7 @@ export const adminSalesChannelRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/sales-channels/:id",
+    matcher: "/vendor/sales-channels/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetSalesChannelParams,
@@ -45,7 +45,7 @@ export const adminSalesChannelRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/sales-channels",
+    matcher: "/vendor/sales-channels",
     middlewares: [
       validateAndTransformBody(AdminCreateSalesChannel),
       validateAndTransformQuery(
@@ -56,7 +56,7 @@ export const adminSalesChannelRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/sales-channels/:id",
+    matcher: "/vendor/sales-channels/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateSalesChannel),
       validateAndTransformQuery(
@@ -67,12 +67,12 @@ export const adminSalesChannelRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/sales-channels/:id",
+    matcher: "/vendor/sales-channels/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/sales-channels/:id/products",
+    matcher: "/vendor/sales-channels/:id/products",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(

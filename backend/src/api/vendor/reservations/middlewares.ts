@@ -12,10 +12,10 @@ import {
   AdminUpdateReservation,
 } from "./validators"
 
-export const adminReservationRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorReservationRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/reservations",
+    matcher: "/vendor/reservations",
     middlewares: [
       validateAndTransformQuery(
         AdminGetReservationsParams,
@@ -25,7 +25,7 @@ export const adminReservationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/reservations/:id",
+    matcher: "/vendor/reservations/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetReservationParams,
@@ -35,7 +35,7 @@ export const adminReservationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/reservations",
+    matcher: "/vendor/reservations",
     middlewares: [
       validateAndTransformBody(AdminCreateReservation),
       validateAndTransformQuery(
@@ -46,7 +46,7 @@ export const adminReservationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/reservations/:id",
+    matcher: "/vendor/reservations/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateReservation),
       validateAndTransformQuery(

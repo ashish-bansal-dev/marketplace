@@ -12,10 +12,10 @@ import {
 
 // TODO: Due to issues with our routing (and using router.use for applying middlewares), we have to opt-out of global auth in all routes, and then reapply it here.
 // See https://medusacorp.slack.com/archives/C025KMS13SA/p1716455350491879 for details.
-export const adminUserRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorUserRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/users",
+    matcher: "/vendor/users",
     middlewares: [
       authenticate("user", ["bearer", "session"]),
       validateAndTransformQuery(
@@ -26,7 +26,7 @@ export const adminUserRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/users/:id",
+    matcher: "/vendor/users/:id",
     middlewares: [
       authenticate("user", ["bearer", "session"]),
       validateAndTransformQuery(
@@ -37,7 +37,7 @@ export const adminUserRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/users/me",
+    matcher: "/vendor/users/me",
     middlewares: [
       authenticate("user", ["bearer", "session"]),
       validateAndTransformQuery(
@@ -48,7 +48,7 @@ export const adminUserRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/users/:id",
+    matcher: "/vendor/users/:id",
     middlewares: [
       authenticate("user", ["bearer", "session"]),
       validateAndTransformBody(AdminUpdateUser),
@@ -60,7 +60,7 @@ export const adminUserRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/users/:id",
+    matcher: "/vendor/users/:id",
     middlewares: [authenticate("user", ["bearer", "session"])],
   },
 ]

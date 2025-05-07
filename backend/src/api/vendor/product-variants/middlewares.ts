@@ -3,10 +3,10 @@ import { validateAndTransformQuery } from "@medusajs/framework"
 import * as QueryConfig from "./query-config"
 import { AdminGetProductVariantsParams } from "./validators"
 
-export const adminProductVariantRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorProductVariantRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/product-variants",
+    matcher: "/vendor/product-variants",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductVariantsParams,

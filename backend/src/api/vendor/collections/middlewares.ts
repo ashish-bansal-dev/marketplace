@@ -12,10 +12,10 @@ import {
 } from "./validators"
 import { createLinkBody } from "@medusajs/medusa/api/utils/validators"
 
-export const adminCollectionRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorCollectionRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/collections",
+    matcher: "/vendor/collections",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCollectionsParams,
@@ -25,7 +25,7 @@ export const adminCollectionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/collections/:id",
+    matcher: "/vendor/collections/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCollectionParams,
@@ -35,7 +35,7 @@ export const adminCollectionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/collections",
+    matcher: "/vendor/collections",
     middlewares: [
       validateAndTransformBody(AdminCreateCollection),
       validateAndTransformQuery(
@@ -46,7 +46,7 @@ export const adminCollectionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/collections/:id",
+    matcher: "/vendor/collections/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateCollection),
       validateAndTransformQuery(
@@ -57,12 +57,12 @@ export const adminCollectionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/collections/:id",
+    matcher: "/vendor/collections/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/collections/:id/products",
+    matcher: "/vendor/collections/:id/products",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(

@@ -11,10 +11,10 @@ import { MiddlewareRoute } from "@medusajs/framework/http"
 import { validateAndTransformQuery } from "@medusajs/framework"
 import { validateAndTransformBody } from "@medusajs/framework"
 
-export const adminWorkflowsExecutionsMiddlewares: MiddlewareRoute[] = [
+export const vendorWorkflowsExecutionsMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/workflows-executions",
+    matcher: "/vendor/workflows-executions",
     middlewares: [
       validateAndTransformQuery(
         AdminGetWorkflowExecutionsParams,
@@ -24,7 +24,7 @@ export const adminWorkflowsExecutionsMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/workflows-executions/:id",
+    matcher: "/vendor/workflows-executions/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetWorkflowExecutionDetailsParams,
@@ -34,7 +34,7 @@ export const adminWorkflowsExecutionsMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/workflows-executions/:workflow_id/:transaction_id",
+    matcher: "/vendor/workflows-executions/:workflow_id/:transaction_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetWorkflowExecutionDetailsParams,
@@ -44,18 +44,18 @@ export const adminWorkflowsExecutionsMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/workflows-executions/:workflow_id/run",
+    matcher: "/vendor/workflows-executions/:workflow_id/run",
     middlewares: [validateAndTransformBody(AdminCreateWorkflowsRun)],
   },
   {
     method: ["POST"],
 
-    matcher: "/admin/workflows-executions/:workflow_id/steps/success",
+    matcher: "/vendor/workflows-executions/:workflow_id/steps/success",
     middlewares: [validateAndTransformBody(AdminCreateWorkflowsAsyncResponse)],
   },
   {
     method: ["POST"],
-    matcher: "/admin/workflows-executions/:workflow_id/steps/failure",
+    matcher: "/vendor/workflows-executions/:workflow_id/steps/failure",
     middlewares: [validateAndTransformBody(AdminCreateWorkflowsAsyncResponse)],
   },
 ]

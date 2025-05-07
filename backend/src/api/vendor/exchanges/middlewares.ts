@@ -17,10 +17,10 @@ import {
   AdminPostOrderExchangesReqSchema,
 } from "./validators"
 
-export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/exchanges",
+    matcher: "/vendor/exchanges",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersParams,
@@ -30,7 +30,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/exchanges/:id",
+    matcher: "/vendor/exchanges/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -40,7 +40,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges",
+    matcher: "/vendor/exchanges",
     middlewares: [
       validateAndTransformBody(AdminPostOrderExchangesReqSchema),
       validateAndTransformQuery(
@@ -51,7 +51,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/inbound/items",
+    matcher: "/vendor/exchanges/:id/inbound/items",
     middlewares: [
       validateAndTransformBody(AdminPostExchangesReturnRequestItemsReqSchema),
       validateAndTransformQuery(
@@ -62,7 +62,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/inbound/items/:action_id",
+    matcher: "/vendor/exchanges/:id/inbound/items/:action_id",
     middlewares: [
       validateAndTransformBody(
         AdminPostExchangesRequestItemsReturnActionReqSchema
@@ -75,7 +75,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/exchanges/:id/inbound/items/:action_id",
+    matcher: "/vendor/exchanges/:id/inbound/items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -85,7 +85,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/inbound/shipping-method",
+    matcher: "/vendor/exchanges/:id/inbound/shipping-method",
     middlewares: [
       validateAndTransformBody(AdminPostExchangesShippingReqSchema),
       validateAndTransformQuery(
@@ -96,7 +96,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/inbound/shipping-method/:action_id",
+    matcher: "/vendor/exchanges/:id/inbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostExchangesShippingActionReqSchema),
       validateAndTransformQuery(
@@ -107,7 +107,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/exchanges/:id/inbound/shipping-method/:action_id",
+    matcher: "/vendor/exchanges/:id/inbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -118,7 +118,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
 
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/outbound/items",
+    matcher: "/vendor/exchanges/:id/outbound/items",
     middlewares: [
       validateAndTransformBody(AdminPostExchangesAddItemsReqSchema),
       validateAndTransformQuery(
@@ -129,7 +129,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/outbound/items/:action_id",
+    matcher: "/vendor/exchanges/:id/outbound/items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostExchangesItemsActionReqSchema),
       validateAndTransformQuery(
@@ -140,7 +140,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/exchanges/:id/outbound/items/:action_id",
+    matcher: "/vendor/exchanges/:id/outbound/items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -150,7 +150,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/outbound/shipping-method",
+    matcher: "/vendor/exchanges/:id/outbound/shipping-method",
     middlewares: [
       validateAndTransformBody(AdminPostExchangesShippingReqSchema),
       validateAndTransformQuery(
@@ -161,7 +161,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/outbound/shipping-method/:action_id",
+    matcher: "/vendor/exchanges/:id/outbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostExchangesShippingActionReqSchema),
       validateAndTransformQuery(
@@ -172,7 +172,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/exchanges/:id/outbound/shipping-method/:action_id",
+    matcher: "/vendor/exchanges/:id/outbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -182,7 +182,7 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/request",
+    matcher: "/vendor/exchanges/:id/request",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -192,17 +192,17 @@ export const adminExchangeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/exchanges/:id/request",
+    matcher: "/vendor/exchanges/:id/request",
     middlewares: [],
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/exchanges/:id",
+    matcher: "/vendor/exchanges/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/exchanges/:id/cancel",
+    matcher: "/vendor/exchanges/:id/cancel",
     middlewares: [
       validateAndTransformBody(AdminPostCancelExchangeReqSchema),
       validateAndTransformQuery(

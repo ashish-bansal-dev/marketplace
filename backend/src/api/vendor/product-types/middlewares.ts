@@ -11,10 +11,10 @@ import {
   AdminUpdateProductType,
 } from "./validators"
 
-export const adminProductTypeRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorProductTypeRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/product-types",
+    matcher: "/vendor/product-types",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductTypesParams,
@@ -24,7 +24,7 @@ export const adminProductTypeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/product-types/:id",
+    matcher: "/vendor/product-types/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductTypeParams,
@@ -35,7 +35,7 @@ export const adminProductTypeRoutesMiddlewares: MiddlewareRoute[] = [
   // Create/update/delete methods are new in v2
   {
     method: ["POST"],
-    matcher: "/admin/product-types",
+    matcher: "/vendor/product-types",
     middlewares: [
       validateAndTransformBody(AdminCreateProductType),
       validateAndTransformQuery(
@@ -46,7 +46,7 @@ export const adminProductTypeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/product-types/:id",
+    matcher: "/vendor/product-types/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateProductType),
       validateAndTransformQuery(
@@ -57,7 +57,7 @@ export const adminProductTypeRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/product-types/:id",
+    matcher: "/vendor/product-types/:id",
     middlewares: [],
   },
 ]

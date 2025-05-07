@@ -14,10 +14,10 @@ import {
 } from "./validators"
 import { createLinkBody } from "@medusajs/medusa/api/utils/validators"
 
-export const adminApiKeyRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorApiKeyRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/api-keys",
+    matcher: "/vendor/api-keys",
     middlewares: [
       validateAndTransformQuery(
         AdminGetApiKeysParams,
@@ -27,7 +27,7 @@ export const adminApiKeyRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/api-keys/:id",
+    matcher: "/vendor/api-keys/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetApiKeyParams,
@@ -37,7 +37,7 @@ export const adminApiKeyRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/api-keys",
+    matcher: "/vendor/api-keys",
     middlewares: [
       validateAndTransformBody(AdminCreateApiKey),
       validateAndTransformQuery(
@@ -48,7 +48,7 @@ export const adminApiKeyRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/api-keys/:id",
+    matcher: "/vendor/api-keys/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateApiKey),
       validateAndTransformQuery(
@@ -59,12 +59,12 @@ export const adminApiKeyRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/api-keys/:id",
+    matcher: "/vendor/api-keys/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/api-keys/:id/revoke",
+    matcher: "/vendor/api-keys/:id/revoke",
     middlewares: [
       validateAndTransformBody(AdminRevokeApiKey),
       validateAndTransformQuery(
@@ -75,7 +75,7 @@ export const adminApiKeyRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/api-keys/:id/sales-channels",
+    matcher: "/vendor/api-keys/:id/sales-channels",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(

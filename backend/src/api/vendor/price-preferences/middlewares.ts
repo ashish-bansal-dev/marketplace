@@ -11,10 +11,10 @@ import {
   AdminUpdatePricePreference,
 } from "./validators"
 
-export const adminPricePreferencesRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorPricePreferencesRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/price-preferences",
+    matcher: "/vendor/price-preferences",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPricePreferencesParams,
@@ -24,7 +24,7 @@ export const adminPricePreferencesRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/price-preferences/:id",
+    matcher: "/vendor/price-preferences/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPricePreferenceParams,
@@ -34,7 +34,7 @@ export const adminPricePreferencesRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/price-preferences",
+    matcher: "/vendor/price-preferences",
     middlewares: [
       validateAndTransformBody(AdminCreatePricePreference),
       validateAndTransformQuery(
@@ -45,7 +45,7 @@ export const adminPricePreferencesRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/price-preferences/:id",
+    matcher: "/vendor/price-preferences/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdatePricePreference),
       validateAndTransformQuery(

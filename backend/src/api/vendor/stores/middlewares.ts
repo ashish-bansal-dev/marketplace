@@ -10,10 +10,10 @@ import {
   AdminUpdateStore,
 } from "./validators"
 
-export const adminStoreRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorStoreRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/stores",
+    matcher: "/vendor/stores",
     middlewares: [
       validateAndTransformQuery(
         AdminGetStoresParams,
@@ -23,7 +23,7 @@ export const adminStoreRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/stores/:id",
+    matcher: "/vendor/stores/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetStoreParams,
@@ -33,7 +33,7 @@ export const adminStoreRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/stores/:id",
+    matcher: "/vendor/stores/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateStore),
       validateAndTransformQuery(

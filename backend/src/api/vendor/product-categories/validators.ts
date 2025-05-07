@@ -2,13 +2,13 @@ import { z } from "zod"
 import {
   applyAndAndOrOperators,
   booleanString,
-} from "../../utils/common-validators"
+} from "@medusajs/medusa/api/utils/common-validators/common"
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
   WithAdditionalData,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 
 export type AdminProductCategoryParamsType = z.infer<
   typeof AdminProductCategoryParams

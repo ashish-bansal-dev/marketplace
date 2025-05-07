@@ -11,10 +11,10 @@ import {
   AdminUpdateProductTag,
 } from "./validators"
 
-export const adminProductTagRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorProductTagRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/product-tags",
+    matcher: "/vendor/product-tags",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductTagsParams,
@@ -24,7 +24,7 @@ export const adminProductTagRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/product-tags/:id",
+    matcher: "/vendor/product-tags/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductTagParams,
@@ -35,7 +35,7 @@ export const adminProductTagRoutesMiddlewares: MiddlewareRoute[] = [
   // Create/update/delete methods are new in v2
   {
     method: ["POST"],
-    matcher: "/admin/product-tags",
+    matcher: "/vendor/product-tags",
     middlewares: [
       validateAndTransformBody(AdminCreateProductTag),
       validateAndTransformQuery(
@@ -46,7 +46,7 @@ export const adminProductTagRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/product-tags/:id",
+    matcher: "/vendor/product-tags/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateProductTag),
       validateAndTransformQuery(
@@ -57,7 +57,7 @@ export const adminProductTagRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/product-tags/:id",
+    matcher: "/vendor/product-tags/:id",
     middlewares: [],
   },
 ]

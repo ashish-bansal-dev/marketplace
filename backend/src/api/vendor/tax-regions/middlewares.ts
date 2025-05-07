@@ -13,10 +13,10 @@ import {
 } from "@medusajs/framework"
 import { MiddlewareRoute } from "@medusajs/framework/http"
 
-export const adminTaxRegionRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorTaxRegionRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: "POST",
-    matcher: "/admin/tax-regions",
+    matcher: "/vendor/tax-regions",
     middlewares: [
       validateAndTransformBody(AdminCreateTaxRegion),
       validateAndTransformQuery(
@@ -27,7 +27,7 @@ export const adminTaxRegionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "POST",
-    matcher: "/admin/tax-regions/:id",
+    matcher: "/vendor/tax-regions/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateTaxRegion),
       validateAndTransformQuery(
@@ -38,7 +38,7 @@ export const adminTaxRegionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "GET",
-    matcher: "/admin/tax-regions",
+    matcher: "/vendor/tax-regions",
     middlewares: [
       validateAndTransformQuery(
         AdminGetTaxRegionsParams,
@@ -48,7 +48,7 @@ export const adminTaxRegionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "GET",
-    matcher: "/admin/tax-regions/:id",
+    matcher: "/vendor/tax-regions/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetTaxRegionParams,

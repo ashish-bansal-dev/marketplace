@@ -18,10 +18,10 @@ import {
 import { MiddlewareRoute } from "@medusajs/framework/http"
 import { createLinkBody } from "@medusajs/medusa/api/utils/validators"
 
-export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/customers",
+    matcher: "/vendor/customers",
     middlewares: [
       validateAndTransformQuery(
         AdminCustomersParams,
@@ -31,7 +31,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customers",
+    matcher: "/vendor/customers",
     middlewares: [
       validateAndTransformBody(AdminCreateCustomer),
       validateAndTransformQuery(
@@ -42,7 +42,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/customers/:id",
+    matcher: "/vendor/customers/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminCustomerParams,
@@ -52,7 +52,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customers/:id",
+    matcher: "/vendor/customers/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateCustomer),
       validateAndTransformQuery(
@@ -63,7 +63,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customers/:id/addresses",
+    matcher: "/vendor/customers/:id/addresses",
     middlewares: [
       validateAndTransformBody(AdminCreateCustomerAddress),
       validateAndTransformQuery(
@@ -74,7 +74,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/customers/:id/addresses/:address_id",
+    matcher: "/vendor/customers/:id/addresses/:address_id",
     middlewares: [
       validateAndTransformQuery(
         AdminCustomerAddressParams,
@@ -84,7 +84,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customers/:id/addresses/:address_id",
+    matcher: "/vendor/customers/:id/addresses/:address_id",
     middlewares: [
       validateAndTransformBody(AdminUpdateCustomerAddress),
       validateAndTransformQuery(
@@ -95,7 +95,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/customers/:id/addresses/:address_id",
+    matcher: "/vendor/customers/:id/addresses/:address_id",
     middlewares: [
       validateAndTransformQuery(
         AdminCustomerParams,
@@ -105,7 +105,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/customers/:id/addresses",
+    matcher: "/vendor/customers/:id/addresses",
     middlewares: [
       validateAndTransformQuery(
         AdminCustomerAddressesParams,
@@ -115,7 +115,7 @@ export const adminCustomerRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customers/:id/customer-groups",
+    matcher: "/vendor/customers/:id/customer-groups",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(

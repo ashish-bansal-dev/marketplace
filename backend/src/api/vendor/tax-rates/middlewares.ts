@@ -14,10 +14,10 @@ import {
 
 import { MiddlewareRoute } from "@medusajs/framework/http"
 
-export const adminTaxRateRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorTaxRateRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: "POST",
-    matcher: "/admin/tax-rates",
+    matcher: "/vendor/tax-rates",
     middlewares: [
       validateAndTransformBody(AdminCreateTaxRate),
       validateAndTransformQuery(
@@ -28,7 +28,7 @@ export const adminTaxRateRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "POST",
-    matcher: "/admin/tax-rates/:id",
+    matcher: "/vendor/tax-rates/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateTaxRate),
       validateAndTransformQuery(
@@ -39,7 +39,7 @@ export const adminTaxRateRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "GET",
-    matcher: "/admin/tax-rates/:id",
+    matcher: "/vendor/tax-rates/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetTaxRateParams,
@@ -49,7 +49,7 @@ export const adminTaxRateRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "GET",
-    matcher: "/admin/tax-rates",
+    matcher: "/vendor/tax-rates",
     middlewares: [
       validateAndTransformQuery(
         AdminGetTaxRatesParams,
@@ -59,7 +59,7 @@ export const adminTaxRateRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "POST",
-    matcher: "/admin/tax-rates/:id/rules",
+    matcher: "/vendor/tax-rates/:id/rules",
     middlewares: [
       validateAndTransformBody(AdminCreateTaxRateRule),
       validateAndTransformQuery(
@@ -70,7 +70,7 @@ export const adminTaxRateRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: "DELETE",
-    matcher: "/admin/tax-rates/:id/rules/:rule_id",
+    matcher: "/vendor/tax-rates/:id/rules/:rule_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetTaxRateParams,

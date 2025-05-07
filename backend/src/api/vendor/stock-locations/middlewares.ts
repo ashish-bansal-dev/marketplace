@@ -13,10 +13,10 @@ import {
   AdminUpdateStockLocation,
 } from "./validators"
 
-export const adminStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["POST"],
-    matcher: "/admin/stock-locations",
+    matcher: "/vendor/stock-locations",
     middlewares: [
       validateAndTransformBody(AdminCreateStockLocation),
       validateAndTransformQuery(
@@ -27,7 +27,7 @@ export const adminStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/stock-locations",
+    matcher: "/vendor/stock-locations",
     middlewares: [
       validateAndTransformQuery(
         AdminGetStockLocationsParams,
@@ -42,7 +42,7 @@ export const adminStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/stock-locations/:id",
+    matcher: "/vendor/stock-locations/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateStockLocation),
       validateAndTransformQuery(
@@ -53,7 +53,7 @@ export const adminStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/stock-locations/:id",
+    matcher: "/vendor/stock-locations/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetStockLocationParams,
@@ -63,7 +63,7 @@ export const adminStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/stock-locations/:id/fulfillment-sets",
+    matcher: "/vendor/stock-locations/:id/fulfillment-sets",
     middlewares: [
       validateAndTransformBody(AdminCreateStockLocationFulfillmentSet),
       validateAndTransformQuery(
@@ -74,7 +74,7 @@ export const adminStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/stock-locations/:id/sales-channels",
+    matcher: "/vendor/stock-locations/:id/sales-channels",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(
@@ -85,7 +85,7 @@ export const adminStockLocationRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/stock-locations/:id/fulfillment-providers",
+    matcher: "/vendor/stock-locations/:id/fulfillment-providers",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(

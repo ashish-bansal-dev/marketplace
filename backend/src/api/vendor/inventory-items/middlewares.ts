@@ -17,10 +17,10 @@ import {
   AdminUpdateInventoryLocationLevel,
 } from "./validators"
 import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "@medusajs/medusa"
-export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/inventory-items",
+    matcher: "/vendor/inventory-items",
     middlewares: [
       validateAndTransformQuery(
         AdminGetInventoryItemsParams,
@@ -30,7 +30,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/inventory-items/:id",
+    matcher: "/vendor/inventory-items/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetInventoryItemParams,
@@ -40,7 +40,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/inventory-items",
+    matcher: "/vendor/inventory-items",
     middlewares: [
       validateAndTransformBody(AdminCreateInventoryItem),
       validateAndTransformQuery(
@@ -51,7 +51,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/inventory-items/batch",
+    matcher: "/vendor/inventory-items/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -59,7 +59,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/inventory-items/location-levels/batch",
+    matcher: "/vendor/inventory-items/location-levels/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -67,7 +67,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/inventory-items/:id",
+    matcher: "/vendor/inventory-items/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateInventoryItem),
       validateAndTransformQuery(
@@ -78,7 +78,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/inventory-items/:id/location-levels",
+    matcher: "/vendor/inventory-items/:id/location-levels",
     middlewares: [
       validateAndTransformQuery(
         AdminGetInventoryLocationLevelsParams,
@@ -88,7 +88,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/inventory-items/:id/location-levels",
+    matcher: "/vendor/inventory-items/:id/location-levels",
     middlewares: [
       validateAndTransformBody(AdminCreateInventoryLocationLevel),
       validateAndTransformQuery(
@@ -99,7 +99,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/inventory-items/:id/location-levels/batch",
+    matcher: "/vendor/inventory-items/:id/location-levels/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -113,7 +113,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/inventory-items/:id/location-levels/:location_id",
+    matcher: "/vendor/inventory-items/:id/location-levels/:location_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetInventoryItemParams,
@@ -123,7 +123,7 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/inventory-items/:id/location-levels/:location_id",
+    matcher: "/vendor/inventory-items/:id/location-levels/:location_id",
     middlewares: [
       validateAndTransformBody(AdminUpdateInventoryLocationLevel),
       validateAndTransformQuery(

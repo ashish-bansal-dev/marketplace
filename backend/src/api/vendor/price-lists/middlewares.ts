@@ -17,10 +17,10 @@ import {
   AdminUpdatePriceListPrice,
 } from "./validators"
 
-export const adminPriceListsRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorPriceListsRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/price-lists",
+    matcher: "/vendor/price-lists",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPriceListsParams,
@@ -30,7 +30,7 @@ export const adminPriceListsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/price-lists/:id",
+    matcher: "/vendor/price-lists/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPriceListParams,
@@ -40,7 +40,7 @@ export const adminPriceListsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/price-lists",
+    matcher: "/vendor/price-lists",
     middlewares: [
       validateAndTransformBody(AdminCreatePriceList),
       validateAndTransformQuery(
@@ -51,7 +51,7 @@ export const adminPriceListsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/price-lists/:id",
+    matcher: "/vendor/price-lists/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdatePriceList),
       validateAndTransformQuery(
@@ -62,7 +62,7 @@ export const adminPriceListsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/price-lists/:id/products",
+    matcher: "/vendor/price-lists/:id/products",
     middlewares: [
       validateAndTransformBody(AdminRemoveProductsPriceList),
       validateAndTransformQuery(
@@ -73,7 +73,7 @@ export const adminPriceListsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/price-lists/:id/prices/batch",
+    matcher: "/vendor/price-lists/:id/prices/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },

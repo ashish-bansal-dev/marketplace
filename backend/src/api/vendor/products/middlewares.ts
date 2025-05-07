@@ -32,17 +32,17 @@ import {
   CreateProduct,
   CreateProductVariant,
 } from "./validators"
-import IndexEngineFeatureFlag from "../../../loaders/feature-flags/index-engine"
+import IndexEngineFeatureFlag from "@medusajs/framework/feature-flags"
 
 // TODO: For now we keep the files in memory, as that's how they get passed to the workflows
 // This will need revisiting once we are closer to prod-ready v2, since with workflows and potentially
 // services on other machines using streams is not as simple as it used to be.
 const upload = multer({ storage: multer.memoryStorage() })
 
-export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorProductRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/products",
+    matcher: "/vendor/products",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductsParams,
@@ -64,7 +64,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products",
+    matcher: "/vendor/products",
     middlewares: [
       validateAndTransformBody(AdminCreateProduct),
       validateAndTransformQuery(
@@ -75,7 +75,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/batch",
+    matcher: "/vendor/products/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -91,7 +91,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/export",
+    matcher: "/vendor/products/export",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductsParams,
@@ -101,17 +101,17 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/import",
+    matcher: "/vendor/products/import",
     middlewares: [upload.single("file")],
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/import/:transaction_id/confirm",
+    matcher: "/vendor/products/import/:transaction_id/confirm",
     middlewares: [],
   },
   {
     method: ["GET"],
-    matcher: "/admin/products/:id",
+    matcher: "/vendor/products/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductParams,
@@ -121,7 +121,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/:id",
+    matcher: "/vendor/products/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateProduct),
       validateAndTransformQuery(
@@ -132,7 +132,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/products/:id",
+    matcher: "/vendor/products/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductParams,
@@ -142,7 +142,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/products/:id/variants",
+    matcher: "/vendor/products/:id/variants",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductVariantsParams,
@@ -152,7 +152,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/:id/variants",
+    matcher: "/vendor/products/:id/variants",
     middlewares: [
       validateAndTransformBody(AdminCreateProductVariant),
       validateAndTransformQuery(
@@ -163,7 +163,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/:id/variants/batch",
+    matcher: "/vendor/products/:id/variants/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -180,7 +180,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   // Note: New endpoint in v2
   {
     method: ["GET"],
-    matcher: "/admin/products/:id/variants/:variant_id",
+    matcher: "/vendor/products/:id/variants/:variant_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductVariantParams,
@@ -190,7 +190,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/:id/variants/:variant_id",
+    matcher: "/vendor/products/:id/variants/:variant_id",
     middlewares: [
       validateAndTransformBody(AdminUpdateProductVariant),
       validateAndTransformQuery(
@@ -201,7 +201,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/products/:id/variants/:variant_id",
+    matcher: "/vendor/products/:id/variants/:variant_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductParams,
@@ -213,7 +213,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   // Note: New endpoint in v2
   {
     method: ["GET"],
-    matcher: "/admin/products/:id/options",
+    matcher: "/vendor/products/:id/options",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductOptionsParams,
@@ -224,7 +224,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   // Note: New endpoint in v2
   {
     method: ["GET"],
-    matcher: "/admin/products/:id/options/:option_id",
+    matcher: "/vendor/products/:id/options/:option_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductOptionParams,
@@ -234,7 +234,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/:id/options",
+    matcher: "/vendor/products/:id/options",
     middlewares: [
       validateAndTransformBody(AdminCreateProductOption),
       validateAndTransformQuery(
@@ -245,7 +245,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/:id/options/:option_id",
+    matcher: "/vendor/products/:id/options/:option_id",
     middlewares: [
       validateAndTransformBody(AdminUpdateProductOption),
       validateAndTransformQuery(
@@ -256,7 +256,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/products/:id/options/:option_id",
+    matcher: "/vendor/products/:id/options/:option_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductParams,
@@ -268,7 +268,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   // Variant inventory item endpoints
   {
     method: ["POST"],
-    matcher: "/admin/products/:id/variants/inventory-items/batch",
+    matcher: "/vendor/products/:id/variants/inventory-items/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },
@@ -288,7 +288,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/products/:id/variants/:variant_id/inventory-items",
+    matcher: "/vendor/products/:id/variants/:variant_id/inventory-items",
     middlewares: [
       validateAndTransformBody(AdminCreateVariantInventoryItem),
       validateAndTransformQuery(
@@ -300,7 +300,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["POST"],
     matcher:
-      "/admin/products/:id/variants/:variant_id/inventory-items/:inventory_item_id",
+      "/vendor/products/:id/variants/:variant_id/inventory-items/:inventory_item_id",
     middlewares: [
       validateAndTransformBody(AdminUpdateVariantInventoryItem),
       validateAndTransformQuery(
@@ -312,7 +312,7 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["DELETE"],
     matcher:
-      "/admin/products/:id/variants/:variant_id/inventory-items/:inventory_item_id",
+      "/vendor/products/:id/variants/:variant_id/inventory-items/:inventory_item_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetProductVariantParams,

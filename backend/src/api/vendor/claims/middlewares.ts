@@ -17,10 +17,10 @@ import {
   AdminPostOrderClaimsReqSchema,
 } from "./validators"
 
-export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorClaimRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/claims",
+    matcher: "/vendor/claims",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersParams,
@@ -30,7 +30,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/claims/:id",
+    matcher: "/vendor/claims/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -40,7 +40,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims",
+    matcher: "/vendor/claims",
     middlewares: [
       validateAndTransformBody(AdminPostOrderClaimsReqSchema),
       validateAndTransformQuery(
@@ -52,7 +52,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
 
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/claim-items",
+    matcher: "/vendor/claims/:id/claim-items",
     middlewares: [
       validateAndTransformBody(AdminPostClaimItemsReqSchema),
       validateAndTransformQuery(
@@ -63,7 +63,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/claim-items/:action_id",
+    matcher: "/vendor/claims/:id/claim-items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsRequestItemsActionReqSchema),
       validateAndTransformQuery(
@@ -74,7 +74,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/claims/:id/claim-items/:action_id",
+    matcher: "/vendor/claims/:id/claim-items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -85,7 +85,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
 
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/inbound/items",
+    matcher: "/vendor/claims/:id/inbound/items",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsRequestReturnItemsReqSchema),
       validateAndTransformQuery(
@@ -96,7 +96,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/inbound/items/:action_id",
+    matcher: "/vendor/claims/:id/inbound/items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsRequestItemsActionReqSchema),
       validateAndTransformQuery(
@@ -107,7 +107,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/claims/:id/inbound/items/:action_id",
+    matcher: "/vendor/claims/:id/inbound/items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -117,7 +117,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/inbound/shipping-method",
+    matcher: "/vendor/claims/:id/inbound/shipping-method",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsShippingReqSchema),
       validateAndTransformQuery(
@@ -128,7 +128,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/inbound/shipping-method/:action_id",
+    matcher: "/vendor/claims/:id/inbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsShippingActionReqSchema),
       validateAndTransformQuery(
@@ -139,7 +139,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/claims/:id/inbound/shipping-method/:action_id",
+    matcher: "/vendor/claims/:id/inbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -150,7 +150,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
 
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/outbound/items",
+    matcher: "/vendor/claims/:id/outbound/items",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsAddItemsReqSchema),
       validateAndTransformQuery(
@@ -161,7 +161,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/outbound/items/:action_id",
+    matcher: "/vendor/claims/:id/outbound/items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsRequestItemsActionReqSchema),
       validateAndTransformQuery(
@@ -172,7 +172,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/claims/:id/outbound/items/:action_id",
+    matcher: "/vendor/claims/:id/outbound/items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -182,7 +182,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/outbound/shipping-method",
+    matcher: "/vendor/claims/:id/outbound/shipping-method",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsShippingReqSchema),
       validateAndTransformQuery(
@@ -193,7 +193,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/outbound/shipping-method/:action_id",
+    matcher: "/vendor/claims/:id/outbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostClaimsShippingActionReqSchema),
       validateAndTransformQuery(
@@ -204,7 +204,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/claims/:id/outbound/shipping-method/:action_id",
+    matcher: "/vendor/claims/:id/outbound/shipping-method/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -214,7 +214,7 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/request",
+    matcher: "/vendor/claims/:id/request",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -224,17 +224,17 @@ export const adminClaimRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/claims/:id/request",
+    matcher: "/vendor/claims/:id/request",
     middlewares: [],
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/claims/:id",
+    matcher: "/vendor/claims/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/claims/:id/cancel",
+    matcher: "/vendor/claims/:id/cancel",
     middlewares: [
       validateAndTransformBody(AdminPostCancelClaimReqSchema),
       validateAndTransformQuery(

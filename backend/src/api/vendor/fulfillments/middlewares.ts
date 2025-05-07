@@ -10,10 +10,10 @@ import {
   AdminFulfillmentParams,
 } from "./validators"
 
-export const adminFulfillmentsRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorFulfillmentsRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["POST"],
-    matcher: "/admin/fulfillments/:id/cancel",
+    matcher: "/vendor/fulfillments/:id/cancel",
     middlewares: [
       validateAndTransformQuery(
         AdminFulfillmentParams,
@@ -23,7 +23,7 @@ export const adminFulfillmentsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/fulfillments",
+    matcher: "/vendor/fulfillments",
     middlewares: [
       validateAndTransformBody(AdminCreateFulfillment),
       validateAndTransformQuery(
@@ -34,7 +34,7 @@ export const adminFulfillmentsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/fulfillments/:id/shipment",
+    matcher: "/vendor/fulfillments/:id/shipment",
     middlewares: [
       validateAndTransformBody(AdminCreateShipment),
       validateAndTransformQuery(

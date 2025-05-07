@@ -9,76 +9,76 @@ import {
   AdminPostOrderEditsUpdateItemQuantityReqSchema,
 } from "./validators"
 
-export const adminOrderEditRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorOrderEditRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/order-edits/:id",
+    matcher: "/vendor/order-edits/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/order-edits",
+    matcher: "/vendor/order-edits",
     middlewares: [validateAndTransformBody(AdminPostOrderEditsReqSchema)],
   },
 
   {
     method: ["POST"],
-    matcher: "/admin/order-edits/:id/items",
+    matcher: "/vendor/order-edits/:id/items",
     middlewares: [
       validateAndTransformBody(AdminPostOrderEditsAddItemsReqSchema),
     ],
   },
   {
     method: ["POST"],
-    matcher: "/admin/order-edits/:id/items/:action_id",
+    matcher: "/vendor/order-edits/:id/items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostOrderEditsItemsActionReqSchema),
     ],
   },
   {
     method: ["POST"],
-    matcher: "/admin/order-edits/:id/items/item/:item_id",
+    matcher: "/vendor/order-edits/:id/items/item/:item_id",
     middlewares: [
       validateAndTransformBody(AdminPostOrderEditsUpdateItemQuantityReqSchema),
     ],
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/order-edits/:id/items/:action_id",
+    matcher: "/vendor/order-edits/:id/items/:action_id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/order-edits/:id/shipping-method",
+    matcher: "/vendor/order-edits/:id/shipping-method",
     middlewares: [
       validateAndTransformBody(AdminPostOrderEditsShippingReqSchema),
     ],
   },
   {
     method: ["POST"],
-    matcher: "/admin/order-edits/:id/shipping-method/:action_id",
+    matcher: "/vendor/order-edits/:id/shipping-method/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostOrderEditsShippingActionReqSchema),
     ],
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/order-edits/:id/shipping-method/:action_id",
+    matcher: "/vendor/order-edits/:id/shipping-method/:action_id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/order-edits/:id/confirm",
+    matcher: "/vendor/order-edits/:id/confirm",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/order-edits/:id/request",
+    matcher: "/vendor/order-edits/:id/request",
     middlewares: [],
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/order-edits/:id",
+    matcher: "/vendor/order-edits/:id",
     middlewares: [],
   },
 ]

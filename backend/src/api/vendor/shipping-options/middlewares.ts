@@ -20,10 +20,10 @@ import {
   AdminUpdateShippingOptionRule,
 } from "./validators"
 
-export const adminShippingOptionRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorShippingOptionRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/shipping-options",
+    matcher: "/vendor/shipping-options",
     middlewares: [
       validateAndTransformQuery(
         AdminGetShippingOptionsParams,
@@ -39,7 +39,7 @@ export const adminShippingOptionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/shipping-options/:id",
+    matcher: "/vendor/shipping-options/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetShippingOptionParams,
@@ -49,7 +49,7 @@ export const adminShippingOptionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/shipping-options",
+    matcher: "/vendor/shipping-options",
     middlewares: [
       validateAndTransformBody(AdminCreateShippingOption),
       validateAndTransformQuery(
@@ -60,7 +60,7 @@ export const adminShippingOptionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/shipping-options/:id",
+    matcher: "/vendor/shipping-options/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateShippingOption),
       validateAndTransformQuery(
@@ -71,11 +71,11 @@ export const adminShippingOptionRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/shipping-options/:id",
+    matcher: "/vendor/shipping-options/:id",
   },
   {
     method: ["POST"],
-    matcher: "/admin/shipping-options/:id/rules/batch",
+    matcher: "/vendor/shipping-options/:id/rules/batch",
     bodyParser: {
       sizeLimit: DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT,
     },

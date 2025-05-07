@@ -11,10 +11,10 @@ import {
   AdminUpdateFulfillmentSetServiceZonesSchema,
 } from "./validators"
 
-export const adminFulfillmentSetsRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorFulfillmentSetsRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["POST"],
-    matcher: "/admin/fulfillment-sets/:id/service-zones",
+    matcher: "/vendor/fulfillment-sets/:id/service-zones",
     middlewares: [
       validateAndTransformBody(AdminCreateFulfillmentSetServiceZonesSchema),
       validateAndTransformQuery(
@@ -25,7 +25,7 @@ export const adminFulfillmentSetsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/fulfillment-sets/:id/service-zones/:zone_id",
+    matcher: "/vendor/fulfillment-sets/:id/service-zones/:zone_id",
     middlewares: [
       validateAndTransformQuery(
         AdminFulfillmentSetParams,
@@ -35,12 +35,12 @@ export const adminFulfillmentSetsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/fulfillment-sets/:id",
+    matcher: "/vendor/fulfillment-sets/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/fulfillment-sets/:id/service-zones/:zone_id",
+    matcher: "/vendor/fulfillment-sets/:id/service-zones/:zone_id",
     middlewares: [
       validateAndTransformBody(AdminUpdateFulfillmentSetServiceZonesSchema),
       validateAndTransformQuery(
@@ -51,7 +51,7 @@ export const adminFulfillmentSetsRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/fulfillment-sets/:id/service-zones/:zone_id",
+    matcher: "/vendor/fulfillment-sets/:id/service-zones/:zone_id",
     middlewares: [
       validateAndTransformQuery(
         AdminServiceZonesParams,

@@ -12,10 +12,10 @@ import {
   AdminUpdateCampaign,
 } from "./validators"
 
-export const adminCampaignRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorCampaignRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/campaigns",
+    matcher: "/vendor/campaigns",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCampaignsParams,
@@ -25,7 +25,7 @@ export const adminCampaignRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/campaigns",
+    matcher: "/vendor/campaigns",
     middlewares: [
       validateAndTransformBody(AdminCreateCampaign),
       validateAndTransformQuery(
@@ -36,7 +36,7 @@ export const adminCampaignRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/campaigns/:id",
+    matcher: "/vendor/campaigns/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCampaignParams,
@@ -46,7 +46,7 @@ export const adminCampaignRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/campaigns/:id",
+    matcher: "/vendor/campaigns/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateCampaign),
       validateAndTransformQuery(
@@ -57,7 +57,7 @@ export const adminCampaignRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/campaigns/:id/promotions",
+    matcher: "/vendor/campaigns/:id/promotions",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(

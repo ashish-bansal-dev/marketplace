@@ -19,10 +19,10 @@ import {
   AdminPostReturnsShippingReqSchema,
 } from "./validators"
 
-export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorReturnRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/returns",
+    matcher: "/vendor/returns",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersParams,
@@ -32,7 +32,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/returns/:id",
+    matcher: "/vendor/returns/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -42,7 +42,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id",
+    matcher: "/vendor/returns/:id",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsReturnReqSchema),
       validateAndTransformQuery(
@@ -53,7 +53,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns",
+    matcher: "/vendor/returns",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsReqSchema),
       validateAndTransformQuery(
@@ -64,7 +64,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/request-items",
+    matcher: "/vendor/returns/:id/request-items",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsRequestItemsReqSchema),
       validateAndTransformQuery(
@@ -75,7 +75,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/request-items/:action_id",
+    matcher: "/vendor/returns/:id/request-items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsRequestItemsActionReqSchema),
       validateAndTransformQuery(
@@ -86,7 +86,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/returns/:id/request-items/:action_id",
+    matcher: "/vendor/returns/:id/request-items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -96,7 +96,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/shipping-method",
+    matcher: "/vendor/returns/:id/shipping-method",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsShippingReqSchema),
       validateAndTransformQuery(
@@ -107,7 +107,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/shipping-method/:action_id",
+    matcher: "/vendor/returns/:id/shipping-method/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsShippingActionReqSchema),
       validateAndTransformQuery(
@@ -118,7 +118,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/returns/:id/shipping-method/:action_id",
+    matcher: "/vendor/returns/:id/shipping-method/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -128,7 +128,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/request",
+    matcher: "/vendor/returns/:id/request",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsConfirmRequestReqSchema),
       validateAndTransformQuery(
@@ -139,7 +139,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/cancel",
+    matcher: "/vendor/returns/:id/cancel",
     middlewares: [
       validateAndTransformBody(AdminPostCancelReturnReqSchema),
       validateAndTransformQuery(
@@ -150,12 +150,12 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/returns/:id/request",
+    matcher: "/vendor/returns/:id/request",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/receive",
+    matcher: "/vendor/returns/:id/receive",
     middlewares: [
       validateAndTransformBody(AdminPostReceiveReturnsReqSchema),
       validateAndTransformQuery(
@@ -166,12 +166,12 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/returns/:id/receive",
+    matcher: "/vendor/returns/:id/receive",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/receive/confirm",
+    matcher: "/vendor/returns/:id/receive/confirm",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsConfirmRequestReqSchema),
       validateAndTransformQuery(
@@ -182,7 +182,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/receive-items",
+    matcher: "/vendor/returns/:id/receive-items",
     middlewares: [
       validateAndTransformBody(AdminPostReceiveReturnItemsReqSchema),
       validateAndTransformQuery(
@@ -193,7 +193,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/receive-items/:action_id",
+    matcher: "/vendor/returns/:id/receive-items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsRequestItemsActionReqSchema),
       validateAndTransformQuery(
@@ -204,7 +204,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/returns/:id/receive-items/:action_id",
+    matcher: "/vendor/returns/:id/receive-items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,
@@ -214,7 +214,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/dismiss-items",
+    matcher: "/vendor/returns/:id/dismiss-items",
     middlewares: [
       validateAndTransformBody(AdminPostReceiveReturnItemsReqSchema),
       validateAndTransformQuery(
@@ -225,7 +225,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/returns/:id/dismiss-items/:action_id",
+    matcher: "/vendor/returns/:id/dismiss-items/:action_id",
     middlewares: [
       validateAndTransformBody(AdminPostReturnsRequestItemsActionReqSchema),
       validateAndTransformQuery(
@@ -236,7 +236,7 @@ export const adminReturnRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/returns/:id/dismiss-items/:action_id",
+    matcher: "/vendor/returns/:id/dismiss-items/:action_id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetOrdersOrderParams,

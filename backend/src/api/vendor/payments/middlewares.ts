@@ -12,10 +12,10 @@ import {
   AdminGetPaymentsParams,
 } from "./validators"
 
-export const adminPaymentRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorPaymentRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/payments",
+    matcher: "/vendor/payments",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPaymentsParams,
@@ -25,7 +25,7 @@ export const adminPaymentRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/payments/payment-providers",
+    matcher: "/vendor/payments/payment-providers",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPaymentProvidersParams,
@@ -35,7 +35,7 @@ export const adminPaymentRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/payments/:id",
+    matcher: "/vendor/payments/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetPaymentParams,
@@ -45,7 +45,7 @@ export const adminPaymentRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/payments/:id/capture",
+    matcher: "/vendor/payments/:id/capture",
     middlewares: [
       validateAndTransformBody(AdminCreatePaymentCapture),
       validateAndTransformQuery(
@@ -56,7 +56,7 @@ export const adminPaymentRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/payments/:id/refund",
+    matcher: "/vendor/payments/:id/refund",
     middlewares: [
       validateAndTransformBody(AdminCreatePaymentRefund),
       validateAndTransformQuery(

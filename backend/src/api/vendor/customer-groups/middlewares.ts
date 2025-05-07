@@ -12,10 +12,10 @@ import {
   AdminUpdateCustomerGroup,
 } from "./validators"
 
-export const adminCustomerGroupRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorCustomerGroupRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/customer-groups",
+    matcher: "/vendor/customer-groups",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCustomerGroupsParams,
@@ -25,7 +25,7 @@ export const adminCustomerGroupRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/customer-groups/:id",
+    matcher: "/vendor/customer-groups/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminGetCustomerGroupParams,
@@ -35,7 +35,7 @@ export const adminCustomerGroupRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customer-groups",
+    matcher: "/vendor/customer-groups",
     middlewares: [
       validateAndTransformBody(AdminCreateCustomerGroup),
       validateAndTransformQuery(
@@ -46,7 +46,7 @@ export const adminCustomerGroupRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customer-groups/:id",
+    matcher: "/vendor/customer-groups/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateCustomerGroup),
       validateAndTransformQuery(
@@ -57,7 +57,7 @@ export const adminCustomerGroupRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/customer-groups/:id/customers",
+    matcher: "/vendor/customer-groups/:id/customers",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(

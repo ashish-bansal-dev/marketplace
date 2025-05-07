@@ -12,10 +12,10 @@ import {
   AdminUpdateProductCategory,
 } from "./validators"
 
-export const adminProductCategoryRoutesMiddlewares: MiddlewareRoute[] = [
+export const vendorProductCategoryRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
-    matcher: "/admin/product-categories",
+    matcher: "/vendor/product-categories",
     middlewares: [
       validateAndTransformQuery(
         AdminProductCategoriesParams,
@@ -25,7 +25,7 @@ export const adminProductCategoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["GET"],
-    matcher: "/admin/product-categories/:id",
+    matcher: "/vendor/product-categories/:id",
     middlewares: [
       validateAndTransformQuery(
         AdminProductCategoryParams,
@@ -35,7 +35,7 @@ export const adminProductCategoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/product-categories",
+    matcher: "/vendor/product-categories",
     middlewares: [
       validateAndTransformBody(AdminCreateProductCategory),
       validateAndTransformQuery(
@@ -46,7 +46,7 @@ export const adminProductCategoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["POST"],
-    matcher: "/admin/product-categories/:id",
+    matcher: "/vendor/product-categories/:id",
     middlewares: [
       validateAndTransformBody(AdminUpdateProductCategory),
       validateAndTransformQuery(
@@ -57,12 +57,12 @@ export const adminProductCategoryRoutesMiddlewares: MiddlewareRoute[] = [
   },
   {
     method: ["DELETE"],
-    matcher: "/admin/product-categories/:id",
+    matcher: "/vendor/product-categories/:id",
     middlewares: [],
   },
   {
     method: ["POST"],
-    matcher: "/admin/product-categories/:id/products",
+    matcher: "/vendor/product-categories/:id/products",
     middlewares: [
       validateAndTransformBody(createLinkBody()),
       validateAndTransformQuery(
