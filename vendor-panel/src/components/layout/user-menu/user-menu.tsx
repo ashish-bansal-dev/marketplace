@@ -86,7 +86,7 @@ export const UserMenu = () => {
 const UserBadge = () => {
   const { user, isPending, isError, error } = useMe()
 
-  const name = [user?.first_name, user?.last_name].filter(Boolean).join(" ")
+  const name = [user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.name
   const displayName = name || user?.email
 
   const fallback = displayName ? displayName[0].toUpperCase() : null
@@ -226,8 +226,8 @@ const GlobalKeybindsModal = (props: {
 
   const searchResults = searchValue
     ? globalShortcuts.filter((shortcut) => {
-        return shortcut.label.toLowerCase().includes(searchValue?.toLowerCase())
-      })
+      return shortcut.label.toLowerCase().includes(searchValue?.toLowerCase())
+    })
     : globalShortcuts
 
   return (
@@ -301,7 +301,7 @@ const UserItem = () => {
     return <div></div>
   }
 
-  const name = [user.first_name, user.last_name].filter(Boolean).join(" ")
+  const name = [user.first_name, user.last_name].filter(Boolean).join(" ") || user.name
   const email = user.email
   const fallback = name ? name[0].toUpperCase() : email[0].toUpperCase()
   const avatar = user.avatar_url

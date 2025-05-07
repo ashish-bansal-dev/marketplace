@@ -9,7 +9,11 @@ import { queryClient } from "../../../lib/query-client"
 
 const returnReasonListQuery = (query?: AdminReturnReasonListParams) => ({
   queryKey: returnReasonsQueryKeys.list(query),
-  queryFn: async () => sdk.admin.returnReason.list(query),
+  queryFn: async () =>
+    sdk.client.fetch(`/vendor/return-reasons`, {
+      method: "GET",
+      query,
+    }) as Promise<AdminReturnReasonListResponse>,
 })
 
 export const returnReasonListLoader = async () => {

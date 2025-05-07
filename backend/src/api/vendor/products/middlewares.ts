@@ -32,7 +32,7 @@ import {
   CreateProduct,
   CreateProductVariant,
 } from "./validators"
-import IndexEngineFeatureFlag from "@medusajs/framework/feature-flags"
+// import IndexEngineFeatureFlag from "@medusajs/framework/feature-flags"
 
 // TODO: For now we keep the files in memory, as that's how they get passed to the workflows
 // This will need revisiting once we are closer to prod-ready v2, since with workflows and potentially
@@ -49,9 +49,9 @@ export const vendorProductRoutesMiddlewares: MiddlewareRoute[] = [
         QueryConfig.listProductQueryConfig
       ),
       (req, res, next) => {
-        if (featureFlagRouter.isFeatureEnabled(IndexEngineFeatureFlag.key)) {
-          return next()
-        }
+        // if (featureFlagRouter.isFeatureEnabled(IndexEngineFeatureFlag.key)) {
+        //   return next()
+        // }
 
         return maybeApplyLinkFilter({
           entryPoint: "product_sales_channel",

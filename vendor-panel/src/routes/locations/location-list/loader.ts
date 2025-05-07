@@ -10,11 +10,12 @@ import { LOCATION_LIST_FIELDS } from "./constants"
 const shippingListQuery = () => ({
   queryKey: stockLocationsQueryKeys.lists(),
   queryFn: async () => {
-    return await sdk.admin.stockLocation
-      .list({
-        // TODO: change this when RQ is fixed
+    return await sdk.client.fetch(`/vendor/stock-locations`, {
+      method: "GET",
+      query: {
         fields: LOCATION_LIST_FIELDS,
-      })
+      },
+    })
       .catch((error: FetchError) => {
         if (error.status === 401) {
           throw redirect("/login")

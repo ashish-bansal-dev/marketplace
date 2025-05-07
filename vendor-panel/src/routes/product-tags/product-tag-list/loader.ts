@@ -7,7 +7,11 @@ import { queryClient } from "../../../lib/query-client"
 
 const productTagListQuery = (query?: HttpTypes.AdminProductTagListParams) => ({
   queryKey: productTagsQueryKeys.list(query),
-  queryFn: async () => sdk.admin.productTag.list(query),
+  queryFn: async () =>
+    sdk.client.fetch(`/vendor/product-tags`, {
+      method: "GET",
+      query,
+    }) as Promise<HttpTypes.AdminProductTagListResponse>,
 })
 
 export const productTagListLoader = async ({ request }: LoaderFunctionArgs) => {

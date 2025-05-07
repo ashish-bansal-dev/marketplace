@@ -21,19 +21,19 @@ export const useMe = (
   options?: UseQueryOptions<
     HttpTypes.AdminUserResponse,
     FetchError,
-    HttpTypes.AdminUserResponse,
+    HttpTypes.AdminUserResponse & { seller: any },
     QueryKey
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () =>
+    queryFn: async () =>
       sdk.client.fetch('/vendor/sellers/me', {
         method: 'GET',
         query: {
           fields:
             'id,name,description,phone,photo,email,media,address_line,postal_code,country_code,city,region,metadata,gstin',
         },
-      }) as Promise<HttpTypes.AdminUserResponse>,
+      }) as Promise<HttpTypes.AdminUserResponse & { seller: any }>,
     queryKey: usersQueryKeys.me(),
     ...options,
   })

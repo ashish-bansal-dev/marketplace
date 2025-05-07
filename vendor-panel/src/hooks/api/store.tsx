@@ -20,14 +20,15 @@ export const storeQueryKeys = queryKeysFactory(STORE_QUERY_KEY)
  * Workaround to keep the V1 version of retrieving the store.
  */
 export async function retrieveActiveStore(
-  query?: HttpTypes.AdminStoreParams
-): Promise<{ store: HttpTypes.AdminStoreResponse }> {
+  query?: any
+): Promise<HttpTypes.AdminStoreResponse> {
+
   const response = await sdk.client.fetch("/vendor/stores", {
     method: "GET",
     query,
   }) as { stores: HttpTypes.AdminStoreResponse[] }
 
-  const activeStore = response?.stores?.[0]
+  const activeStore = response.stores?.[0]
 
   if (!activeStore) {
     throw new FetchError("No active store found", "Not Found", 404)
@@ -49,11 +50,7 @@ export const useStore = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () =>
-      sdk.client.fetch(`/vendor/stores`, {
-        method: "GET",
-        query,
-      }) as Promise<HttpTypes.AdminStoreResponse>,
+    queryFn: () => retrieveActiveStore(query),
     queryKey: storeQueryKeys.details(),
     ...options,
   })

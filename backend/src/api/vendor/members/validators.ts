@@ -6,6 +6,9 @@ export type VendorGetMemberParamsType = z.infer<typeof VendorGetMemberParams>
 export const VendorGetMemberParams = createFindParams({
   offset: 0,
   limit: 50
+}).extend({
+  q: z.string().optional(),
+  seller_id: z.string().optional()
 })
 
 /**

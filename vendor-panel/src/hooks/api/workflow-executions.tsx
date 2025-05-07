@@ -23,7 +23,7 @@ export const useWorkflowExecutions = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: () =>
-      sdk.client.fetch(`/vendor/workflow-executions`, {
+      sdk.client.fetch(`/vendor/workflows-executions`, {
         method: "GET",
         query,
       }) as Promise<HttpTypes.AdminWorkflowExecutionListResponse>,
@@ -48,7 +48,7 @@ export const useWorkflowExecution = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: () =>
-      sdk.client.fetch(`/vendor/workflow-executions/${id}`, {
+      sdk.client.fetch(`/vendor/workflows-executions/${id}`, {
         method: "GET",
       }) as Promise<HttpTypes.AdminWorkflowExecutionResponse>,
     queryKey: workflowExecutionsQueryKeys.detail(id),
