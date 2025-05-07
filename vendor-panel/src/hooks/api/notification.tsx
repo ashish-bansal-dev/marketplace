@@ -23,7 +23,11 @@ export const useNotification = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: notificationQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.notification.retrieve(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/notifications/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminNotificationResponse>,
     ...options,
   })
 
@@ -43,7 +47,10 @@ export const useNotifications = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.notification.list(query),
+    queryFn: () => sdk.client.fetch("/vendor/notifications", {
+      method: "GET",
+      query,
+    }) as Promise<HttpTypes.AdminNotificationListResponse>,
     queryKey: notificationQueryKeys.list(query),
     ...options,
   })

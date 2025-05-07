@@ -107,7 +107,12 @@ export const useCreateUser = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.user.create(payload, query),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/members`, {
+        method: "POST",
+        body: payload,
+        query,
+      }) as Promise<HttpTypes.AdminUserResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.lists() })
 
@@ -128,7 +133,12 @@ export const useUpdateUser = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.user.update(id, payload, query),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/members/${id}`, {
+        method: "PUT",
+        body: payload,
+        query,
+      }) as Promise<HttpTypes.AdminUserResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.detail(id) })
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.lists() })
@@ -151,7 +161,10 @@ export const useDeleteUser = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.user.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/members/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminUserDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.detail(id) })
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.lists() })

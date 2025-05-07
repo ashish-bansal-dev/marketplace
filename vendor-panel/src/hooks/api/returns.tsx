@@ -571,7 +571,9 @@ export const useRemoveDismissItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) => {
-      return sdk.admin.return.removeDismissItem(id, actionId)
+      return sdk.client.fetch(`/vendor/returns/${id}/dismiss/${actionId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminReturnResponse>,
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -599,7 +601,10 @@ export const useConfirmReturnReceive = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminConfirmReceiveReturn) =>
-      sdk.admin.return.confirmReceive(id, payload),
+      sdk.client.fetch(`/vendor/returns/${id}/receive`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminReturnResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -627,7 +632,10 @@ export const useCancelReceiveReturn = (
   options?: UseMutationOptions<HttpTypes.AdminReturnResponse, FetchError>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.return.cancelReceive(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/returns/${id}/receive`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminReturnResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),

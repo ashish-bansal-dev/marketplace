@@ -16,7 +16,11 @@ export const useVariants = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.productVariant.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/product-variants`, {
+        method: "GET",
+        query,
+      }),
     queryKey: productVariantQueryKeys.list(query),
     ...options,
   })

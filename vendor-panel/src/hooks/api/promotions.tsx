@@ -47,7 +47,10 @@ export const usePromotion = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: promotionsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.promotion.retrieve(id),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/promotions/${id}`, {
+        method: "GET",
+      }) as Promise<HttpTypes.AdminPromotionResponse>,
     ...options,
   })
 
@@ -70,7 +73,11 @@ export const usePromotionRules = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: promotionsQueryKeys.listRules(id, ruleType, query),
-    queryFn: async () => sdk.admin.promotion.listRules(id, ruleType, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/promotions/${id}/${ruleType}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPromotionRuleListResponse>,
     ...options,
   })
 
@@ -91,7 +98,11 @@ export const usePromotions = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: promotionsQueryKeys.list(query),
-    queryFn: async () => sdk.admin.promotion.list(query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/promotions`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPromotionListResponse>,
     ...options,
   })
 
@@ -114,7 +125,10 @@ export const usePromotionRuleAttributes = (
   const { data, ...rest } = useQuery({
     queryKey: promotionsQueryKeys.listRuleAttributes(ruleType, promotionType),
     queryFn: async () =>
-      sdk.admin.promotion.listRuleAttributes(ruleType, promotionType),
+      sdk.client.fetch(`/vendor/promotions/rule-attributes`, {
+        method: "GET",
+        query: { ruleType, promotionType },
+      }) as Promise<HttpTypes.AdminRuleAttributeOptionsListResponse>,
     ...options,
   })
 
@@ -142,7 +156,10 @@ export const usePromotionRuleValues = (
       query || {}
     ),
     queryFn: async () =>
-      sdk.admin.promotion.listRuleValues(ruleType, ruleValue, query),
+      sdk.client.fetch(`/vendor/promotions/rule-values`, {
+        method: "GET",
+        query: { ruleType, ruleValue },
+      }) as Promise<HttpTypes.AdminRuleValueOptionsListResponse>,
     ...options,
   })
 
@@ -158,7 +175,10 @@ export const useDeletePromotion = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.promotion.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/promotions/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.DeleteResponse<"promotion">>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -179,7 +199,11 @@ export const useCreatePromotion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.promotion.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/promotions`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminPromotionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.lists() })
@@ -198,7 +222,11 @@ export const useUpdatePromotion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.promotion.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/promotions/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminPromotionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.all })
 
@@ -219,7 +247,10 @@ export const usePromotionAddRules = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.promotion.addRules(id, ruleType, payload),
+      sdk.client.fetch(`/vendor/promotions/${id}/${ruleType}/batch`, {
+        method: "POST",
+        body: { create: payload.rules },
+      }) as Promise<HttpTypes.AdminPromotionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.all })
 
@@ -240,7 +271,10 @@ export const usePromotionRemoveRules = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.promotion.removeRules(id, ruleType, payload),
+      sdk.client.fetch(`/vendor/promotions/${id}/${ruleType}/batch`, {
+        method: "POST",
+        body: { delete: payload.rule_ids },
+      }) as Promise<HttpTypes.AdminPromotionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.all })
 
@@ -261,7 +295,10 @@ export const usePromotionUpdateRules = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.promotion.updateRules(id, ruleType, payload),
+      sdk.client.fetch(`/vendor/promotions/${id}/${ruleType}/batch`, {
+        method: "POST",
+        body: { update: payload.rules },
+      }) as Promise<HttpTypes.AdminPromotionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.all })
 

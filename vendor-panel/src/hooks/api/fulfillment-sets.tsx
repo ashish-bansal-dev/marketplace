@@ -30,7 +30,10 @@ export const useDeleteFulfillmentSet = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.fulfillmentSet.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/fulfillment-sets/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminFulfillmentSetDeleteResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: fulfillmentSetsQueryKeys.detail(id),
@@ -69,11 +72,10 @@ export const useFulfillmentSetServiceZone = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: () =>
-      sdk.admin.fulfillmentSet.retrieveServiceZone(
-        fulfillmentSetId,
-        serviceZoneId,
-        query
-      ),
+      sdk.client.fetch(`/vendor/fulfillment-sets/${fulfillmentSetId}/service-zones/${serviceZoneId}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminServiceZoneResponse>,
     queryKey: fulfillmentSetsQueryKeys.detail(fulfillmentSetId, query),
     ...options,
   })
@@ -95,7 +97,10 @@ export const useCreateFulfillmentSetServiceZone = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.fulfillmentSet.createServiceZone(fulfillmentSetId, payload),
+      sdk.client.fetch(`/vendor/fulfillment-sets/${fulfillmentSetId}/service-zones`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminFulfillmentSetResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: fulfillmentSetsQueryKeys.lists(),
@@ -125,11 +130,10 @@ export const useUpdateFulfillmentSetServiceZone = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.fulfillmentSet.updateServiceZone(
-        fulfillmentSetId,
-        serviceZoneId,
-        payload
-      ),
+      sdk.client.fetch(`/vendor/fulfillment-sets/${fulfillmentSetId}/service-zones/${serviceZoneId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminFulfillmentSetResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: fulfillmentSetsQueryKeys.lists(),
@@ -158,10 +162,9 @@ export const useDeleteFulfillmentServiceZone = (
 ) => {
   return useMutation({
     mutationFn: () =>
-      sdk.admin.fulfillmentSet.deleteServiceZone(
-        fulfillmentSetId,
-        serviceZoneId
-      ),
+      sdk.client.fetch(`/vendor/fulfillment-sets/${fulfillmentSetId}/service-zones/${serviceZoneId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminServiceZoneDeleteResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: fulfillmentSetsQueryKeys.lists(),

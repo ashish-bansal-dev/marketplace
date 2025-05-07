@@ -32,7 +32,11 @@ export const useStockLocation = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.stockLocation.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/stock-locations/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminStockLocationResponse>,
     queryKey: stockLocationsQueryKeys.detail(id, query),
     ...options,
   })
@@ -53,7 +57,11 @@ export const useStockLocations = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.stockLocation.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/stock-locations`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminStockLocationListResponse>,
     queryKey: stockLocationsQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +77,11 @@ export const useCreateStockLocation = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.stockLocation.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/stock-locations`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminStockLocationResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.lists(),
@@ -90,7 +102,11 @@ export const useUpdateStockLocation = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.stockLocation.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/stock-locations/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminStockLocationResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.details(),
@@ -115,7 +131,10 @@ export const useUpdateStockLocationSalesChannels = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.stockLocation.updateSalesChannels(id, payload),
+      sdk.client.fetch(`/vendor/stock-locations/${id}/sales-channels`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminStockLocationResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.details(),
@@ -139,7 +158,10 @@ export const useDeleteStockLocation = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.stockLocation.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/stock-locations/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminStockLocationDeleteResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.lists(),
@@ -164,7 +186,10 @@ export const useCreateStockLocationFulfillmentSet = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.stockLocation.createFulfillmentSet(locationId, payload),
+      sdk.client.fetch(`/vendor/stock-locations/${locationId}/fulfillment-sets`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminStockLocationResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.all,
@@ -186,7 +211,13 @@ export const useUpdateStockLocationFulfillmentProviders = (
 ) => {
   return useMutation({
     mutationFn: async (payload) =>
-      await sdk.admin.stockLocation.updateFulfillmentProviders(id, payload),
+      sdk.client.fetch(
+        `/vendor/stock-locations/${id}/fulfillment-providers`,
+        {
+          method: "PUT",
+          body: payload,
+        }
+      ) as Promise<HttpTypes.AdminStockLocationResponse>,
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.details(),

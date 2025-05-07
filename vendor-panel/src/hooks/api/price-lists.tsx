@@ -30,7 +30,11 @@ export const usePriceList = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.priceList.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/price-lists/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPriceListResponse>,
     queryKey: priceListsQueryKeys.detail(id),
     ...options,
   })
@@ -51,7 +55,11 @@ export const usePriceLists = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.priceList.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/price-lists`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPriceListListResponse>,
     queryKey: priceListsQueryKeys.list(query),
     ...options,
   })
@@ -68,7 +76,12 @@ export const useCreatePriceList = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.priceList.create(payload, query),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/price-lists`, {
+        method: "POST",
+        body: payload,
+        query,
+      }) as Promise<HttpTypes.AdminPriceListResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: priceListsQueryKeys.lists() })
 
@@ -90,7 +103,12 @@ export const useUpdatePriceList = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.priceList.update(id, payload, query),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/price-lists/${id}`, {
+        method: "PUT",
+        body: payload,
+        query,
+      }) as Promise<HttpTypes.AdminPriceListResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: priceListsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -114,7 +132,10 @@ export const useDeletePriceList = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.priceList.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/price-lists/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminPriceListDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: priceListsQueryKeys.lists() })
 
@@ -135,7 +156,11 @@ export const useBatchPriceListPrices = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.priceList.batchPrices(id, payload, query),
+      sdk.client.fetch(`/vendor/price-lists/${id}/batch-prices`, {
+        method: "POST",
+        body: payload,
+        query,
+      }) as Promise<HttpTypes.AdminPriceListBatchResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: priceListsQueryKeys.detail(id),
@@ -157,7 +182,11 @@ export const usePriceListLinkProducts = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.priceList.linkProducts(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/price-lists/${id}/link-products`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminPriceListResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: priceListsQueryKeys.detail(id),

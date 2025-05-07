@@ -33,7 +33,10 @@ export const useSalesChannel = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: salesChannelsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.salesChannel.retrieve(id),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/sales-channels/${id}`, {
+        method: "GET",
+      }) as Promise<HttpTypes.AdminSalesChannelResponse>,
     ...options,
   })
 
@@ -53,7 +56,10 @@ export const useSalesChannels = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.salesChannel.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/sales-channels`, {
+        query,
+      }) as Promise<HttpTypes.AdminSalesChannelListResponse>,
     queryKey: salesChannelsQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +75,11 @@ export const useCreateSalesChannel = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.salesChannel.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/sales-channels`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminSalesChannelResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -89,7 +99,11 @@ export const useUpdateSalesChannel = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.salesChannel.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/sales-channels/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminSalesChannelResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -113,7 +127,10 @@ export const useDeleteSalesChannel = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.salesChannel.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/sales-channels/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminSalesChannelDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -141,7 +158,10 @@ export const useDeleteSalesChannelLazy = (
   >
 ) => {
   return useMutation({
-    mutationFn: (id: string) => sdk.admin.salesChannel.delete(id),
+    mutationFn: (id: string) =>
+      sdk.client.fetch(`/vendor/sales-channels/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminSalesChannelDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -171,7 +191,10 @@ export const useSalesChannelRemoveProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.salesChannel.batchProducts(id, { remove: payload }),
+      sdk.client.fetch(`/vendor/sales-channels/${id}/products/batch`, {
+        method: "POST",
+        body: { remove: payload },
+      }) as Promise<HttpTypes.AdminSalesChannelResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -208,7 +231,10 @@ export const useSalesChannelAddProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.salesChannel.batchProducts(id, { add: payload }),
+      sdk.client.fetch(`/vendor/sales-channels/${id}/products/batch`, {
+        method: "POST",
+        body: { add: payload },
+      }) as Promise<HttpTypes.AdminSalesChannelResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),

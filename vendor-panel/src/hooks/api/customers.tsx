@@ -33,7 +33,11 @@ export const useCustomer = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: customersQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.customer.retrieve(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/customers/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<{ customer: HttpTypes.AdminCustomer }>,
     ...options,
   })
 
@@ -53,7 +57,11 @@ export const useCustomers = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.customer.list(query),
+    queryFn: () =>
+      sdk.client.fetch("/vendor/customers", {
+        method: "GET",
+        query,
+      }) as Promise<PaginatedResponse<{ customers: HttpTypes.AdminCustomer[] }>>,
     queryKey: customersQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +77,11 @@ export const useCreateCustomer = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.customer.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch("/vendor/customers", {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCustomer>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       options?.onSuccess?.(data, variables, context)
@@ -87,7 +99,11 @@ export const useUpdateCustomer = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.customer.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/customers/${id}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<{ customer: HttpTypes.AdminCustomer }>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -107,7 +123,10 @@ export const useDeleteCustomer = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.customer.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/customers/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminCustomerDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -130,7 +149,10 @@ export const useBatchCustomerCustomerGroups = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.customer.batchCustomerGroups(id, payload),
+      sdk.client.fetch(`/vendor/customers/${id}/customer-groups`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCustomerResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: customerGroupsQueryKeys.details(),
@@ -161,7 +183,11 @@ export const useCreateCustomerAddress = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.customer.createAddress(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/customers/${id}/addresses`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCustomerResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -186,7 +212,10 @@ export const useUpdateCustomerAddress = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.customer.updateAddress(id, addressId, payload),
+      sdk.client.fetch(`/vendor/customers/${id}/addresses/${addressId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCustomerResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -210,7 +239,9 @@ export const useDeleteCustomerAddress = (
 ) => {
   return useMutation({
     mutationFn: (addressId: string) =>
-      sdk.admin.customer.deleteAddress(id, addressId),
+      sdk.client.fetch(`/vendor/customers/${id}/addresses/${addressId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminCustomerResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -235,7 +266,11 @@ export const useListCustomerAddresses = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.customer.listAddresses(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/customers/${id}/addresses`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminCustomerResponse>,
     queryKey: customerAddressesQueryKeys.list(id),
     ...options,
   })
@@ -254,7 +289,10 @@ export const useCustomerAddress = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.customer.retrieveAddress(id, addressId),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/customers/${id}/addresses/${addressId}`, {
+        method: "GET",
+      }) as Promise<HttpTypes.AdminCustomerResponse>,
     queryKey: customerAddressesQueryKeys.detail(id),
     ...options,
   })

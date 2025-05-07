@@ -36,7 +36,11 @@ export const useInventoryItems = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.inventoryItem.list(query),
+    queryFn: () =>
+      sdk.client.fetch("/vendor/inventory-items", {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminInventoryItemListResponse>,
     queryKey: inventoryItemsQueryKeys.list(query),
     ...options,
   })
@@ -58,7 +62,11 @@ export const useInventoryItem = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.inventoryItem.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/inventory-items/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminInventoryItemResponse>,
     queryKey: inventoryItemsQueryKeys.detail(id),
     ...options,
   })
@@ -75,7 +83,10 @@ export const useCreateInventoryItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateInventoryItem) =>
-      sdk.admin.inventoryItem.create(payload),
+      sdk.client.fetch("/vendor/inventory-items", {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminInventoryItemResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -96,7 +107,10 @@ export const useUpdateInventoryItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateInventoryItem) =>
-      sdk.admin.inventoryItem.update(id, payload),
+      sdk.client.fetch(`/vendor/inventory-items/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminInventoryItemResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -119,7 +133,10 @@ export const useDeleteInventoryItem = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.inventoryItem.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/inventory-items/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminInventoryItemDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -144,7 +161,12 @@ export const useDeleteInventoryItemLevel = (
 ) => {
   return useMutation({
     mutationFn: () =>
-      sdk.admin.inventoryItem.deleteLevel(inventoryItemId, locationId),
+      sdk.client.fetch(
+        `/vendor/inventory-items/${inventoryItemId}/location-levels/${locationId}`,
+        {
+          method: "DELETE",
+        }
+      ),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -175,7 +197,14 @@ export const useInventoryItemLevels = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.inventoryItem.listLevels(inventoryItemId, query),
+    queryFn: () =>
+      sdk.client.fetch(
+        `/vendor/inventory-items/${inventoryItemId}/location-levels`,
+        {
+          method: "GET",
+          query,
+        }
+      ),
     queryKey: inventoryItemLevelsQueryKeys.detail(inventoryItemId),
     ...options,
   })
@@ -194,7 +223,13 @@ export const useUpdateInventoryLevel = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateInventoryLevel) =>
-      sdk.admin.inventoryItem.updateLevel(inventoryItemId, locationId, payload),
+      sdk.client.fetch(
+        `/vendor/inventory-items/${inventoryItemId}/location-levels/${locationId}`,
+        {
+          method: "PUT",
+          body: payload,
+        }
+      ),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -224,9 +259,12 @@ export const useBatchInventoryItemLocationLevels = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.inventoryItem.batchInventoryItemLocationLevels(
-        inventoryItemId,
-        payload
+      sdk.client.fetch(
+        `/vendor/inventory-items/${inventoryItemId}/location-levels/batch`,
+        {
+          method: "POST",
+          body: payload,
+        }
       ),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
@@ -253,7 +291,13 @@ export const useBatchInventoryItemsLocationLevels = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.inventoryItem.batchInventoryItemsLocationLevels(payload),
+      sdk.client.fetch(
+        `/vendor/inventory-items/location-levels/batch`,
+        {
+          method: "POST",
+          body: payload,
+        }
+      ),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.all,

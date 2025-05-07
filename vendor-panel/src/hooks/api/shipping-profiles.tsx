@@ -25,7 +25,11 @@ export const useCreateShippingProfile = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.shippingProfile.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/shipping-profiles`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminShippingProfileResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: shippingProfileQueryKeys.lists(),
@@ -51,7 +55,11 @@ export const useShippingProfile = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.shippingProfile.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/shipping-profiles/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminShippingProfileResponse>,
     queryKey: shippingProfileQueryKeys.detail(id, query),
     ...options,
   })
@@ -72,7 +80,11 @@ export const useShippingProfiles = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.shippingProfile.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/shipping-profiles`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminShippingProfileListResponse>,
     queryKey: shippingProfileQueryKeys.list(query),
     ...options,
   })
@@ -89,7 +101,11 @@ export const useUpdateShippingProfile = (
   >
 ) => {
   const { data, ...rest } = useMutation({
-    mutationFn: (payload) => sdk.admin.shippingProfile.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/shipping-profiles/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminShippingProfileResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: shippingProfileQueryKeys.detail(id),
@@ -115,7 +131,10 @@ export const useDeleteShippingProfile = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.shippingProfile.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/shipping-profiles/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminShippingProfileDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: shippingProfileQueryKeys.detail(id),

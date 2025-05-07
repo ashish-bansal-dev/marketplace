@@ -50,7 +50,10 @@ export const useRegions = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.region.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/regions`, {
+        query,
+      }) as Promise<PaginatedResponse<{ regions: HttpTypes.AdminRegion[] }>>,
     queryKey: regionsQueryKeys.list(query),
     ...options,
   })
@@ -66,7 +69,11 @@ export const useCreateRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.region.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/regions`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminRegionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.lists() })
 
@@ -92,7 +99,11 @@ export const useUpdateRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.region.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/regions/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminRegionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.details() })
@@ -119,7 +130,10 @@ export const useDeleteRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.region.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/regions/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminRegionDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.detail(id) })

@@ -28,7 +28,11 @@ export const useFulfillmentProviders = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.fulfillmentProvider.list(query),
+    queryFn: () =>
+      sdk.client.fetch("/vendor/fulfillment-providers", {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminFulfillmentProviderListResponse>,
     queryKey: fulfillmentProvidersQueryKeys.list(query),
     ...options,
   })
@@ -50,7 +54,9 @@ export const useFulfillmentProviderOptions = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: () =>
-      sdk.admin.fulfillmentProvider.listFulfillmentOptions(providerId),
+      sdk.client.fetch(`/vendor/fulfillment-providers/${providerId}/options`, {
+        method: "GET",
+      }) as Promise<HttpTypes.AdminFulfillmentProviderOptionsListResponse>,
     queryKey: fulfillmentProviderOptionsQueryKeys.list(providerId),
     ...options,
   })

@@ -21,7 +21,11 @@ export const useCurrencies = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.currency.list(query),
+    queryFn: () =>
+      sdk.client.fetch("/vendor/currencies", {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminCurrencyListResponse>,
     queryKey: currenciesQueryKeys.list(query),
     ...options,
   })
@@ -44,7 +48,11 @@ export const useCurrency = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: currenciesQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.currency.retrieve(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/currencies/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminCurrencyResponse>,
     ...options,
   })
 

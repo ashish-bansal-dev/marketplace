@@ -28,7 +28,10 @@ export const useReturnReasons = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.returnReason.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/return-reasons`, {
+        query,
+      }) as Promise<HttpTypes.AdminReturnReasonListResponse>,
     queryKey: returnReasonsQueryKeys.list(query),
     ...options,
   })
@@ -50,7 +53,10 @@ export const useReturnReason = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.returnReason.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/return-reasons/${id}`, {
+        query,
+      }) as Promise<HttpTypes.AdminReturnReasonResponse>,
     queryKey: returnReasonsQueryKeys.detail(id),
     ...options,
   })
@@ -67,7 +73,12 @@ export const useCreateReturnReason = (
   >
 ) => {
   return useMutation({
-    mutationFn: async (data) => sdk.admin.returnReason.create(data, query),
+    mutationFn: async (data) =>
+      sdk.client.fetch(`/vendor/return-reasons`, {
+        method: "POST",
+        body: data,
+        query,
+      }) as Promise<HttpTypes.AdminReturnReasonResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: returnReasonsQueryKeys.lists(),
@@ -88,7 +99,12 @@ export const useUpdateReturnReason = (
   >
 ) => {
   return useMutation({
-    mutationFn: async (data) => sdk.admin.returnReason.update(id, data, query),
+    mutationFn: async (data) =>
+      sdk.client.fetch(`/vendor/return-reasons/${id}`, {
+        method: "PUT",
+        body: data,
+        query,
+      }) as Promise<HttpTypes.AdminReturnReasonResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: returnReasonsQueryKeys.lists(),
@@ -112,7 +128,10 @@ export const useDeleteReturnReason = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.returnReason.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/return-reasons/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminReturnReasonDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: returnReasonsQueryKeys.lists(),

@@ -29,7 +29,11 @@ export const useProductTag = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: productTagsQueryKeys.detail(id, query),
-    queryFn: async () => sdk.admin.productTag.retrieve(id),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/product-tags/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminProductTagResponse>,
     ...options,
   })
 
@@ -50,7 +54,11 @@ export const useProductTags = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: productTagsQueryKeys.list(query),
-    queryFn: async () => sdk.admin.productTag.list(query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/product-tags`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminProductTagListResponse>,
     ...options,
   })
 
@@ -66,7 +74,11 @@ export const useCreateProductTag = (
   >
 ) => {
   return useMutation({
-    mutationFn: async (data) => sdk.admin.productTag.create(data, query),
+    mutationFn: async (data) =>
+      sdk.client.fetch(`/vendor/product-tags`, {
+        method: "POST",
+        body: data,
+      }) as Promise<HttpTypes.AdminProductTagResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTagsQueryKeys.lists(),
@@ -88,7 +100,12 @@ export const useUpdateProductTag = (
   >
 ) => {
   return useMutation({
-    mutationFn: async (data) => sdk.admin.productTag.update(id, data, query),
+    mutationFn: async (data) =>
+      sdk.client.fetch(`/vendor/product-tags/${id}`, {
+        method: "PUT",
+        body: data,
+        query,
+      }) as Promise<HttpTypes.AdminProductTagResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTagsQueryKeys.lists(),
@@ -112,7 +129,10 @@ export const useDeleteProductTag = (
   >
 ) => {
   return useMutation({
-    mutationFn: async () => sdk.admin.productTag.delete(id),
+    mutationFn: async () =>
+      sdk.client.fetch(`/vendor/product-tags/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminProductTagDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTagsQueryKeys.lists(),

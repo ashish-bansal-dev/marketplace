@@ -29,7 +29,10 @@ export const useCollection = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: collectionsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.productCollection.retrieve(id),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/product-collections/${id}`, {
+        method: "GET",
+      }) as Promise<HttpTypes.AdminCollection>,
     ...options,
   })
 
@@ -50,7 +53,11 @@ export const useCollections = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: collectionsQueryKeys.list(query),
-    queryFn: async () => sdk.admin.productCollection.list(query),
+    queryFn: async () =>
+      sdk.client.fetch("/vendor/product-collections", {
+        method: "GET",
+        query,
+      }) as Promise<PaginatedResponse<{ collections: HttpTypes.AdminCollection[] }>>,
     ...options,
   })
 
@@ -66,7 +73,11 @@ export const useUpdateCollection = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCollection.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/product-collections/${id}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCollectionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -89,7 +100,10 @@ export const useUpdateCollectionProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.productCollection.updateProducts(id, payload),
+      sdk.client.fetch(`/vendor/product-collections/${id}/products`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCollectionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -116,7 +130,11 @@ export const useCreateCollection = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCollection.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch("/vendor/product-collections", {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCollectionResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
 
@@ -135,7 +153,10 @@ export const useDeleteCollection = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.productCollection.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/product-collections/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminCollectionDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
       queryClient.invalidateQueries({

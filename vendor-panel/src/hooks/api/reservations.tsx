@@ -35,7 +35,11 @@ export const useReservationItem = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: reservationItemsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.reservation.retrieve(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/reservations/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminReservationResponse>,
     ...options,
   })
 
@@ -55,7 +59,10 @@ export const useReservationItems = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.reservation.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/reservations`, {
+        query,
+      }) as Promise<HttpTypes.AdminReservationListResponse>,
     queryKey: reservationItemsQueryKeys.list(query),
     ...options,
   })
@@ -73,7 +80,10 @@ export const useUpdateReservationItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateReservation) =>
-      sdk.admin.reservation.update(id, payload),
+      sdk.client.fetch(`/vendor/reservations/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminReservationResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: reservationItemsQueryKeys.detail(id),
@@ -102,7 +112,10 @@ export const useCreateReservationItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateReservation) =>
-      sdk.admin.reservation.create(payload),
+      sdk.client.fetch(`/vendor/reservations`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminReservationResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: reservationItemsQueryKeys.lists(),
@@ -128,7 +141,10 @@ export const useDeleteReservationItem = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.reservation.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/reservations/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminReservationDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: reservationItemsQueryKeys.lists(),

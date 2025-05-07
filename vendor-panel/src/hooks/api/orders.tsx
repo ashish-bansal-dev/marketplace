@@ -43,7 +43,10 @@ export const useOrder = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.order.retrieve(id, query),
+    queryFn: async () => sdk.client.fetch(`/vendor/orders/${id}`, {
+      method: "GET",
+      query,
+    }) as Promise<HttpTypes.AdminOrderResponse>,
     queryKey: ordersQueryKeys.detail(id, query),
     ...options,
   })
@@ -61,7 +64,10 @@ export const useUpdateOrder = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateOrder) =>
-      sdk.admin.order.update(id, payload),
+      sdk.client.fetch(`/vendor/orders/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.detail(id),
@@ -96,7 +102,11 @@ export const useOrderPreview = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.order.retrievePreview(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/orders/${id}/preview`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminOrderPreviewResponse>,
     queryKey: ordersQueryKeys.preview(id),
     ...options,
   })
@@ -117,7 +127,11 @@ export const useOrders = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.order.list(query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/orders`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminOrderListResponse>,
     queryKey: ordersQueryKeys.list(query),
     ...options,
   })
@@ -139,7 +153,11 @@ export const useOrderChanges = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.order.listChanges(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/orders/${id}/changes`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminOrderChangesResponse>,
     queryKey: ordersQueryKeys.changes(id),
     ...options,
   })
@@ -161,7 +179,11 @@ export const useOrderLineItems = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.order.listLineItems(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/orders/${id}/line-items`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminOrderLineItemsListResponse>,
     queryKey: ordersQueryKeys.lineItems(id),
     ...options,
   })
@@ -179,7 +201,10 @@ export const useCreateOrderFulfillment = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateOrderFulfillment) =>
-      sdk.admin.order.createFulfillment(orderId, payload),
+      sdk.client.fetch(`/vendor/orders/${orderId}/fulfillments`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.all,
@@ -210,7 +235,10 @@ export const useCancelOrderFulfillment = (
 ) => {
   return useMutation({
     mutationFn: (payload: { no_notification?: boolean }) =>
-      sdk.admin.order.cancelFulfillment(orderId, fulfillmentId, payload),
+      sdk.client.fetch(`/vendor/orders/${orderId}/fulfillments/${fulfillmentId}/cancel`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.all,
@@ -237,7 +265,10 @@ export const useCreateOrderShipment = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateOrderShipment) =>
-      sdk.admin.order.createShipment(orderId, fulfillmentId, payload),
+      sdk.client.fetch(`/vendor/orders/${orderId}/fulfillments/${fulfillmentId}/shipments`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.all,
@@ -263,7 +294,10 @@ export const useMarkOrderFulfillmentAsDelivered = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.order.markAsDelivered(orderId, fulfillmentId),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/orders/${orderId}/fulfillments/${fulfillmentId}/mark-as-delivered`, {
+        method: "POST",
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.all,
@@ -284,7 +318,10 @@ export const useCancelOrder = (
   options?: UseMutationOptions<HttpTypes.AdminOrderResponse, FetchError, void>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.order.cancel(orderId),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/orders/${orderId}/cancel`, {
+        method: "POST",
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.detail(orderId),
@@ -310,7 +347,10 @@ export const useRequestTransferOrder = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminRequestOrderTransfer) =>
-      sdk.admin.order.requestTransfer(orderId, payload),
+      sdk.client.fetch(`/vendor/orders/${orderId}/request-transfer`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -331,7 +371,10 @@ export const useCancelOrderTransfer = (
   options?: UseMutationOptions<any, FetchError, void>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.order.cancelTransfer(orderId),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/orders/${orderId}/cancel-transfer`, {
+        method: "POST",
+      }) as Promise<HttpTypes.AdminOrderResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),

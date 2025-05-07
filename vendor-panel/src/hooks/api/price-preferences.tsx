@@ -30,8 +30,12 @@ export const usePricePreference = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.pricePreference.retrieve(id, query),
-    queryKey: pricePreferencesQueryKeys.detail(),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/price-preferences/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPricePreferenceResponse>,
+    queryKey: pricePreferencesQueryKeys.detail(id, query),
     ...options,
   })
 
@@ -51,7 +55,11 @@ export const usePricePreferences = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.pricePreference.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/price-preferences`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPricePreferenceListResponse>,
     queryKey: pricePreferencesQueryKeys.list(query),
     ...options,
   })
@@ -71,9 +79,16 @@ export const useUpsertPricePreference = (
   return useMutation({
     mutationFn: (payload) => {
       if (id) {
-        return sdk.admin.pricePreference.update(id, payload, query)
+        return sdk.client.fetch(`/vendor/price-preferences/${id}`, {
+          method: "PUT",
+          body: payload,
+          query,
+        }) as Promise<HttpTypes.AdminPricePreferenceResponse>
       }
-      return sdk.admin.pricePreference.create(payload, query)
+      return sdk.client.fetch(`/vendor/price-preferences`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminPricePreferenceResponse>
     },
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
@@ -100,7 +115,10 @@ export const useDeletePricePreference = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.pricePreference.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/price-preferences/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminPricePreferenceDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: pricePreferencesQueryKeys.list(),

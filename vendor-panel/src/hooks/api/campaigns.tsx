@@ -30,7 +30,11 @@ export const useCampaign = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: campaignsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.campaign.retrieve(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/campaigns/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminCampaignResponse>,
     ...options,
   })
 
@@ -50,7 +54,11 @@ export const useCampaigns = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.campaign.list(query),
+    queryFn: () =>
+      sdk.client.fetch("/vendor/campaigns", {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminCampaignListResponse>,
     queryKey: campaignsQueryKeys.list(query),
     ...options,
   })
@@ -66,7 +74,11 @@ export const useCreateCampaign = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.campaign.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch("/vendor/campaigns", {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCampaignResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.lists() })
       options?.onSuccess?.(data, variables, context)
@@ -84,7 +96,11 @@ export const useUpdateCampaign = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.campaign.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/campaigns/${id}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCampaignResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.details() })
@@ -106,7 +122,10 @@ export const useDeleteCampaign = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.campaign.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/campaigns/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.DeleteResponse<"campaign">>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.details() })
@@ -126,7 +145,11 @@ export const useAddOrRemoveCampaignPromotions = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.campaign.batchPromotions(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/campaigns/${id}/promotions`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminCampaignResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.details() })
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.lists() })

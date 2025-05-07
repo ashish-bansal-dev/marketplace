@@ -28,8 +28,12 @@ export const useProductType = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.productType.retrieve(id, query),
-    queryKey: productTypesQueryKeys.detail(id),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/product-types/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminProductTypeResponse>,
+    queryKey: productTypesQueryKeys.detail(id, query),
     ...options,
   })
 
@@ -49,7 +53,11 @@ export const useProductTypes = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.productType.list(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/product-types`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminProductTypeListResponse>,
     queryKey: productTypesQueryKeys.list(query),
     ...options,
   })
@@ -65,7 +73,11 @@ export const useCreateProductType = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productType.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/product-types`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminProductTypeResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: productTypesQueryKeys.lists() })
 
@@ -84,7 +96,11 @@ export const useUpdateProductType = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productType.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/product-types/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminProductTypeResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTypesQueryKeys.detail(id),
@@ -106,7 +122,10 @@ export const useDeleteProductType = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.productType.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/product-types/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminProductTypeDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTypesQueryKeys.detail(id),

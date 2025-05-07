@@ -20,8 +20,12 @@ export const useRefundReasons = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.refundReason.list(query),
-    queryKey: [],
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/refund-reasons`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.RefundReasonsResponse>,
+    queryKey: refundReasonQueryKeys.list(query),
     ...options,
   })
 

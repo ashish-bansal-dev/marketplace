@@ -21,10 +21,13 @@ export const storeQueryKeys = queryKeysFactory(STORE_QUERY_KEY)
  */
 export async function retrieveActiveStore(
   query?: HttpTypes.AdminStoreParams
-): Promise<HttpTypes.AdminStoreResponse> {
-  const response = await sdk.admin.store.list(query)
+): Promise<{ store: HttpTypes.AdminStoreResponse }> {
+  const response = await sdk.client.fetch("/vendor/stores", {
+    method: "GET",
+    query,
+  }) as { stores: HttpTypes.AdminStoreResponse[] }
 
-  const activeStore = response.stores?.[0]
+  const activeStore = response?.stores?.[0]
 
   if (!activeStore) {
     throw new FetchError("No active store found", "Not Found", 404)
@@ -46,7 +49,11 @@ export const useStore = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => retrieveActiveStore(query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/stores`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminStoreResponse>,
     queryKey: storeQueryKeys.details(),
     ...options,
   })
@@ -66,7 +73,11 @@ export const useUpdateStore = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.store.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/stores/${id}`, {
+        method: "PUT",
+        body: payload,
+      }) as Promise<HttpTypes.AdminStoreResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: pricePreferencesQueryKeys.list(),

@@ -28,7 +28,11 @@ export const usePaymentProviders = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.payment.listPaymentProviders(query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/payment-providers`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPaymentProviderListResponse>,
     queryKey: [],
     ...options,
   })
@@ -50,7 +54,11 @@ export const usePayment = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.payment.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/payments/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminPaymentResponse>,
     queryKey: paymentQueryKeys.detail(id),
     ...options,
   })
@@ -68,7 +76,11 @@ export const useCapturePayment = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.payment.capture(paymentId, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/payments/${paymentId}/capture`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminPaymentResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -94,7 +106,11 @@ export const useRefundPayment = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.payment.refund(paymentId, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/payments/${paymentId}/refund`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminPaymentResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),

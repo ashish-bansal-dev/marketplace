@@ -30,7 +30,11 @@ export const useProductCategory = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: categoriesQueryKeys.detail(id, query),
-    queryFn: () => sdk.admin.productCategory.retrieve(id, query),
+    queryFn: () =>
+      sdk.client.fetch(`/vendor/product-categories/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminProductCategoryResponse>,
     ...options,
   })
 
@@ -51,7 +55,11 @@ export const useProductCategories = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: categoriesQueryKeys.list(query),
-    queryFn: () => sdk.admin.productCategory.list(query),
+    queryFn: () =>
+      sdk.client.fetch("/vendor/product-categories", {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminProductCategoryListResponse>,
     ...options,
   })
 
@@ -66,7 +74,11 @@ export const useCreateProductCategory = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCategory.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch("/vendor/product-categories", {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminProductCategoryResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: categoriesQueryKeys.lists() })
 
@@ -85,7 +97,11 @@ export const useUpdateProductCategory = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCategory.update(id, payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch(`/vendor/product-categories/${id}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminProductCategoryResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: categoriesQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -107,7 +123,10 @@ export const useDeleteProductCategory = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.productCategory.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/product-categories/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminProductCategoryDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: categoriesQueryKeys.detail(id),
@@ -130,7 +149,10 @@ export const useUpdateProductCategoryProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.productCategory.updateProducts(id, payload),
+      sdk.client.fetch(`/vendor/product-categories/${id}/products`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminProductCategoryResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: categoriesQueryKeys.lists() })
       queryClient.invalidateQueries({

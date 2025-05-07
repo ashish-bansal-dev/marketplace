@@ -30,7 +30,11 @@ export const useExchange = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.exchange.retrieve(id, query),
+    queryFn: async () =>
+      sdk.client.fetch(`/vendor/exchanges/${id}`, {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     queryKey: exchangesQueryKeys.detail(id, query),
     ...options,
   })
@@ -51,7 +55,11 @@ export const useExchanges = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.exchange.list(query),
+    queryFn: async () =>
+      sdk.client.fetch("/vendor/exchanges", {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminExchangeListResponse>,
     queryKey: exchangesQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +77,10 @@ export const useCreateExchange = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateExchange) =>
-      sdk.admin.exchange.create(payload),
+      sdk.client.fetch("/vendor/exchanges", {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -95,7 +106,10 @@ export const useCancelExchange = (
   options?: UseMutationOptions<HttpTypes.AdminExchangeResponse, FetchError>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.exchange.cancel(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/exchanges/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -129,7 +143,10 @@ export const useAddExchangeInboundItems = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminAddExchangeInboundItems) =>
-      sdk.admin.exchange.addInboundItems(id, payload),
+      sdk.client.fetch(`/vendor/exchanges/${id}/inbound-items`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -154,7 +171,10 @@ export const useUpdateExchangeInboundItem = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateExchangeInboundItem & { actionId: string }) => {
-      return sdk.admin.exchange.updateInboundItem(id, actionId, payload)
+      return sdk.client.fetch(`/vendor/exchanges/${id}/inbound-items/${actionId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -177,7 +197,9 @@ export const useRemoveExchangeInboundItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.removeInboundItem(id, actionId),
+      sdk.client.fetch(`/vendor/exchanges/${id}/inbound-items/${actionId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -208,7 +230,10 @@ export const useAddExchangeInboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminExchangeAddInboundShipping) =>
-      sdk.admin.exchange.addInboundShipping(id, payload),
+      sdk.client.fetch(`/vendor/exchanges/${id}/inbound-shipping`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -233,7 +258,10 @@ export const useUpdateExchangeInboundShipping = (
       actionId,
       ...payload
     }: HttpTypes.AdminExchangeUpdateInboundShipping & { actionId: string }) =>
-      sdk.admin.exchange.updateInboundShipping(id, actionId, payload),
+      sdk.client.fetch(`/vendor/exchanges/${id}/inbound-shipping/${actionId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -255,7 +283,9 @@ export const useDeleteExchangeInboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.deleteInboundShipping(id, actionId),
+      sdk.client.fetch(`/vendor/exchanges/${id}/inbound-shipping/${actionId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -278,7 +308,10 @@ export const useAddExchangeOutboundItems = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminAddExchangeOutboundItems) =>
-      sdk.admin.exchange.addOutboundItems(id, payload),
+      sdk.client.fetch(`/vendor/exchanges/${id}/outbound-items`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -303,7 +336,10 @@ export const useUpdateExchangeOutboundItems = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateExchangeOutboundItem & { actionId: string }) => {
-      return sdk.admin.exchange.updateOutboundItem(id, actionId, payload)
+      return sdk.client.fetch(`/vendor/exchanges/${id}/outbound-items/${actionId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -326,7 +362,9 @@ export const useRemoveExchangeOutboundItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.removeOutboundItem(id, actionId),
+      sdk.client.fetch(`/vendor/exchanges/${id}/outbound-items/${actionId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -353,7 +391,10 @@ export const useAddExchangeOutboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminExchangeAddOutboundShipping) =>
-      sdk.admin.exchange.addOutboundShipping(id, payload),
+      sdk.client.fetch(`/vendor/exchanges/${id}/outbound-shipping`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -378,7 +419,10 @@ export const useUpdateExchangeOutboundShipping = (
       actionId,
       ...payload
     }: HttpTypes.AdminExchangeUpdateOutboundShipping & { actionId: string }) =>
-      sdk.admin.exchange.updateOutboundShipping(id, actionId, payload),
+      sdk.client.fetch(`/vendor/exchanges/${id}/outbound-shipping/${actionId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -400,7 +444,9 @@ export const useDeleteExchangeOutboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.deleteOutboundShipping(id, actionId),
+      sdk.client.fetch(`/vendor/exchanges/${id}/outbound-shipping/${actionId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -422,7 +468,10 @@ export const useExchangeConfirmRequest = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminRequestExchange) =>
-      sdk.admin.exchange.request(id, payload),
+      sdk.client.fetch(`/vendor/exchanges/${id}/request`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: returnsQueryKeys.all,
@@ -452,7 +501,10 @@ export const useCancelExchangeRequest = (
   options?: UseMutationOptions<HttpTypes.AdminExchangeResponse, FetchError>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.exchange.cancelRequest(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/exchanges/${id}/request`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminExchangeResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),

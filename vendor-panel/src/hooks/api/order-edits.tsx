@@ -19,7 +19,10 @@ export const useCreateOrderEdit = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminInitiateOrderEditRequest) =>
-      sdk.admin.orderEdit.initiateRequest(payload),
+      sdk.client.fetch(`/vendor/order-edits`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -43,7 +46,10 @@ export const useRequestOrderEdit = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.orderEdit.request(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/order-edits/${id}/request`, {
+        method: "POST",
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -75,7 +81,10 @@ export const useConfirmOrderEdit = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.orderEdit.confirm(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/order-edits/${id}/confirm`, {
+        method: "POST",
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -116,7 +125,10 @@ export const useCancelOrderEdit = (
   options?: UseMutationOptions<any, FetchError, any>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.orderEdit.cancelRequest(orderId),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/order-edits/${orderId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -149,7 +161,10 @@ export const useAddOrderEditItems = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminAddOrderEditItems) =>
-      sdk.admin.orderEdit.addItems(id, payload),
+      sdk.client.fetch(`/vendor/order-edits/${id}/items`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(id),
@@ -176,7 +191,10 @@ export const useUpdateOrderEditOriginalItem = (
       itemId,
       ...payload
     }: HttpTypes.AdminUpdateOrderEditItem & { itemId: string }) => {
-      return sdk.admin.orderEdit.updateOriginalItem(id, itemId, payload)
+      return sdk.client.fetch(`/vendor/order-edits/${id}/items/item/${itemId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -204,7 +222,10 @@ export const useUpdateOrderEditAddedItem = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateOrderEditItem & { actionId: string }) => {
-      return sdk.admin.orderEdit.updateAddedItem(id, actionId, payload)
+      return sdk.client.fetch(`/vendor/order-edits/${id}/items/${actionId}`, {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -230,7 +251,9 @@ export const useRemoveOrderEditItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.orderEdit.removeAddedItem(id, actionId),
+      sdk.client.fetch(`/vendor/order-edits/${id}/items/${actionId}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminOrderEditPreviewResponse>,
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(id),

@@ -48,7 +48,11 @@ export const useInvites = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.invite.list(query),
+    queryFn: () =>
+      sdk.client.fetch("/vendor/invites", {
+        method: "GET",
+        query,
+      }) as Promise<HttpTypes.AdminInviteListResponse>,
     queryKey: invitesQueryKeys.list(query),
     ...options,
   })
@@ -64,7 +68,11 @@ export const useCreateInvite = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.invite.create(payload),
+    mutationFn: (payload) =>
+      sdk.client.fetch("/vendor/invites", {
+        method: "POST",
+        body: payload,
+      }) as Promise<HttpTypes.AdminInviteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.lists() })
       options?.onSuccess?.(data, variables, context)
@@ -78,7 +86,10 @@ export const useResendInvite = (
   options?: UseMutationOptions<HttpTypes.AdminInviteResponse, FetchError, void>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.invite.resend(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/invites/${id}/resend`, {
+        method: "POST",
+      }) as Promise<HttpTypes.AdminInviteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.detail(id) })
@@ -97,7 +108,10 @@ export const useDeleteInvite = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.invite.delete(id),
+    mutationFn: () =>
+      sdk.client.fetch(`/vendor/invites/${id}`, {
+        method: "DELETE",
+      }) as Promise<HttpTypes.AdminInviteDeleteResponse>,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.detail(id) })
@@ -119,13 +133,13 @@ export const useAcceptInvite = (
     mutationFn: (payload) => {
       const { auth_token, ...rest } = payload
 
-      return sdk.admin.invite.accept(
-        { invite_token: inviteToken, ...rest },
-        {},
-        {
+      return sdk.client.fetch(`/vendor/invites/${inviteToken}/accept`, {
+        method: "POST",
+        body: rest,
+        headers: {
           Authorization: `Bearer ${auth_token}`,
-        }
-      )
+        },
+      }) as Promise<HttpTypes.AdminAcceptInviteResponse>
     },
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
