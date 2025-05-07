@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { createSelectParams } from "../../utils/validators"
+import { createSelectParams } from "@medusajs/medusa/api/utils/validators"
 
 export type AdminGetPaymentCollectionParamsType = z.infer<
   typeof AdminGetPaymentCollectionParams

@@ -1,6 +1,6 @@
 import { z } from "zod"
-import { booleanString } from "../../utils/common-validators"
-import { createFindParams } from "../../utils/validators"
+import { booleanString } from "@medusajs/medusa/api/utils/common-validators/index"
+import { createFindParams } from "@medusajs/medusa/api/utils/validators"
 
 export type AdminFulfillmentProvidersParamsType = z.infer<
   typeof AdminFulfillmentProvidersParams

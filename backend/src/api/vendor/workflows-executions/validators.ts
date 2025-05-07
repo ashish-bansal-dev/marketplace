@@ -1,6 +1,6 @@
 import { TransactionHandlerType } from "@medusajs/framework/utils"
 import { z } from "zod"
-import { createFindParams, createSelectParams } from "../../utils/validators"
+import { createFindParams, createSelectParams } from "@medusajs/medusa/api/utils/validators"
 
 export type AdminGetWorkflowExecutionDetailsParamsType = z.infer<
   typeof AdminGetWorkflowExecutionDetailsParams

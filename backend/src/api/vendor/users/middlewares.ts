@@ -1,5 +1,4 @@
-import { MiddlewareRoute } from "@medusajs/framework/http"
-import { authenticate } from "../../../utils/middlewares/authenticate-middleware"
+import { MiddlewareRoute, authenticate } from "@medusajs/framework/http"
 import {
   validateAndTransformBody,
   validateAndTransformQuery,

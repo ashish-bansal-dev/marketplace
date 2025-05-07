@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { createFindParams, createOperatorMap } from "../../utils/validators"
+import { createFindParams, createOperatorMap } from "@medusajs/medusa/api/utils/validators"
 
 export type AdminCreatePaymentRefundReasonType = z.infer<
   typeof AdminCreatePaymentRefundReason

@@ -1,18 +1,19 @@
 import { BatchMethodRequest } from "@medusajs/framework/types"
 import { ProductStatus } from "@medusajs/framework/utils"
 import { z } from "zod"
-import {
-  applyAndAndOrOperators,
-  booleanString,
-  GetProductsParams,
-  transformProductParams,
-} from "../../utils/common-validators"
+
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
   WithAdditionalData,
-} from "../../utils/validators"
+} from '@medusajs/medusa/api/utils/validators'
+import {
+  applyAndAndOrOperators,
+  GetProductsParams,
+  transformProductParams,
+  booleanString
+} from '@medusajs/medusa/api/utils/common-validators/index'
 
 const statusEnum = z.nativeEnum(ProductStatus)
 

@@ -5,8 +5,8 @@ import {
 } from "@medusajs/framework"
 import { maybeApplyLinkFilter, MiddlewareRoute } from "@medusajs/framework/http"
 import multer from "multer"
-import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "../../../utils/middlewares"
-import { createBatchBody } from "../../utils/validators"
+import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "@medusajs/medusa"
+import { createBatchBody } from "@medusajs/medusa/api/utils/validators"
 import * as QueryConfig from "./query-config"
 import { maybeApplyPriceListsFilter } from "./utils"
 import {

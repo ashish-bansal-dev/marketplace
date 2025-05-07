@@ -7,13 +7,13 @@ import {
   PromotionType,
 } from "@medusajs/framework/utils"
 import { z } from "zod"
-import { applyAndAndOrOperators } from "../../utils/common-validators"
+import { applyAndAndOrOperators } from "@medusajs/medusa/api/utils/common-validators/index"
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
   WithAdditionalData,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 import { CreateCampaign } from "../campaigns/validators"
 
 export type AdminGetPromotionParamsType = z.infer<

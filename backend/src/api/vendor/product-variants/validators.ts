@@ -2,8 +2,8 @@ import { z } from "zod"
 import {
   applyAndAndOrOperators,
   booleanString,
-} from "../../utils/common-validators"
-import { createFindParams, createOperatorMap } from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/common-validators/index"
+import { createFindParams, createOperatorMap } from "@medusajs/medusa/api/utils/validators"
 
 export const AdminGetProductVariantsParamsFields = z.object({
   q: z.string().optional(),

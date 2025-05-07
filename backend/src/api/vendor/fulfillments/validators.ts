@@ -1,6 +1,6 @@
 import { z } from "zod"
-import { AddressPayload } from "../../utils/common-validators"
-import { createSelectParams } from "../../utils/validators"
+import { AddressPayload } from "@medusajs/medusa/api/utils/common-validators/index"
+import { createSelectParams } from "@medusajs/medusa/api/utils/validators"
 
 export const AdminFulfillmentParams = createSelectParams()
 

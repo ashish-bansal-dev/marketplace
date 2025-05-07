@@ -8,8 +8,8 @@ import {
   AdminInviteAccept,
 } from "./validators"
 
-import { MiddlewareRoute } from "@medusajs/framework/http"
-import { authenticate } from "../../../utils/middlewares/authenticate-middleware"
+import { authenticate, MiddlewareRoute } from "@medusajs/framework/http"
+
 import {
   validateAndTransformBody,
   validateAndTransformQuery,

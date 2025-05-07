@@ -4,12 +4,12 @@ import {
   ShippingOptionPriceType as ShippingOptionPriceTypeEnum,
 } from "@medusajs/framework/utils"
 import { z } from "zod"
-import { booleanString } from "../../utils/common-validators"
+import { booleanString } from "@medusajs/medusa/api/utils/common-validators/index"
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 
 export type AdminGetShippingOptionParamsType = z.infer<
   typeof AdminGetShippingOptionParams

@@ -3,13 +3,13 @@ import {
   AddressPayload,
   applyAndAndOrOperators,
   BigNumberInput,
-} from "../../utils/common-validators"
+} from "@medusajs/medusa/api/utils/common-validators/index"
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
   WithAdditionalData,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 
 export type AdminGetDraftOrderParamsType = z.infer<
   typeof AdminGetDraftOrderParams

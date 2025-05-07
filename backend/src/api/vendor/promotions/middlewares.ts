@@ -3,8 +3,8 @@ import {
   validateAndTransformQuery,
 } from "@medusajs/framework"
 import { MiddlewareRoute } from "@medusajs/framework/http"
-import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "../../../utils/middlewares"
-import { createBatchBody } from "../../utils/validators"
+import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "@medusajs/medusa"
+import { createBatchBody } from "@medusajs/medusa/api/utils/validators"
 import * as QueryConfig from "./query-config"
 import {
   AdminCreatePromotion,

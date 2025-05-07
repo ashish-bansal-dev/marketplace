@@ -3,7 +3,7 @@ import {
   validateAndTransformBody,
   validateAndTransformQuery,
 } from "@medusajs/framework"
-import { createLinkBody } from "../../utils/validators"
+import { createLinkBody } from "@medusajs/medusa/api/utils/validators"
 import * as QueryConfig from "./query-config"
 import {
   AdminCreateProductCategory,

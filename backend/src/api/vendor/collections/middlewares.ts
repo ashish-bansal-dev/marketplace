@@ -10,7 +10,7 @@ import {
   AdminGetCollectionsParams,
   AdminUpdateCollection,
 } from "./validators"
-import { createLinkBody } from "../../utils/validators"
+import { createLinkBody } from "@medusajs/medusa/api/utils/validators"
 
 export const adminCollectionRoutesMiddlewares: MiddlewareRoute[] = [
   {

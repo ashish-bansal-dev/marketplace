@@ -1,11 +1,11 @@
 import { z } from "zod"
-import { AddressPayload } from "../../utils/common-validators"
+import { AddressPayload } from "@medusajs/medusa/api/utils/common-validators/index"
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
   WithAdditionalData,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 
 export const AdminGetOrdersOrderParams = createSelectParams().merge(
   z.object({

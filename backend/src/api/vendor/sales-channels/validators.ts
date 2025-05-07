@@ -2,12 +2,12 @@ import { z } from "zod"
 import {
   applyAndAndOrOperators,
   booleanString,
-} from "../../utils/common-validators"
+} from "@medusajs/medusa/api/utils/common-validators/index"
 import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 
 export type AdminGetSalesChannelParamsType = z.infer<
   typeof AdminGetSalesChannelParams

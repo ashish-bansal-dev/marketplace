@@ -1,6 +1,6 @@
 import { z } from "zod"
-import { createFindParams, createSelectParams } from "../../utils/validators"
-import { applyAndAndOrOperators } from "../../utils/common-validators"
+import { createFindParams, createSelectParams } from "@medusajs/medusa/api/utils/validators"
+import { applyAndAndOrOperators } from "@medusajs/medusa/api/utils/common-validators/index"
 
 export const AdminGetPricePreferenceParams = createSelectParams()
 

@@ -4,8 +4,8 @@ import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
-} from "../../utils/validators"
-import { applyAndAndOrOperators } from "../../utils/common-validators"
+} from "@medusajs/medusa/api/utils/validators"
+import { applyAndAndOrOperators } from "@medusajs/medusa/api/utils/common-validators/index"
 
 export const AdminGetApiKeyParams = createSelectParams()
 

@@ -3,7 +3,7 @@ import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 
 export const AdminGetUserParams = createSelectParams()
 

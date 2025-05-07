@@ -4,7 +4,7 @@ import {
   createFindParams,
   createOperatorMap,
   createSelectParams,
-} from "../../utils/validators"
+} from "@medusajs/medusa/api/utils/validators"
 
 export const AdminGetOrdersOrderParams = createSelectParams().merge(
   z.object({

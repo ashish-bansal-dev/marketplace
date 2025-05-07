@@ -3,7 +3,6 @@ import {
   validateAndTransformQuery,
 } from "@medusajs/framework"
 import { MiddlewareRoute } from "@medusajs/framework/http"
-import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "../../../utils/middlewares"
 import * as QueryConfig from "./query-config"
 import {
   AdminBatchInventoryItemLevels,
@@ -17,7 +16,7 @@ import {
   AdminUpdateInventoryItem,
   AdminUpdateInventoryLocationLevel,
 } from "./validators"
-
+import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "@medusajs/medusa"
 export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   {
     method: ["GET"],
