@@ -1,0 +1,12 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/ashish-bansal-dev/backend
+	branch = main
+[submodule "vendor-panel"]
+	path = vendor-panel
+	url = https://github.com/ashish-bansal-dev/vendor-panel
+	branch = main
+[submodule "storefront"]
+	path = storefront
+	url = https://github.com/ashish-bansal-dev/storefront
+	branch = main
