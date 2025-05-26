@@ -42,9 +42,14 @@ import { adminTaxProviderRoutesMiddlewares } from "./vendor/tax-providers/middle
 import { adminUploadRoutesMiddlewares } from "./vendor/uploads/middlewares"
 import { adminUserRoutesMiddlewares } from "./vendor/users/middlewares"
 import { adminWorkflowsExecutionsMiddlewares } from "./vendor/workflows-executions/middlewares"
+import { vendorCors } from "./cors"
 
 
 export default defineMiddlewares([
+    {
+        matcher: '/vendor*',
+        middlewares: [vendorCors]
+    },
     ...adminCustomerGroupRoutesMiddlewares,
     ...adminCustomerRoutesMiddlewares,
     ...adminPromotionRoutesMiddlewares,
