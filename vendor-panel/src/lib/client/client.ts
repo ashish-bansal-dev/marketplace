@@ -1,4 +1,4 @@
-import Medusa from "@medusajs/js-sdk"
+import Medusa from "@ashishbansaldev/js-sdk"
 
 export const backendUrl = __BACKEND_URL__ ?? "/"
 
@@ -11,5 +11,5 @@ export const sdk = new Medusa({
 
 // useful when you want to call the BE from the console and try things out quickly
 if (typeof window !== "undefined") {
-  ;(window as any).__sdk = sdk
+  ; (window as any).__sdk = sdk
 }
