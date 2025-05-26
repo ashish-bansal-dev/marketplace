@@ -15,7 +15,7 @@ export const useCreateFulfillment = (
   options?: UseMutationOptions<any, FetchError, any>
 ) => {
   return useMutation({
-    mutationFn: (payload: any) => sdk.admin.fulfillment.create(payload),
+    mutationFn: (payload: any) => sdk.vendor.fulfillment.create(payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: fulfillmentsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -32,7 +32,7 @@ export const useCancelFulfillment = (
   options?: UseMutationOptions<any, FetchError, any>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.fulfillment.cancel(id),
+    mutationFn: () => sdk.vendor.fulfillment.cancel(id),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: fulfillmentsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -54,7 +54,7 @@ export const useCreateFulfillmentShipment = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateFulfillmentShipment) =>
-      sdk.admin.fulfillment.createShipment(fulfillmentId, payload),
+      sdk.vendor.fulfillment.createShipment(fulfillmentId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.all,

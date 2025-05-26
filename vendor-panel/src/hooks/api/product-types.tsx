@@ -28,7 +28,7 @@ export const useProductType = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.productType.retrieve(id, query),
+    queryFn: () => sdk.vendor.productType.retrieve(id, query),
     queryKey: productTypesQueryKeys.detail(id),
     ...options,
   })
@@ -49,7 +49,7 @@ export const useProductTypes = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.productType.list(query),
+    queryFn: () => sdk.vendor.productType.list(query),
     queryKey: productTypesQueryKeys.list(query),
     ...options,
   })
@@ -65,7 +65,7 @@ export const useCreateProductType = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productType.create(payload),
+    mutationFn: (payload) => sdk.vendor.productType.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: productTypesQueryKeys.lists() })
 
@@ -84,7 +84,7 @@ export const useUpdateProductType = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productType.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.productType.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTypesQueryKeys.detail(id),
@@ -106,7 +106,7 @@ export const useDeleteProductType = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.productType.delete(id),
+    mutationFn: () => sdk.vendor.productType.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTypesQueryKeys.detail(id),

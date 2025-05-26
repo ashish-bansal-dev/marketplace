@@ -29,7 +29,7 @@ export const useApiKey = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.apiKey.retrieve(id),
+    queryFn: () => sdk.vendor.apiKey.retrieve(id),
     queryKey: apiKeysQueryKeys.detail(id),
     ...options,
   })
@@ -50,7 +50,7 @@ export const useApiKeys = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.apiKey.list(query),
+    queryFn: () => sdk.vendor.apiKey.list(query),
     queryKey: apiKeysQueryKeys.list(query),
     ...options,
   })
@@ -66,7 +66,7 @@ export const useCreateApiKey = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.apiKey.create(payload),
+    mutationFn: (payload) => sdk.vendor.apiKey.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.lists() })
 
@@ -85,7 +85,7 @@ export const useUpdateApiKey = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.apiKey.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.apiKey.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.detail(id) })
@@ -101,7 +101,7 @@ export const useRevokeApiKey = (
   options?: UseMutationOptions<HttpTypes.AdminApiKeyResponse, FetchError, void>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.apiKey.revoke(id),
+    mutationFn: () => sdk.vendor.apiKey.revoke(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.detail(id) })
@@ -120,7 +120,7 @@ export const useDeleteApiKey = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.apiKey.delete(id),
+    mutationFn: () => sdk.vendor.apiKey.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.detail(id) })
@@ -140,7 +140,7 @@ export const useBatchRemoveSalesChannelsFromApiKey = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.apiKey.batchSalesChannels(id, { remove: payload }),
+      sdk.vendor.apiKey.batchSalesChannels(id, { remove: payload }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.detail(id) })
@@ -164,7 +164,7 @@ export const useBatchAddSalesChannelsToApiKey = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.apiKey.batchSalesChannels(id, { add: payload }),
+      sdk.vendor.apiKey.batchSalesChannels(id, { add: payload }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: apiKeysQueryKeys.detail(id) })

@@ -30,7 +30,7 @@ export const useCampaign = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: campaignsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.campaign.retrieve(id, query),
+    queryFn: async () => sdk.vendor.campaign.retrieve(id, query),
     ...options,
   })
 
@@ -50,7 +50,7 @@ export const useCampaigns = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.campaign.list(query),
+    queryFn: () => sdk.vendor.campaign.list(query),
     queryKey: campaignsQueryKeys.list(query),
     ...options,
   })
@@ -66,7 +66,7 @@ export const useCreateCampaign = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.campaign.create(payload),
+    mutationFn: (payload) => sdk.vendor.campaign.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.lists() })
       options?.onSuccess?.(data, variables, context)
@@ -84,7 +84,7 @@ export const useUpdateCampaign = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.campaign.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.campaign.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.details() })
@@ -106,7 +106,7 @@ export const useDeleteCampaign = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.campaign.delete(id),
+    mutationFn: () => sdk.vendor.campaign.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.details() })
@@ -126,7 +126,7 @@ export const useAddOrRemoveCampaignPromotions = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.campaign.batchPromotions(id, payload),
+    mutationFn: (payload) => sdk.vendor.campaign.batchPromotions(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: campaignsQueryKeys.details() })
       queryClient.invalidateQueries({ queryKey: promotionsQueryKeys.lists() })

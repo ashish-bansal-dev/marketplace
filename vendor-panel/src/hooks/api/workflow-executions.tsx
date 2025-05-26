@@ -22,7 +22,7 @@ export const useWorkflowExecutions = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.workflowExecution.list(query),
+    queryFn: () => sdk.vendor.workflowExecution.list(query),
     queryKey: workflowExecutionsQueryKeys.list(query),
     ...options,
   })
@@ -43,7 +43,7 @@ export const useWorkflowExecution = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.workflowExecution.retrieve(id),
+    queryFn: () => sdk.vendor.workflowExecution.retrieve(id),
     queryKey: workflowExecutionsQueryKeys.detail(id),
     ...options,
   })

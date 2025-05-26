@@ -30,7 +30,7 @@ export const useDeleteFulfillmentSet = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.fulfillmentSet.delete(id),
+    mutationFn: () => sdk.vendor.fulfillmentSet.delete(id),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: fulfillmentSetsQueryKeys.detail(id),
@@ -69,7 +69,7 @@ export const useFulfillmentSetServiceZone = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: () =>
-      sdk.admin.fulfillmentSet.retrieveServiceZone(
+      sdk.vendor.fulfillmentSet.retrieveServiceZone(
         fulfillmentSetId,
         serviceZoneId,
         query
@@ -95,7 +95,7 @@ export const useCreateFulfillmentSetServiceZone = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.fulfillmentSet.createServiceZone(fulfillmentSetId, payload),
+      sdk.vendor.fulfillmentSet.createServiceZone(fulfillmentSetId, payload),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: fulfillmentSetsQueryKeys.lists(),
@@ -125,7 +125,7 @@ export const useUpdateFulfillmentSetServiceZone = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.fulfillmentSet.updateServiceZone(
+      sdk.vendor.fulfillmentSet.updateServiceZone(
         fulfillmentSetId,
         serviceZoneId,
         payload
@@ -158,7 +158,7 @@ export const useDeleteFulfillmentServiceZone = (
 ) => {
   return useMutation({
     mutationFn: () =>
-      sdk.admin.fulfillmentSet.deleteServiceZone(
+      sdk.vendor.fulfillmentSet.deleteServiceZone(
         fulfillmentSetId,
         serviceZoneId
       ),

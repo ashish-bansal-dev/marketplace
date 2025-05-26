@@ -29,7 +29,7 @@ export const useShippingOption = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.shippingOption.retrieve(id, query),
+    queryFn: () => sdk.vendor.shippingOption.retrieve(id, query),
     queryKey: shippingOptionsQueryKeys.detail(id),
     ...options,
   })
@@ -50,7 +50,7 @@ export const useShippingOptions = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.shippingOption.list(query),
+    queryFn: () => sdk.vendor.shippingOption.list(query),
     queryKey: shippingOptionsQueryKeys.list(query),
     ...options,
   })
@@ -66,7 +66,7 @@ export const useCreateShippingOptions = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.shippingOption.create(payload),
+    mutationFn: (payload) => sdk.vendor.shippingOption.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.all,
@@ -89,7 +89,7 @@ export const useUpdateShippingOptions = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.shippingOption.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.shippingOption.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.all,
@@ -112,7 +112,7 @@ export const useDeleteShippingOption = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.shippingOption.delete(optionId),
+    mutationFn: () => sdk.vendor.shippingOption.delete(optionId),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.all,

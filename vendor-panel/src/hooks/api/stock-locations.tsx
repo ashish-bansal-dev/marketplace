@@ -32,7 +32,7 @@ export const useStockLocation = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.stockLocation.retrieve(id, query),
+    queryFn: () => sdk.vendor.stockLocation.retrieve(id, query),
     queryKey: stockLocationsQueryKeys.detail(id, query),
     ...options,
   })
@@ -53,7 +53,7 @@ export const useStockLocations = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.stockLocation.list(query),
+    queryFn: () => sdk.vendor.stockLocation.list(query),
     queryKey: stockLocationsQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +69,7 @@ export const useCreateStockLocation = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.stockLocation.create(payload),
+    mutationFn: (payload) => sdk.vendor.stockLocation.create(payload),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.lists(),
@@ -90,7 +90,7 @@ export const useUpdateStockLocation = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.stockLocation.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.stockLocation.update(id, payload),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.details(),
@@ -115,7 +115,7 @@ export const useUpdateStockLocationSalesChannels = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.stockLocation.updateSalesChannels(id, payload),
+      sdk.vendor.stockLocation.updateSalesChannels(id, payload),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.details(),
@@ -139,7 +139,7 @@ export const useDeleteStockLocation = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.stockLocation.delete(id),
+    mutationFn: () => sdk.vendor.stockLocation.delete(id),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.lists(),
@@ -164,7 +164,7 @@ export const useCreateStockLocationFulfillmentSet = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.stockLocation.createFulfillmentSet(locationId, payload),
+      sdk.vendor.stockLocation.createFulfillmentSet(locationId, payload),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.all,
@@ -186,7 +186,7 @@ export const useUpdateStockLocationFulfillmentProviders = (
 ) => {
   return useMutation({
     mutationFn: async (payload) =>
-      await sdk.admin.stockLocation.updateFulfillmentProviders(id, payload),
+      await sdk.vendor.stockLocation.updateFulfillmentProviders(id, payload),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: stockLocationsQueryKeys.details(),

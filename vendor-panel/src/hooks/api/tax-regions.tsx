@@ -29,7 +29,7 @@ export const useTaxRegion = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: taxRegionsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.taxRegion.retrieve(id, query),
+    queryFn: async () => sdk.vendor.taxRegion.retrieve(id, query),
     ...options,
   })
 
@@ -49,7 +49,7 @@ export const useTaxRegions = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.taxRegion.list(query),
+    queryFn: () => sdk.vendor.taxRegion.list(query),
     queryKey: taxRegionsQueryKeys.list(query),
     ...options,
   })
@@ -65,7 +65,7 @@ export const useCreateTaxRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.taxRegion.create(payload),
+    mutationFn: (payload) => sdk.vendor.taxRegion.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: taxRegionsQueryKeys.all })
       options?.onSuccess?.(data, variables, context)
@@ -85,7 +85,7 @@ export const useUpdateTaxRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.taxRegion.update(id, payload, query),
+    mutationFn: (payload) => sdk.vendor.taxRegion.update(id, payload, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: taxRegionsQueryKeys.detail(id),
@@ -107,7 +107,7 @@ export const useDeleteTaxRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.taxRegion.delete(id),
+    mutationFn: () => sdk.vendor.taxRegion.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: taxRegionsQueryKeys.lists() })
       queryClient.invalidateQueries({

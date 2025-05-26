@@ -31,7 +31,7 @@ export const useClaim = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.claim.retrieve(id, query),
+    queryFn: async () => sdk.vendor.claim.retrieve(id, query),
     queryKey: claimsQueryKeys.detail(id, query),
     ...options,
   })
@@ -52,7 +52,7 @@ export const useClaims = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.claim.list(query),
+    queryFn: async () => sdk.vendor.claim.list(query),
     queryKey: claimsQueryKeys.list(query),
     ...options,
   })
@@ -70,7 +70,7 @@ export const useCreateClaim = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateClaim) =>
-      sdk.admin.claim.create(payload),
+      sdk.vendor.claim.create(payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -96,7 +96,7 @@ export const useCancelClaim = (
   options?: UseMutationOptions<HttpTypes.AdminClaimResponse, FetchError>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.claim.cancel(id),
+    mutationFn: () => sdk.vendor.claim.cancel(id),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -130,7 +130,7 @@ export const useAddClaimItems = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminAddClaimItems) =>
-      sdk.admin.claim.addItems(id, payload),
+      sdk.vendor.claim.addItems(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -160,7 +160,7 @@ export const useUpdateClaimItems = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateClaimItem & { actionId: string }) => {
-      return sdk.admin.claim.updateItem(id, actionId, payload)
+      return sdk.vendor.claim.updateItem(id, actionId, payload)
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -188,7 +188,7 @@ export const useRemoveClaimItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.return.removeReturnItem(id, actionId),
+      sdk.vendor.return.removeReturnItem(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -214,7 +214,7 @@ export const useAddClaimInboundItems = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.claim.addInboundItems(id, payload),
+    mutationFn: (payload) => sdk.vendor.claim.addInboundItems(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -244,7 +244,7 @@ export const useUpdateClaimInboundItem = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateClaimInboundItem & { actionId: string }) => {
-      return sdk.admin.claim.updateInboundItem(id, actionId, payload)
+      return sdk.vendor.claim.updateInboundItem(id, actionId, payload)
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -268,7 +268,7 @@ export const useRemoveClaimInboundItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.claim.removeInboundItem(id, actionId),
+      sdk.vendor.claim.removeInboundItem(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -299,7 +299,7 @@ export const useAddClaimInboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminClaimAddInboundShipping) =>
-      sdk.admin.claim.addInboundShipping(id, payload),
+      sdk.vendor.claim.addInboundShipping(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -329,7 +329,7 @@ export const useUpdateClaimInboundShipping = (
       actionId,
       ...payload
     }: HttpTypes.AdminClaimUpdateInboundShipping & { actionId: string }) =>
-      sdk.admin.claim.updateInboundShipping(id, actionId, payload),
+      sdk.vendor.claim.updateInboundShipping(id, actionId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -352,7 +352,7 @@ export const useDeleteClaimInboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.claim.deleteInboundShipping(id, actionId),
+      sdk.vendor.claim.deleteInboundShipping(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -379,7 +379,7 @@ export const useAddClaimOutboundItems = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminAddClaimOutboundItems) =>
-      sdk.admin.claim.addOutboundItems(id, payload),
+      sdk.vendor.claim.addOutboundItems(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -409,7 +409,7 @@ export const useUpdateClaimOutboundItems = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateClaimOutboundItem & { actionId: string }) => {
-      return sdk.admin.claim.updateOutboundItem(id, actionId, payload)
+      return sdk.vendor.claim.updateOutboundItem(id, actionId, payload)
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -433,7 +433,7 @@ export const useRemoveClaimOutboundItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.claim.removeOutboundItem(id, actionId),
+      sdk.vendor.claim.removeOutboundItem(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -460,7 +460,7 @@ export const useAddClaimOutboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminClaimAddOutboundShipping) =>
-      sdk.admin.claim.addOutboundShipping(id, payload),
+      sdk.vendor.claim.addOutboundShipping(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -490,7 +490,7 @@ export const useUpdateClaimOutboundShipping = (
       actionId,
       ...payload
     }: HttpTypes.AdminClaimUpdateOutboundShipping & { actionId: string }) =>
-      sdk.admin.claim.updateOutboundShipping(id, actionId, payload),
+      sdk.vendor.claim.updateOutboundShipping(id, actionId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -513,7 +513,7 @@ export const useDeleteClaimOutboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.claim.deleteOutboundShipping(id, actionId),
+      sdk.vendor.claim.deleteOutboundShipping(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -540,7 +540,7 @@ export const useClaimConfirmRequest = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminRequestClaim) =>
-      sdk.admin.claim.request(id, payload),
+      sdk.vendor.claim.request(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: returnsQueryKeys.all,
@@ -570,7 +570,7 @@ export const useCancelClaimRequest = (
   options?: UseMutationOptions<HttpTypes.AdminClaimResponse, FetchError>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.claim.cancelRequest(id),
+    mutationFn: () => sdk.vendor.claim.cancelRequest(id),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),

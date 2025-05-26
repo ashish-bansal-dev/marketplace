@@ -27,7 +27,7 @@ export const useMe = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.user.me(query),
+    queryFn: () => sdk.vendor.user.me(query),
     queryKey: usersQueryKeys.me(),
     ...options,
   })
@@ -52,7 +52,7 @@ export const useUser = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.user.retrieve(id, query),
+    queryFn: () => sdk.vendor.user.retrieve(id, query),
     queryKey: usersQueryKeys.detail(id),
     ...options,
   })
@@ -73,7 +73,7 @@ export const useUsers = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.user.list(query),
+    queryFn: () => sdk.vendor.user.list(query),
     queryKey: usersQueryKeys.list(query),
     ...options,
   })
@@ -91,7 +91,7 @@ export const useCreateUser = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.user.create(payload, query),
+    mutationFn: (payload) => sdk.vendor.user.create(payload, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.lists() })
 
@@ -112,7 +112,7 @@ export const useUpdateUser = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.user.update(id, payload, query),
+    mutationFn: (payload) => sdk.vendor.user.update(id, payload, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.detail(id) })
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.lists() })
@@ -135,7 +135,7 @@ export const useDeleteUser = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.user.delete(id),
+    mutationFn: () => sdk.vendor.user.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.detail(id) })
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.lists() })

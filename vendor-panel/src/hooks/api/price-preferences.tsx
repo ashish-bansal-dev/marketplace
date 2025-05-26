@@ -30,7 +30,7 @@ export const usePricePreference = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.pricePreference.retrieve(id, query),
+    queryFn: () => sdk.vendor.pricePreference.retrieve(id, query),
     queryKey: pricePreferencesQueryKeys.detail(),
     ...options,
   })
@@ -51,7 +51,7 @@ export const usePricePreferences = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.pricePreference.list(query),
+    queryFn: () => sdk.vendor.pricePreference.list(query),
     queryKey: pricePreferencesQueryKeys.list(query),
     ...options,
   })
@@ -71,9 +71,9 @@ export const useUpsertPricePreference = (
   return useMutation({
     mutationFn: (payload) => {
       if (id) {
-        return sdk.admin.pricePreference.update(id, payload, query)
+        return sdk.vendor.pricePreference.update(id, payload, query)
       }
-      return sdk.admin.pricePreference.create(payload, query)
+      return sdk.vendor.pricePreference.create(payload, query)
     },
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
@@ -100,7 +100,7 @@ export const useDeletePricePreference = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.pricePreference.delete(id),
+    mutationFn: () => sdk.vendor.pricePreference.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: pricePreferencesQueryKeys.list(),

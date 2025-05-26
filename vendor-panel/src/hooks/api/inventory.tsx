@@ -36,7 +36,7 @@ export const useInventoryItems = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.inventoryItem.list(query),
+    queryFn: () => sdk.vendor.inventoryItem.list(query),
     queryKey: inventoryItemsQueryKeys.list(query),
     ...options,
   })
@@ -58,7 +58,7 @@ export const useInventoryItem = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.inventoryItem.retrieve(id, query),
+    queryFn: () => sdk.vendor.inventoryItem.retrieve(id, query),
     queryKey: inventoryItemsQueryKeys.detail(id),
     ...options,
   })
@@ -75,7 +75,7 @@ export const useCreateInventoryItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateInventoryItem) =>
-      sdk.admin.inventoryItem.create(payload),
+      sdk.vendor.inventoryItem.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -96,7 +96,7 @@ export const useUpdateInventoryItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateInventoryItem) =>
-      sdk.admin.inventoryItem.update(id, payload),
+      sdk.vendor.inventoryItem.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -119,7 +119,7 @@ export const useDeleteInventoryItem = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.inventoryItem.delete(id),
+    mutationFn: () => sdk.vendor.inventoryItem.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -144,7 +144,7 @@ export const useDeleteInventoryItemLevel = (
 ) => {
   return useMutation({
     mutationFn: () =>
-      sdk.admin.inventoryItem.deleteLevel(inventoryItemId, locationId),
+      sdk.vendor.inventoryItem.deleteLevel(inventoryItemId, locationId),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -175,7 +175,7 @@ export const useInventoryItemLevels = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.inventoryItem.listLevels(inventoryItemId, query),
+    queryFn: () => sdk.vendor.inventoryItem.listLevels(inventoryItemId, query),
     queryKey: inventoryItemLevelsQueryKeys.detail(inventoryItemId),
     ...options,
   })
@@ -194,7 +194,7 @@ export const useUpdateInventoryLevel = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateInventoryLevel) =>
-      sdk.admin.inventoryItem.updateLevel(inventoryItemId, locationId, payload),
+      sdk.vendor.inventoryItem.updateLevel(inventoryItemId, locationId, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.lists(),
@@ -224,7 +224,7 @@ export const useBatchInventoryItemLocationLevels = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.inventoryItem.batchInventoryItemLocationLevels(
+      sdk.vendor.inventoryItem.batchInventoryItemLocationLevels(
         inventoryItemId,
         payload
       ),
@@ -253,7 +253,7 @@ export const useBatchInventoryItemsLocationLevels = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.inventoryItem.batchInventoryItemsLocationLevels(payload),
+      sdk.vendor.inventoryItem.batchInventoryItemsLocationLevels(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: inventoryItemsQueryKeys.all,

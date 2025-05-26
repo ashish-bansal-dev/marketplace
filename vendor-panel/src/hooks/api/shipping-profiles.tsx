@@ -25,7 +25,7 @@ export const useCreateShippingProfile = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.shippingProfile.create(payload),
+    mutationFn: (payload) => sdk.vendor.shippingProfile.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: shippingProfileQueryKeys.lists(),
@@ -51,7 +51,7 @@ export const useShippingProfile = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.shippingProfile.retrieve(id, query),
+    queryFn: () => sdk.vendor.shippingProfile.retrieve(id, query),
     queryKey: shippingProfileQueryKeys.detail(id, query),
     ...options,
   })
@@ -72,7 +72,7 @@ export const useShippingProfiles = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.shippingProfile.list(query),
+    queryFn: () => sdk.vendor.shippingProfile.list(query),
     queryKey: shippingProfileQueryKeys.list(query),
     ...options,
   })
@@ -89,7 +89,7 @@ export const useUpdateShippingProfile = (
   >
 ) => {
   const { data, ...rest } = useMutation({
-    mutationFn: (payload) => sdk.admin.shippingProfile.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.shippingProfile.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: shippingProfileQueryKeys.detail(id),
@@ -115,7 +115,7 @@ export const useDeleteShippingProfile = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.shippingProfile.delete(id),
+    mutationFn: () => sdk.vendor.shippingProfile.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: shippingProfileQueryKeys.detail(id),

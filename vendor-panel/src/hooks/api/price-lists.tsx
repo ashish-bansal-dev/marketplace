@@ -30,7 +30,7 @@ export const usePriceList = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.priceList.retrieve(id, query),
+    queryFn: () => sdk.vendor.priceList.retrieve(id, query),
     queryKey: priceListsQueryKeys.detail(id),
     ...options,
   })
@@ -51,7 +51,7 @@ export const usePriceLists = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.priceList.list(query),
+    queryFn: () => sdk.vendor.priceList.list(query),
     queryKey: priceListsQueryKeys.list(query),
     ...options,
   })
@@ -68,7 +68,7 @@ export const useCreatePriceList = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.priceList.create(payload, query),
+    mutationFn: (payload) => sdk.vendor.priceList.create(payload, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: priceListsQueryKeys.lists() })
 
@@ -90,7 +90,7 @@ export const useUpdatePriceList = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.priceList.update(id, payload, query),
+    mutationFn: (payload) => sdk.vendor.priceList.update(id, payload, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: priceListsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -114,7 +114,7 @@ export const useDeletePriceList = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.priceList.delete(id),
+    mutationFn: () => sdk.vendor.priceList.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: priceListsQueryKeys.lists() })
 
@@ -135,7 +135,7 @@ export const useBatchPriceListPrices = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.priceList.batchPrices(id, payload, query),
+      sdk.vendor.priceList.batchPrices(id, payload, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: priceListsQueryKeys.detail(id),
@@ -157,7 +157,7 @@ export const usePriceListLinkProducts = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.priceList.linkProducts(id, payload),
+    mutationFn: (payload) => sdk.vendor.priceList.linkProducts(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: priceListsQueryKeys.detail(id),

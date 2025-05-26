@@ -23,7 +23,7 @@ export const useNotification = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: notificationQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.notification.retrieve(id, query),
+    queryFn: async () => sdk.vendor.notification.retrieve(id, query),
     ...options,
   })
 
@@ -43,7 +43,7 @@ export const useNotifications = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.notification.list(query),
+    queryFn: () => sdk.vendor.notification.list(query),
     queryKey: notificationQueryKeys.list(query),
     ...options,
   })

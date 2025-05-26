@@ -30,7 +30,7 @@ export const useTaxRate = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: taxRatesQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.taxRate.retrieve(id, query),
+    queryFn: async () => sdk.vendor.taxRate.retrieve(id, query),
     ...options,
   })
 
@@ -50,7 +50,7 @@ export const useTaxRates = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.taxRate.list(query),
+    queryFn: () => sdk.vendor.taxRate.list(query),
     queryKey: taxRatesQueryKeys.list(query),
     ...options,
   })
@@ -67,7 +67,7 @@ export const useUpdateTaxRate = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.taxRate.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.taxRate.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: taxRatesQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -90,7 +90,7 @@ export const useCreateTaxRate = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.taxRate.create(payload),
+    mutationFn: (payload) => sdk.vendor.taxRate.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: taxRatesQueryKeys.lists() })
 
@@ -111,7 +111,7 @@ export const useDeleteTaxRate = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.taxRate.delete(id),
+    mutationFn: () => sdk.vendor.taxRate.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: taxRatesQueryKeys.lists() })
       queryClient.invalidateQueries({

@@ -35,7 +35,7 @@ export const useReservationItem = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: reservationItemsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.reservation.retrieve(id, query),
+    queryFn: async () => sdk.vendor.reservation.retrieve(id, query),
     ...options,
   })
 
@@ -55,7 +55,7 @@ export const useReservationItems = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.reservation.list(query),
+    queryFn: () => sdk.vendor.reservation.list(query),
     queryKey: reservationItemsQueryKeys.list(query),
     ...options,
   })
@@ -73,7 +73,7 @@ export const useUpdateReservationItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateReservation) =>
-      sdk.admin.reservation.update(id, payload),
+      sdk.vendor.reservation.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: reservationItemsQueryKeys.detail(id),
@@ -102,7 +102,7 @@ export const useCreateReservationItem = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateReservation) =>
-      sdk.admin.reservation.create(payload),
+      sdk.vendor.reservation.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: reservationItemsQueryKeys.lists(),
@@ -128,7 +128,7 @@ export const useDeleteReservationItem = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.reservation.delete(id),
+    mutationFn: () => sdk.vendor.reservation.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: reservationItemsQueryKeys.lists(),

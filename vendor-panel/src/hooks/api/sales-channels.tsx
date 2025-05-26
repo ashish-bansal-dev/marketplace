@@ -33,7 +33,7 @@ export const useSalesChannel = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: salesChannelsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.salesChannel.retrieve(id),
+    queryFn: async () => sdk.vendor.salesChannel.retrieve(id),
     ...options,
   })
 
@@ -53,7 +53,7 @@ export const useSalesChannels = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.salesChannel.list(query),
+    queryFn: () => sdk.vendor.salesChannel.list(query),
     queryKey: salesChannelsQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +69,7 @@ export const useCreateSalesChannel = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.salesChannel.create(payload),
+    mutationFn: (payload) => sdk.vendor.salesChannel.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -89,7 +89,7 @@ export const useUpdateSalesChannel = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.salesChannel.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.salesChannel.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -113,7 +113,7 @@ export const useDeleteSalesChannel = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.salesChannel.delete(id),
+    mutationFn: () => sdk.vendor.salesChannel.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -141,7 +141,7 @@ export const useDeleteSalesChannelLazy = (
   >
 ) => {
   return useMutation({
-    mutationFn: (id: string) => sdk.admin.salesChannel.delete(id),
+    mutationFn: (id: string) => sdk.vendor.salesChannel.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -171,7 +171,7 @@ export const useSalesChannelRemoveProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.salesChannel.batchProducts(id, { remove: payload }),
+      sdk.vendor.salesChannel.batchProducts(id, { remove: payload }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),
@@ -208,7 +208,7 @@ export const useSalesChannelAddProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.salesChannel.batchProducts(id, { add: payload }),
+      sdk.vendor.salesChannel.batchProducts(id, { add: payload }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: salesChannelsQueryKeys.lists(),

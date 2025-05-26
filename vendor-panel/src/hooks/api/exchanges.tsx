@@ -30,7 +30,7 @@ export const useExchange = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.exchange.retrieve(id, query),
+    queryFn: async () => sdk.vendor.exchange.retrieve(id, query),
     queryKey: exchangesQueryKeys.detail(id, query),
     ...options,
   })
@@ -51,7 +51,7 @@ export const useExchanges = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => sdk.admin.exchange.list(query),
+    queryFn: async () => sdk.vendor.exchange.list(query),
     queryKey: exchangesQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +69,7 @@ export const useCreateExchange = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateExchange) =>
-      sdk.admin.exchange.create(payload),
+      sdk.vendor.exchange.create(payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -95,7 +95,7 @@ export const useCancelExchange = (
   options?: UseMutationOptions<HttpTypes.AdminExchangeResponse, FetchError>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.exchange.cancel(id),
+    mutationFn: () => sdk.vendor.exchange.cancel(id),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -129,7 +129,7 @@ export const useAddExchangeInboundItems = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminAddExchangeInboundItems) =>
-      sdk.admin.exchange.addInboundItems(id, payload),
+      sdk.vendor.exchange.addInboundItems(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -154,7 +154,7 @@ export const useUpdateExchangeInboundItem = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateExchangeInboundItem & { actionId: string }) => {
-      return sdk.admin.exchange.updateInboundItem(id, actionId, payload)
+      return sdk.vendor.exchange.updateInboundItem(id, actionId, payload)
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -177,7 +177,7 @@ export const useRemoveExchangeInboundItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.removeInboundItem(id, actionId),
+      sdk.vendor.exchange.removeInboundItem(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -208,7 +208,7 @@ export const useAddExchangeInboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminExchangeAddInboundShipping) =>
-      sdk.admin.exchange.addInboundShipping(id, payload),
+      sdk.vendor.exchange.addInboundShipping(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -233,7 +233,7 @@ export const useUpdateExchangeInboundShipping = (
       actionId,
       ...payload
     }: HttpTypes.AdminExchangeUpdateInboundShipping & { actionId: string }) =>
-      sdk.admin.exchange.updateInboundShipping(id, actionId, payload),
+      sdk.vendor.exchange.updateInboundShipping(id, actionId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -255,7 +255,7 @@ export const useDeleteExchangeInboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.deleteInboundShipping(id, actionId),
+      sdk.vendor.exchange.deleteInboundShipping(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -278,7 +278,7 @@ export const useAddExchangeOutboundItems = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminAddExchangeOutboundItems) =>
-      sdk.admin.exchange.addOutboundItems(id, payload),
+      sdk.vendor.exchange.addOutboundItems(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -303,7 +303,7 @@ export const useUpdateExchangeOutboundItems = (
       actionId,
       ...payload
     }: HttpTypes.AdminUpdateExchangeOutboundItem & { actionId: string }) => {
-      return sdk.admin.exchange.updateOutboundItem(id, actionId, payload)
+      return sdk.vendor.exchange.updateOutboundItem(id, actionId, payload)
     },
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
@@ -326,7 +326,7 @@ export const useRemoveExchangeOutboundItem = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.removeOutboundItem(id, actionId),
+      sdk.vendor.exchange.removeOutboundItem(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),
@@ -353,7 +353,7 @@ export const useAddExchangeOutboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminExchangeAddOutboundShipping) =>
-      sdk.admin.exchange.addOutboundShipping(id, payload),
+      sdk.vendor.exchange.addOutboundShipping(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -378,7 +378,7 @@ export const useUpdateExchangeOutboundShipping = (
       actionId,
       ...payload
     }: HttpTypes.AdminExchangeUpdateOutboundShipping & { actionId: string }) =>
-      sdk.admin.exchange.updateOutboundShipping(id, actionId, payload),
+      sdk.vendor.exchange.updateOutboundShipping(id, actionId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -400,7 +400,7 @@ export const useDeleteExchangeOutboundShipping = (
 ) => {
   return useMutation({
     mutationFn: (actionId: string) =>
-      sdk.admin.exchange.deleteOutboundShipping(id, actionId),
+      sdk.vendor.exchange.deleteOutboundShipping(id, actionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.preview(orderId),
@@ -422,7 +422,7 @@ export const useExchangeConfirmRequest = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminRequestExchange) =>
-      sdk.admin.exchange.request(id, payload),
+      sdk.vendor.exchange.request(id, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: returnsQueryKeys.all,
@@ -452,7 +452,7 @@ export const useCancelExchangeRequest = (
   options?: UseMutationOptions<HttpTypes.AdminExchangeResponse, FetchError>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.exchange.cancelRequest(id),
+    mutationFn: () => sdk.vendor.exchange.cancelRequest(id),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.details(),

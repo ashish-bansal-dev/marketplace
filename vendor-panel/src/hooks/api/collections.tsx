@@ -29,7 +29,7 @@ export const useCollection = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: collectionsQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.productCollection.retrieve(id),
+    queryFn: async () => sdk.vendor.productCollection.retrieve(id),
     ...options,
   })
 
@@ -50,7 +50,7 @@ export const useCollections = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: collectionsQueryKeys.list(query),
-    queryFn: async () => sdk.admin.productCollection.list(query),
+    queryFn: async () => sdk.vendor.productCollection.list(query),
     ...options,
   })
 
@@ -66,7 +66,7 @@ export const useUpdateCollection = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCollection.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.productCollection.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -89,7 +89,7 @@ export const useUpdateCollectionProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.productCollection.updateProducts(id, payload),
+      sdk.vendor.productCollection.updateProducts(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -116,7 +116,7 @@ export const useCreateCollection = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCollection.create(payload),
+    mutationFn: (payload) => sdk.vendor.productCollection.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
 
@@ -135,7 +135,7 @@ export const useDeleteCollection = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.productCollection.delete(id),
+    mutationFn: () => sdk.vendor.productCollection.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: collectionsQueryKeys.lists() })
       queryClient.invalidateQueries({

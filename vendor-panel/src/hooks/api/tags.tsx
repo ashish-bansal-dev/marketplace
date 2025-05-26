@@ -29,7 +29,7 @@ export const useProductTag = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: productTagsQueryKeys.detail(id, query),
-    queryFn: async () => sdk.admin.productTag.retrieve(id),
+    queryFn: async () => sdk.vendor.productTag.retrieve(id),
     ...options,
   })
 
@@ -50,7 +50,7 @@ export const useProductTags = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: productTagsQueryKeys.list(query),
-    queryFn: async () => sdk.admin.productTag.list(query),
+    queryFn: async () => sdk.vendor.productTag.list(query),
     ...options,
   })
 
@@ -66,7 +66,7 @@ export const useCreateProductTag = (
   >
 ) => {
   return useMutation({
-    mutationFn: async (data) => sdk.admin.productTag.create(data, query),
+    mutationFn: async (data) => sdk.vendor.productTag.create(data, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTagsQueryKeys.lists(),
@@ -88,7 +88,7 @@ export const useUpdateProductTag = (
   >
 ) => {
   return useMutation({
-    mutationFn: async (data) => sdk.admin.productTag.update(id, data, query),
+    mutationFn: async (data) => sdk.vendor.productTag.update(id, data, query),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTagsQueryKeys.lists(),
@@ -112,7 +112,7 @@ export const useDeleteProductTag = (
   >
 ) => {
   return useMutation({
-    mutationFn: async () => sdk.admin.productTag.delete(id),
+    mutationFn: async () => sdk.vendor.productTag.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: productTagsQueryKeys.lists(),

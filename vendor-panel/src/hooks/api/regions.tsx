@@ -30,7 +30,7 @@ export const useRegion = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: regionsQueryKeys.detail(id, query),
-    queryFn: async () => sdk.admin.region.retrieve(id, query),
+    queryFn: async () => sdk.vendor.region.retrieve(id, query),
     ...options,
   })
 
@@ -50,7 +50,7 @@ export const useRegions = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.region.list(query),
+    queryFn: () => sdk.vendor.region.list(query),
     queryKey: regionsQueryKeys.list(query),
     ...options,
   })
@@ -66,7 +66,7 @@ export const useCreateRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.region.create(payload),
+    mutationFn: (payload) => sdk.vendor.region.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.lists() })
 
@@ -92,7 +92,7 @@ export const useUpdateRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.region.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.region.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.details() })
@@ -119,7 +119,7 @@ export const useDeleteRegion = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.region.delete(id),
+    mutationFn: () => sdk.vendor.region.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: regionsQueryKeys.detail(id) })

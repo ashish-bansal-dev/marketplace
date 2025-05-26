@@ -28,7 +28,7 @@ export const useInvite = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: invitesQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.invite.retrieve(id),
+    queryFn: async () => sdk.vendor.invite.retrieve(id),
     ...options,
   })
 
@@ -48,7 +48,7 @@ export const useInvites = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.invite.list(query),
+    queryFn: () => sdk.vendor.invite.list(query),
     queryKey: invitesQueryKeys.list(query),
     ...options,
   })
@@ -64,7 +64,7 @@ export const useCreateInvite = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.invite.create(payload),
+    mutationFn: (payload) => sdk.vendor.invite.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.lists() })
       options?.onSuccess?.(data, variables, context)
@@ -78,7 +78,7 @@ export const useResendInvite = (
   options?: UseMutationOptions<HttpTypes.AdminInviteResponse, FetchError, void>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.invite.resend(id),
+    mutationFn: () => sdk.vendor.invite.resend(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.detail(id) })
@@ -97,7 +97,7 @@ export const useDeleteInvite = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.invite.delete(id),
+    mutationFn: () => sdk.vendor.invite.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: invitesQueryKeys.detail(id) })
@@ -119,7 +119,7 @@ export const useAcceptInvite = (
     mutationFn: (payload) => {
       const { auth_token, ...rest } = payload
 
-      return sdk.admin.invite.accept(
+      return sdk.vendor.invite.accept(
         { invite_token: inviteToken, ...rest },
         {},
         {

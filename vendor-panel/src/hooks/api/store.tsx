@@ -22,7 +22,7 @@ export const storeQueryKeys = queryKeysFactory(STORE_QUERY_KEY)
 export async function retrieveActiveStore(
   query?: HttpTypes.AdminStoreParams
 ): Promise<HttpTypes.AdminStoreResponse> {
-  const response = await sdk.admin.store.list(query)
+  const response = await sdk.vendor.store.list(query)
 
   const activeStore = response.stores?.[0]
 
@@ -66,7 +66,7 @@ export const useUpdateStore = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.store.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.store.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: pricePreferencesQueryKeys.list(),

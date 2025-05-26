@@ -33,7 +33,7 @@ export const useCustomer = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: customersQueryKeys.detail(id),
-    queryFn: async () => sdk.admin.customer.retrieve(id, query),
+    queryFn: async () => sdk.vendor.customer.retrieve(id, query),
     ...options,
   })
 
@@ -53,7 +53,7 @@ export const useCustomers = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.customer.list(query),
+    queryFn: () => sdk.vendor.customer.list(query),
     queryKey: customersQueryKeys.list(query),
     ...options,
   })
@@ -69,7 +69,7 @@ export const useCreateCustomer = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.customer.create(payload),
+    mutationFn: (payload) => sdk.vendor.customer.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       options?.onSuccess?.(data, variables, context)
@@ -87,7 +87,7 @@ export const useUpdateCustomer = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.customer.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.customer.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -107,7 +107,7 @@ export const useDeleteCustomer = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.customer.delete(id),
+    mutationFn: () => sdk.vendor.customer.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -130,7 +130,7 @@ export const useBatchCustomerCustomerGroups = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.customer.batchCustomerGroups(id, payload),
+      sdk.vendor.customer.batchCustomerGroups(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: customerGroupsQueryKeys.details(),
@@ -161,7 +161,7 @@ export const useCreateCustomerAddress = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.customer.createAddress(id, payload),
+    mutationFn: (payload) => sdk.vendor.customer.createAddress(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -186,7 +186,7 @@ export const useUpdateCustomerAddress = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.customer.updateAddress(id, addressId, payload),
+      sdk.vendor.customer.updateAddress(id, addressId, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -210,7 +210,7 @@ export const useDeleteCustomerAddress = (
 ) => {
   return useMutation({
     mutationFn: (addressId: string) =>
-      sdk.admin.customer.deleteAddress(id, addressId),
+      sdk.vendor.customer.deleteAddress(id, addressId),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: customersQueryKeys.detail(id) })
@@ -235,7 +235,7 @@ export const useListCustomerAddresses = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.customer.listAddresses(id, query),
+    queryFn: () => sdk.vendor.customer.listAddresses(id, query),
     queryKey: customerAddressesQueryKeys.list(id),
     ...options,
   })
@@ -254,7 +254,7 @@ export const useCustomerAddress = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.customer.retrieveAddress(id, addressId),
+    queryFn: () => sdk.vendor.customer.retrieveAddress(id, addressId),
     queryKey: customerAddressesQueryKeys.detail(id),
     ...options,
   })

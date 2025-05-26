@@ -30,7 +30,7 @@ export const useProductCategory = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: categoriesQueryKeys.detail(id, query),
-    queryFn: () => sdk.admin.productCategory.retrieve(id, query),
+    queryFn: () => sdk.vendor.productCategory.retrieve(id, query),
     ...options,
   })
 
@@ -51,7 +51,7 @@ export const useProductCategories = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: categoriesQueryKeys.list(query),
-    queryFn: () => sdk.admin.productCategory.list(query),
+    queryFn: () => sdk.vendor.productCategory.list(query),
     ...options,
   })
 
@@ -66,7 +66,7 @@ export const useCreateProductCategory = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCategory.create(payload),
+    mutationFn: (payload) => sdk.vendor.productCategory.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: categoriesQueryKeys.lists() })
 
@@ -85,7 +85,7 @@ export const useUpdateProductCategory = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.productCategory.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.productCategory.update(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: categoriesQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -107,7 +107,7 @@ export const useDeleteProductCategory = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.productCategory.delete(id),
+    mutationFn: () => sdk.vendor.productCategory.delete(id),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
         queryKey: categoriesQueryKeys.detail(id),
@@ -130,7 +130,7 @@ export const useUpdateProductCategoryProducts = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.productCategory.updateProducts(id, payload),
+      sdk.vendor.productCategory.updateProducts(id, payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: categoriesQueryKeys.lists() })
       queryClient.invalidateQueries({

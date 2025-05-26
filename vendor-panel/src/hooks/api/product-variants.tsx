@@ -16,7 +16,7 @@ export const useVariants = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.productVariant.list(query),
+    queryFn: () => sdk.vendor.productVariant.list(query),
     queryKey: productVariantQueryKeys.list(query),
     ...options,
   })

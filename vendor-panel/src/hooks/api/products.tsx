@@ -27,7 +27,7 @@ export const useCreateProductOption = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateProductOption) =>
-      sdk.admin.product.createOption(productId, payload),
+      sdk.vendor.product.createOption(productId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: optionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -46,7 +46,7 @@ export const useUpdateProductOption = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateProductOption) =>
-      sdk.admin.product.updateOption(productId, optionId, payload),
+      sdk.vendor.product.updateOption(productId, optionId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: optionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -68,7 +68,7 @@ export const useDeleteProductOption = (
   options?: UseMutationOptions<any, FetchError, void>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.product.deleteOption(productId, optionId),
+    mutationFn: () => sdk.vendor.product.deleteOption(productId, optionId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: optionsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -100,7 +100,7 @@ export const useProductVariant = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: () =>
-      sdk.admin.product.retrieveVariant(productId, variantId, query),
+      sdk.vendor.product.retrieveVariant(productId, variantId, query),
     queryKey: variantsQueryKeys.detail(variantId, query),
     ...options,
   })
@@ -122,7 +122,7 @@ export const useProductVariants = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.product.listVariants(productId, query),
+    queryFn: () => sdk.vendor.product.listVariants(productId, query),
     queryKey: variantsQueryKeys.list({ productId, ...query }),
     ...options,
   })
@@ -136,7 +136,7 @@ export const useCreateProductVariant = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminCreateProductVariant) =>
-      sdk.admin.product.createVariant(productId, payload),
+      sdk.vendor.product.createVariant(productId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: variantsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -155,7 +155,7 @@ export const useUpdateProductVariant = (
 ) => {
   return useMutation({
     mutationFn: (payload: HttpTypes.AdminUpdateProductVariant) =>
-      sdk.admin.product.updateVariant(productId, variantId, payload),
+      sdk.vendor.product.updateVariant(productId, variantId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: variantsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -179,7 +179,7 @@ export const useUpdateProductVariantsBatch = (
     mutationFn: (
       payload: HttpTypes.AdminBatchProductVariantRequest["update"]
     ) =>
-      sdk.admin.product.batchVariants(productId, {
+      sdk.vendor.product.batchVariants(productId, {
         update: payload,
       }),
     onSuccess: (data: any, variables: any, context: any) => {
@@ -205,7 +205,7 @@ export const useProductVariantsInventoryItemsBatch = (
 ) => {
   return useMutation({
     mutationFn: (payload) =>
-      sdk.admin.product.batchVariantInventoryItems(productId, payload),
+      sdk.vendor.product.batchVariantInventoryItems(productId, payload),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: variantsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: variantsQueryKeys.details() })
@@ -225,7 +225,7 @@ export const useDeleteVariant = (
   options?: UseMutationOptions<any, FetchError, void>
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.product.deleteVariant(productId, variantId),
+    mutationFn: () => sdk.vendor.product.deleteVariant(productId, variantId),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: variantsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -251,7 +251,7 @@ export const useDeleteVariantLazy = (
 ) => {
   return useMutation({
     mutationFn: ({ variantId }) =>
-      sdk.admin.product.deleteVariant(productId, variantId),
+      sdk.vendor.product.deleteVariant(productId, variantId),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: variantsQueryKeys.lists() })
       queryClient.invalidateQueries({
@@ -281,7 +281,7 @@ export const useProduct = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.product.retrieve(id, query),
+    queryFn: () => sdk.vendor.product.retrieve(id, query),
     queryKey: productsQueryKeys.detail(id, query),
     ...options,
   })
@@ -302,7 +302,7 @@ export const useProducts = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.product.list(query),
+    queryFn: () => sdk.vendor.product.list(query),
     queryKey: productsQueryKeys.list(query),
     ...options,
   })
@@ -318,7 +318,7 @@ export const useCreateProduct = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.product.create(payload),
+    mutationFn: (payload) => sdk.vendor.product.create(payload),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: productsQueryKeys.lists() })
       // if `manage_inventory` is true on created variants that will create inventory items automatically
@@ -340,7 +340,7 @@ export const useUpdateProduct = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.product.update(id, payload),
+    mutationFn: (payload) => sdk.vendor.product.update(id, payload),
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: productsQueryKeys.lists(),
@@ -364,7 +364,7 @@ export const useDeleteProduct = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.product.delete(id),
+    mutationFn: () => sdk.vendor.product.delete(id),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({ queryKey: productsQueryKeys.lists() })
       queryClient.invalidateQueries({ queryKey: productsQueryKeys.detail(id) })
@@ -384,7 +384,7 @@ export const useExportProducts = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.product.export(payload, query),
+    mutationFn: (payload) => sdk.vendor.product.export(payload, query),
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
     },
@@ -400,7 +400,7 @@ export const useImportProducts = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.product.import(payload),
+    mutationFn: (payload) => sdk.vendor.product.import(payload),
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
     },
@@ -412,7 +412,7 @@ export const useConfirmImportProducts = (
   options?: UseMutationOptions<{}, FetchError, string>
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.product.confirmImport(payload),
+    mutationFn: (payload) => sdk.vendor.product.confirmImport(payload),
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
     },
