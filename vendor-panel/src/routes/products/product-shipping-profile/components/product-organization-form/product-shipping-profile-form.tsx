@@ -1,56 +1,56 @@
-import { HttpTypes } from "@medusajs/types"
-import { Button, toast } from "@medusajs/ui"
-import { useTranslation } from "react-i18next"
-import * as zod from "zod"
+import { HttpTypes } from "@medusajs/types";
+import { Button, toast } from "@medusajs/ui";
+import { useTranslation } from "react-i18next";
+import * as zod from "zod";
 
-import { Form } from "../../../../../components/common/form"
-import { Combobox } from "../../../../../components/inputs/combobox"
-import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useUpdateProduct } from "../../../../../hooks/api/products"
-import { useComboboxData } from "../../../../../hooks/use-combobox-data"
-import { sdk } from "../../../../../lib/client"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { se } from "date-fns/locale"
-import { useEffect } from "react"
+import { Form } from "../../../../../components/common/form";
+import { Combobox } from "../../../../../components/inputs/combobox";
+import { RouteDrawer, useRouteModal } from "../../../../../components/modals";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
+import { useUpdateProduct } from "../../../../../hooks/api/products";
+import { useComboboxData } from "../../../../../hooks/use-combobox-data";
+import { sdk } from "../../../../../lib/client";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { se } from "date-fns/locale";
+import { useEffect } from "react";
 
 type ProductShippingProfileFormProps = {
   product: HttpTypes.AdminProduct & {
-    shipping_profile?: HttpTypes.AdminShippingProfile
-  }
-}
+    shipping_profile?: HttpTypes.AdminShippingProfile;
+  };
+};
 
 const ProductShippingProfileSchema = zod.object({
   shipping_profile_id: zod.string(),
-})
+});
 
 export const ProductShippingProfileForm = ({
   product,
 }: ProductShippingProfileFormProps) => {
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
 
   const shippingProfiles = useComboboxData({
     queryKey: ["shipping_profiles"],
-    queryFn: (params) => sdk.admin.shippingProfile.list(params),
+    queryFn: (params) => sdk.vendor.shippingProfile.list(params),
     getOptions: (data) =>
       data.shipping_profiles.map((shippingProfile) => ({
         label: shippingProfile.name,
         value: shippingProfile.id,
       })),
-  })
+  });
 
   const form = useForm({
     defaultValues: {
       shipping_profile_id: product.shipping_profile?.id ?? "",
     },
     resolver: zodResolver(ProductShippingProfileSchema),
-  })
+  });
 
-  const selectedShippingProfile = form.watch("shipping_profile_id")
+  const selectedShippingProfile = form.watch("shipping_profile_id");
 
-  const { mutateAsync, isPending } = useUpdateProduct(product.id)
+  const { mutateAsync, isPending } = useUpdateProduct(product.id);
 
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
@@ -64,21 +64,21 @@ export const ProductShippingProfileForm = ({
             t("products.shippingProfile.edit.toasts.success", {
               title: product.title,
             })
-          )
-          handleSuccess()
+          );
+          handleSuccess();
         },
         onError: (error) => {
-          toast.error(error.message)
+          toast.error(error.message);
         },
       }
-    )
-  })
+    );
+  });
 
   useEffect(() => {
     if (typeof selectedShippingProfile === "undefined") {
-      form.setValue("shipping_profile_id", "")
+      form.setValue("shipping_profile_id", "");
     }
-  }, [selectedShippingProfile])
+  }, [selectedShippingProfile]);
 
   return (
     <RouteDrawer.Form form={form}>
@@ -108,7 +108,7 @@ export const ProductShippingProfileForm = ({
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
-                )
+                );
               }}
             />
 
@@ -129,5 +129,5 @@ export const ProductShippingProfileForm = ({
         </RouteDrawer.Footer>
       </KeyboundForm>
     </RouteDrawer.Form>
-  )
-}
+  );
+};

@@ -1,11 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { PencilSquare } from "@medusajs/icons"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PencilSquare } from "@medusajs/icons";
 import {
   AdminOrder,
   AdminOrderPreview,
   AdminReturn,
   InventoryLevelDTO,
-} from "@medusajs/types"
+} from "@medusajs/types";
 import {
   Alert,
   Button,
@@ -16,21 +16,21 @@ import {
   Text,
   toast,
   usePrompt,
-} from "@medusajs/ui"
-import { useEffect, useMemo, useState } from "react"
-import { useFieldArray, useForm } from "react-hook-form"
-import { useTranslation } from "react-i18next"
+} from "@medusajs/ui";
+import { useEffect, useMemo, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import {
   RouteFocusModal,
   StackedFocusModal,
   useRouteModal,
   useStackedModal,
-} from "../../../../../components/modals"
+} from "../../../../../components/modals";
 
-import { Form } from "../../../../../components/common/form"
-import { Combobox } from "../../../../../components/inputs/combobox"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
+import { Form } from "../../../../../components/common/form";
+import { Combobox } from "../../../../../components/inputs/combobox";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
 import {
   useAddReturnItem,
   useAddReturnShipping,
@@ -41,37 +41,37 @@ import {
   useUpdateReturn,
   useUpdateReturnItem,
   useUpdateReturnShipping,
-} from "../../../../../hooks/api/returns"
-import { useShippingOptions } from "../../../../../hooks/api/shipping-options"
-import { useStockLocations } from "../../../../../hooks/api/stock-locations"
-import { sdk } from "../../../../../lib/client"
-import { currencies } from "../../../../../lib/data/currencies"
-import { getStylizedAmount } from "../../../../../lib/money-amount-helpers"
-import { ReturnShippingPlaceholder } from "../../../common/placeholders"
-import { AddReturnItemsTable } from "../add-return-items-table"
-import { ReturnItem } from "./return-item"
-import { ReturnCreateSchema, ReturnCreateSchemaType } from "./schema"
+} from "../../../../../hooks/api/returns";
+import { useShippingOptions } from "../../../../../hooks/api/shipping-options";
+import { useStockLocations } from "../../../../../hooks/api/stock-locations";
+import { sdk } from "../../../../../lib/client";
+import { currencies } from "../../../../../lib/data/currencies";
+import { getStylizedAmount } from "../../../../../lib/money-amount-helpers";
+import { ReturnShippingPlaceholder } from "../../../common/placeholders";
+import { AddReturnItemsTable } from "../add-return-items-table";
+import { ReturnItem } from "./return-item";
+import { ReturnCreateSchema, ReturnCreateSchemaType } from "./schema";
 
 type ReturnCreateFormProps = {
-  order: AdminOrder
-  activeReturn: AdminReturn
-  preview: AdminOrderPreview
-}
+  order: AdminOrder;
+  activeReturn: AdminReturn;
+  preview: AdminOrderPreview;
+};
 
-let selectedItems: string[] = []
+let selectedItems: string[] = [];
 
 export const ReturnCreateForm = ({
   order,
   preview,
   activeReturn,
 }: ReturnCreateFormProps) => {
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
 
   const itemsMap = useMemo(
     () => new Map((order.items || []).map((i) => [i.id, i])),
     [order.items]
-  )
+  );
 
   /**
    * Only consider items that belong to this return.
@@ -82,67 +82,67 @@ export const ReturnCreateForm = ({
         (i) => !!i.actions?.find((a) => a.return_id === activeReturn.id)
       ),
     [preview.items]
-  )
+  );
 
   const previewItemsMap = useMemo(
     () => new Map(previewItems.map((i) => [i.id, i])),
     [previewItems]
-  )
+  );
 
   /**
    * STATE
    */
-  const { setIsOpen } = useStackedModal()
-  const [isShippingPriceEdit, setIsShippingPriceEdit] = useState(false)
-  const [customShippingAmount, setCustomShippingAmount] = useState(0)
+  const { setIsOpen } = useStackedModal();
+  const [isShippingPriceEdit, setIsShippingPriceEdit] = useState(false);
+  const [customShippingAmount, setCustomShippingAmount] = useState(0);
   const [inventoryMap, setInventoryMap] = useState<
     Record<string, InventoryLevelDTO[]>
-  >({})
+  >({});
 
   /**
    * HOOKS
    */
-  const { stock_locations = [] } = useStockLocations({ limit: 999 })
+  const { stock_locations = [] } = useStockLocations({ limit: 999 });
   const { shipping_options = [] } = useShippingOptions({
     limit: 999,
     fields: "*prices,+service_zone.fulfillment_set.location.id",
     /**
      * TODO: this should accept filter for location_id
      */
-  })
+  });
 
   /**
    * MUTATIONS
    */
   const { mutateAsync: confirmReturnRequest, isPending: isConfirming } =
-    useConfirmReturnRequest(activeReturn.id, order.id)
+    useConfirmReturnRequest(activeReturn.id, order.id);
 
   const { mutateAsync: cancelReturnRequest, isPending: isCanceling } =
-    useCancelReturnRequest(activeReturn.id, order.id)
+    useCancelReturnRequest(activeReturn.id, order.id);
   const { mutateAsync: updateReturnRequest, isPending: isUpdating } =
-    useUpdateReturn(activeReturn.id, order.id)
+    useUpdateReturn(activeReturn.id, order.id);
 
   const { mutateAsync: addReturnShipping, isPending: isAddingReturnShipping } =
-    useAddReturnShipping(activeReturn.id, order.id)
+    useAddReturnShipping(activeReturn.id, order.id);
 
   const {
     mutateAsync: updateReturnShipping,
     isPending: isUpdatingReturnShipping,
-  } = useUpdateReturnShipping(activeReturn.id, order.id)
+  } = useUpdateReturnShipping(activeReturn.id, order.id);
 
   const {
     mutateAsync: deleteReturnShipping,
     isPending: isDeletingReturnShipping,
-  } = useDeleteReturnShipping(activeReturn.id, order.id)
+  } = useDeleteReturnShipping(activeReturn.id, order.id);
 
   const { mutateAsync: addReturnItem, isPending: isAddingReturnItem } =
-    useAddReturnItem(activeReturn.id, order.id)
+    useAddReturnItem(activeReturn.id, order.id);
 
   const { mutateAsync: removeReturnItem, isPending: isRemovingReturnItem } =
-    useRemoveReturnItem(activeReturn.id, order.id)
+    useRemoveReturnItem(activeReturn.id, order.id);
 
   const { mutateAsync: updateReturnItem, isPending: isUpdatingReturnItem } =
-    useUpdateReturnItem(activeReturn.id, order.id)
+    useUpdateReturnItem(activeReturn.id, order.id);
 
   const isRequestLoading =
     isConfirming ||
@@ -153,7 +153,7 @@ export const ReturnCreateForm = ({
     isAddingReturnItem ||
     isRemovingReturnItem ||
     isUpdatingReturnItem ||
-    isUpdating
+    isUpdating;
 
   /**
    * FORM
@@ -166,7 +166,7 @@ export const ReturnCreateForm = ({
     defaultValues: () => {
       const method = preview.shipping_methods.find(
         (s) => !!s.actions?.find((a) => a.action === "SHIPPING_ADD")
-      )
+      );
 
       return Promise.resolve({
         items: previewItems.map((i) => ({
@@ -180,10 +180,10 @@ export const ReturnCreateForm = ({
         option_id: method ? method.shipping_option_id : "",
         location_id: activeReturn?.location_id,
         send_notification: false,
-      })
+      });
     },
     resolver: zodResolver(ReturnCreateSchema),
-  })
+  });
 
   const {
     fields: items,
@@ -193,64 +193,64 @@ export const ReturnCreateForm = ({
   } = useFieldArray({
     name: "items",
     control: form.control,
-  })
+  });
 
   useEffect(() => {
-    const existingItemsMap: Record<string, boolean> = {}
+    const existingItemsMap: Record<string, boolean> = {};
 
     previewItems.forEach((i) => {
-      const ind = items.findIndex((field) => field.item_id === i.id)
+      const ind = items.findIndex((field) => field.item_id === i.id);
 
       /**
        * THESE ITEMS ARE REMOVED FROM RETURN REQUEST
        */
       if (!i.detail.return_requested_quantity) {
-        return
+        return;
       }
 
-      existingItemsMap[i.id] = true
+      existingItemsMap[i.id] = true;
 
       if (ind > -1) {
         if (items[ind].quantity !== i.detail.return_requested_quantity) {
           const returnItemAction = i.actions?.find(
             (a) => a.action === "RETURN_ITEM"
-          )
+          );
 
           update(ind, {
             ...items[ind],
             quantity: i.detail.return_requested_quantity,
             note: returnItemAction?.internal_note,
             reason_id: returnItemAction?.details?.reason_id,
-          })
+          });
         }
       } else {
-        append({ item_id: i.id, quantity: i.detail.return_requested_quantity })
+        append({ item_id: i.id, quantity: i.detail.return_requested_quantity });
       }
-    })
+    });
 
     items.forEach((i, ind) => {
       if (!(i.item_id in existingItemsMap)) {
-        remove(ind)
+        remove(ind);
       }
-    })
-  }, [previewItems])
+    });
+  }, [previewItems]);
 
   useEffect(() => {
     const method = preview.shipping_methods?.find(
       (s) => !!s.actions?.find((a) => a.action === "SHIPPING_ADD")
-    )
+    );
 
     if (method) {
-      form.setValue("option_id", method.shipping_option_id!)
+      form.setValue("option_id", method.shipping_option_id!);
     } else {
-      form.setValue("option_id", "")
+      form.setValue("option_id", "");
     }
-  }, [preview.shipping_methods])
+  }, [preview.shipping_methods]);
 
-  const showPlaceholder = !items.length
-  const locationId = form.watch("location_id")
-  const shippingOptionId = form.watch("option_id")
-  const prompt = usePrompt()
+  const showPlaceholder = !items.length;
+  const locationId = form.watch("location_id");
+  const shippingOptionId = form.watch("option_id");
+  const prompt = usePrompt();
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
@@ -260,22 +260,22 @@ export const ReturnCreateForm = ({
         confirmText: t("actions.continue"),
         cancelText: t("actions.cancel"),
         variant: "confirmation",
-      })
+      });
 
       if (!res) {
-        return
+        return;
       }
 
-      await confirmReturnRequest({ no_notification: !data.send_notification })
+      await confirmReturnRequest({ no_notification: !data.send_notification });
 
-      handleSuccess()
+      handleSuccess();
     } catch (e) {
       toast.error(t("general.error"), {
         description: e.message,
         dismissLabel: t("actions.close"),
-      })
+      });
     }
-  })
+  });
 
   const onItemsSelected = () => {
     addReturnItem({
@@ -283,14 +283,14 @@ export const ReturnCreateForm = ({
         id,
         quantity: 1,
       })),
-    })
+    });
 
-    setIsOpen("items", false)
-  }
+    setIsOpen("items", false);
+  };
 
   const onLocationChange = async (selectedLocationId: string) => {
-    await updateReturnRequest({ location_id: selectedLocationId })
-  }
+    await updateReturnRequest({ location_id: selectedLocationId });
+  };
 
   const onShippingOptionChange = async (
     selectedOptionId: string | undefined
@@ -298,110 +298,110 @@ export const ReturnCreateForm = ({
     const promises = preview.shipping_methods
       .map((s) => s.actions?.find((a) => a.action === "SHIPPING_ADD")?.id)
       .filter(Boolean)
-      .map(deleteReturnShipping)
+      .map(deleteReturnShipping);
 
-    await Promise.all(promises)
+    await Promise.all(promises);
 
     if (selectedOptionId) {
-      await addReturnShipping({ shipping_option_id: selectedOptionId })
+      await addReturnShipping({ shipping_option_id: selectedOptionId });
     }
-  }
+  };
 
   useEffect(() => {
     if (isShippingPriceEdit) {
-      document.getElementById("js-shipping-input").focus()
+      document.getElementById("js-shipping-input").focus();
     }
-  }, [isShippingPriceEdit])
+  }, [isShippingPriceEdit]);
 
   useEffect(() => {
-    form.setValue("location_id", activeReturn?.location_id || "")
-  }, [activeReturn])
+    form.setValue("location_id", activeReturn?.location_id || "");
+  }, [activeReturn]);
 
   const showLevelsWarning = useMemo(() => {
     if (!locationId) {
-      return false
+      return false;
     }
 
     const allItemsHaveLocation = items
       .map((_i) => {
-        const item = itemsMap.get(_i.item_id)
+        const item = itemsMap.get(_i.item_id);
         if (!item?.variant_id) {
-          return true
+          return true;
         }
 
         if (!item.variant?.manage_inventory) {
-          return true
+          return true;
         }
 
         return inventoryMap[item.variant_id]?.find(
           (l) => l.location_id === locationId
-        )
+        );
       })
-      .every(Boolean)
+      .every(Boolean);
 
-    return !allItemsHaveLocation
-  }, [items, inventoryMap, locationId])
+    return !allItemsHaveLocation;
+  }, [items, inventoryMap, locationId]);
 
   useEffect(() => {
     const getInventoryMap = async () => {
-      const ret: Record<string, InventoryLevelDTO[]> = {}
+      const ret: Record<string, InventoryLevelDTO[]> = {};
 
       if (!items.length) {
-        return ret
+        return ret;
       }
 
-      ;(
+      (
         await Promise.all(
           items.map(async (_i) => {
-            const item = itemsMap.get(_i.item_id)
+            const item = itemsMap.get(_i.item_id);
 
             if (!item.variant_id) {
-              return undefined
+              return undefined;
             }
-            return await sdk.admin.product.retrieveVariant(
+            return await sdk.vendor.product.retrieveVariant(
               item.product_id,
               item.variant_id,
               { fields: "*inventory,*inventory.location_levels" }
-            )
+            );
           })
         )
       )
         .filter((it) => it?.variant)
         .forEach((item) => {
-          const { variant } = item
-          const levels = variant.inventory[0]?.location_levels
+          const { variant } = item;
+          const levels = variant.inventory[0]?.location_levels;
 
           if (!levels) {
-            return
+            return;
           }
 
-          ret[variant.id] = levels
-        })
+          ret[variant.id] = levels;
+        });
 
-      return ret
-    }
+      return ret;
+    };
 
     getInventoryMap().then((map) => {
-      setInventoryMap(map)
-    })
-  }, [items])
+      setInventoryMap(map);
+    });
+  }, [items]);
 
-  const returnTotal = preview.return_requested_total
+  const returnTotal = preview.return_requested_total;
 
   const shippingTotal = useMemo(() => {
     const method = preview.shipping_methods.find(
       (sm) => !!sm.actions?.find((a) => a.action === "SHIPPING_ADD")
-    )
+    );
 
-    return method?.total || 0
-  }, [preview.shipping_methods])
+    return method?.total || 0;
+  }, [preview.shipping_methods]);
 
   return (
     <RouteFocusModal.Form
       form={form}
       onClose={(isSubmitSuccessful) => {
         if (!isSubmitSuccessful) {
-          cancelReturnRequest()
+          cancelReturnRequest();
         }
       }}
     >
@@ -476,16 +476,16 @@ export const ReturnCreateForm = ({
                   onRemove={() => {
                     const actionId = previewItems
                       .find((i) => i.id === item.item_id)
-                      ?.actions?.find((a) => a.action === "RETURN_ITEM")?.id
+                      ?.actions?.find((a) => a.action === "RETURN_ITEM")?.id;
 
                     if (actionId) {
-                      removeReturnItem(actionId)
+                      removeReturnItem(actionId);
                     }
                   }}
                   onUpdate={(payload) => {
                     const action = previewItems
                       .find((i) => i.id === item.item_id)
-                      ?.actions?.find((a) => a.action === "RETURN_ITEM")
+                      ?.actions?.find((a) => a.action === "RETURN_ITEM");
 
                     if (action) {
                       updateReturnItem(
@@ -496,13 +496,13 @@ export const ReturnCreateForm = ({
                               form.setValue(
                                 `items.${index}.quantity`,
                                 action.details?.quantity as number
-                              )
+                              );
                             }
 
-                            toast.error(error.message)
+                            toast.error(error.message);
                           },
                         }
-                      )
+                      );
                     }
                   }}
                   index={index}
@@ -529,8 +529,8 @@ export const ReturnCreateForm = ({
                             <Combobox
                               value={value}
                               onChange={(v) => {
-                                onChange(v)
-                                onLocationChange(v)
+                                onChange(v);
+                                onLocationChange(v);
                               }}
                               {...field}
                               options={(stock_locations ?? []).map(
@@ -542,7 +542,7 @@ export const ReturnCreateForm = ({
                             />
                           </Form.Control>
                         </Form.Item>
-                      )
+                      );
                     }}
                   />
                 </div>
@@ -577,8 +577,8 @@ export const ReturnCreateForm = ({
                               allowClear
                               value={value}
                               onChange={(v) => {
-                                onChange(v)
-                                onShippingOptionChange(v)
+                                onChange(v);
+                                onShippingOptionChange(v);
                               }}
                               {...field}
                               options={(shipping_options ?? [])
@@ -605,7 +605,7 @@ export const ReturnCreateForm = ({
                             />
                           </Form.Control>
                         </Form.Item>
-                      )
+                      );
                     }}
                   />
                 </div>
@@ -656,17 +656,17 @@ export const ReturnCreateForm = ({
                     <CurrencyInput
                       id="js-shipping-input"
                       onBlur={() => {
-                        let actionId
+                        let actionId;
 
                         preview.shipping_methods.forEach((s) => {
                           if (s.actions) {
                             for (const a of s.actions) {
                               if (a.action === "SHIPPING_ADD") {
-                                actionId = a.id
+                                actionId = a.id;
                               }
                             }
                           }
-                        })
+                        });
 
                         if (actionId) {
                           updateReturnShipping({
@@ -675,9 +675,9 @@ export const ReturnCreateForm = ({
                               typeof customShippingAmount === "string"
                                 ? null
                                 : customShippingAmount,
-                          })
+                          });
                         }
-                        setIsShippingPriceEdit(false)
+                        setIsShippingPriceEdit(false);
                       }}
                       symbol={
                         currencies[order.currency_code.toUpperCase()]
@@ -737,7 +737,7 @@ export const ReturnCreateForm = ({
                       </div>
                       <Form.ErrorMessage />
                     </Form.Item>
-                  )
+                  );
                 }}
               />
             </div>
@@ -767,5 +767,5 @@ export const ReturnCreateForm = ({
         </RouteFocusModal.Footer>
       </KeyboundForm>
     </RouteFocusModal.Form>
-  )
-}
+  );
+};

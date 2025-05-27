@@ -1,33 +1,33 @@
-import * as zod from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { HttpTypes } from "@medusajs/types"
-import { Button, Input, toast } from "@medusajs/ui"
-import { useForm } from "react-hook-form"
-import { useTranslation } from "react-i18next"
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { HttpTypes } from "@medusajs/types";
+import { Button, Input, toast } from "@medusajs/ui";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
-import { Form } from "../../../../../components/common/form"
-import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useComboboxData } from "../../../../../hooks/use-combobox-data"
-import { Combobox } from "../../../../../components/inputs/combobox"
-import { useRequestTransferOrder } from "../../../../../hooks/api"
-import { sdk } from "../../../../../lib/client"
-import { TransferHeader } from "./transfer-header"
+import { Form } from "../../../../../components/common/form";
+import { RouteDrawer, useRouteModal } from "../../../../../components/modals";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
+import { useComboboxData } from "../../../../../hooks/use-combobox-data";
+import { Combobox } from "../../../../../components/inputs/combobox";
+import { useRequestTransferOrder } from "../../../../../hooks/api";
+import { sdk } from "../../../../../lib/client";
+import { TransferHeader } from "./transfer-header";
 
 type CreateOrderTransferFormProps = {
-  order: HttpTypes.AdminOrder
-}
+  order: HttpTypes.AdminOrder;
+};
 
 const CreateOrderTransferSchema = zod.object({
   customer_id: zod.string().min(1),
   current_customer_details: zod.string().min(1),
-})
+});
 
 export function CreateOrderTransferForm({
   order,
 }: CreateOrderTransferFormProps) {
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
 
   const form = useForm<zod.infer<typeof CreateOrderTransferSchema>>({
     defaultValues: {
@@ -37,32 +37,34 @@ export function CreateOrderTransferForm({
         : order.customer?.email,
     },
     resolver: zodResolver(CreateOrderTransferSchema),
-  })
+  });
 
   const customers = useComboboxData({
     queryKey: ["customers"],
     queryFn: (params) =>
-      sdk.admin.customer.list({ ...params, has_account: true }),
+      sdk.vendor.customer.list({ ...params, has_account: true }),
     getOptions: (data) =>
       data.customers.map((item) => ({
         label: `${item.first_name || ""} ${item.last_name || ""} (${item.email})`,
         value: item.id,
       })),
-  })
+  });
 
-  const { mutateAsync, isPending } = useRequestTransferOrder(order.id)
+  const { mutateAsync, isPending } = useRequestTransferOrder(order.id);
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
       await mutateAsync({
         customer_id: data.customer_id,
-      })
-      toast.success(t("orders.transfer.requestSuccess", { email: order.email }))
-      handleSuccess()
+      });
+      toast.success(
+        t("orders.transfer.requestSuccess", { email: order.email })
+      );
+      handleSuccess();
     } catch (error) {
-      toast.error((error as Error).message)
+      toast.error((error as Error).message);
     }
-  })
+  });
 
   return (
     <RouteDrawer.Form form={form}>
@@ -92,7 +94,7 @@ export function CreateOrderTransferForm({
 
                     <Form.ErrorMessage />
                   </Form.Item>
-                )
+                );
               }}
             />
 
@@ -121,7 +123,7 @@ export function CreateOrderTransferForm({
 
                     <Form.ErrorMessage />
                   </Form.Item>
-                )
+                );
               }}
             />
           </div>
@@ -148,5 +150,5 @@ export function CreateOrderTransferForm({
         </RouteDrawer.Footer>
       </KeyboundForm>
     </RouteDrawer.Form>
-  )
+  );
 }

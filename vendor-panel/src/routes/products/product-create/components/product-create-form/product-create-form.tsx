@@ -1,26 +1,26 @@
-import { HttpTypes } from "@medusajs/types"
-import { Button, ProgressStatus, ProgressTabs, toast } from "@medusajs/ui"
-import { useEffect, useMemo, useState } from "react"
-import { useWatch } from "react-hook-form"
-import { useTranslation } from "react-i18next"
+import { HttpTypes } from "@medusajs/types";
+import { Button, ProgressStatus, ProgressTabs, toast } from "@medusajs/ui";
+import { useEffect, useMemo, useState } from "react";
+import { useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import {
   RouteFocusModal,
   useRouteModal,
-} from "../../../../../components/modals"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useExtendableForm } from "../../../../../dashboard-app/forms/hooks"
-import { useCreateProduct } from "../../../../../hooks/api/products"
-import { sdk } from "../../../../../lib/client"
-import { useExtension } from "../../../../../providers/extension-provider"
+} from "../../../../../components/modals";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
+import { useExtendableForm } from "../../../../../dashboard-app/forms/hooks";
+import { useCreateProduct } from "../../../../../hooks/api/products";
+import { sdk } from "../../../../../lib/client";
+import { useExtension } from "../../../../../providers/extension-provider";
 import {
   PRODUCT_CREATE_FORM_DEFAULTS,
   ProductCreateSchema,
-} from "../../constants"
-import { normalizeProductFormValues } from "../../utils"
-import { ProductCreateDetailsForm } from "../product-create-details-form"
-import { ProductCreateInventoryKitForm } from "../product-create-inventory-kit-form"
-import { ProductCreateOrganizeForm } from "../product-create-organize-form"
-import { ProductCreateVariantsForm } from "../product-create-variants-form"
+} from "../../constants";
+import { normalizeProductFormValues } from "../../utils";
+import { ProductCreateDetailsForm } from "../product-create-details-form";
+import { ProductCreateInventoryKitForm } from "../product-create-inventory-kit-form";
+import { ProductCreateOrganizeForm } from "../product-create-organize-form";
+import { ProductCreateVariantsForm } from "../product-create-variants-form";
 
 enum Tab {
   DETAILS = "details",
@@ -29,16 +29,16 @@ enum Tab {
   INVENTORY = "inventory",
 }
 
-type TabState = Record<Tab, ProgressStatus>
+type TabState = Record<Tab, ProgressStatus>;
 
-const SAVE_DRAFT_BUTTON = "save-draft-button"
+const SAVE_DRAFT_BUTTON = "save-draft-button";
 
 type ProductCreateFormProps = {
-  defaultChannel?: HttpTypes.AdminSalesChannel
-  regions: HttpTypes.AdminRegion[]
-  store: HttpTypes.AdminStore
-  pricePreferences: HttpTypes.AdminPricePreference[]
-}
+  defaultChannel?: HttpTypes.AdminSalesChannel;
+  regions: HttpTypes.AdminRegion[];
+  store: HttpTypes.AdminStore;
+  pricePreferences: HttpTypes.AdminPricePreference[];
+};
 
 export const ProductCreateForm = ({
   defaultChannel,
@@ -46,18 +46,18 @@ export const ProductCreateForm = ({
   store,
   pricePreferences,
 }: ProductCreateFormProps) => {
-  const [tab, setTab] = useState<Tab>(Tab.DETAILS)
+  const [tab, setTab] = useState<Tab>(Tab.DETAILS);
   const [tabState, setTabState] = useState<TabState>({
     [Tab.DETAILS]: "in-progress",
     [Tab.ORGANIZE]: "not-started",
     [Tab.VARIANTS]: "not-started",
     [Tab.INVENTORY]: "not-started",
-  })
+  });
 
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
-  const { getFormConfigs } = useExtension()
-  const configs = getFormConfigs("product", "create")
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
+  const { getFormConfigs } = useExtension();
+  const configs = getFormConfigs("product", "create");
 
   const form = useExtendableForm({
     defaultValues: {
@@ -68,23 +68,23 @@ export const ProductCreateForm = ({
     },
     schema: ProductCreateSchema,
     configs,
-  })
+  });
 
-  const { mutateAsync, isPending } = useCreateProduct()
+  const { mutateAsync, isPending } = useCreateProduct();
 
   const regionsCurrencyMap = useMemo(() => {
     if (!regions?.length) {
-      return {}
+      return {};
     }
 
     return regions.reduce(
       (acc, reg) => {
-        acc[reg.id] = reg.currency_code
-        return acc
+        acc[reg.id] = reg.currency_code;
+        return acc;
       },
       {} as Record<string, string>
-    )
-  }, [regions])
+    );
+  }, [regions]);
 
   /**
    * TODO: Important to revisit this - use variants watch so high in the tree can cause needless rerenders of the entire page
@@ -94,52 +94,52 @@ export const ProductCreateForm = ({
   const watchedVariants = useWatch({
     control: form.control,
     name: "variants",
-  })
+  });
 
   const showInventoryTab = useMemo(
     () => watchedVariants.some((v) => v.manage_inventory && v.inventory_kit),
     [watchedVariants]
-  )
+  );
 
   const handleSubmit = form.handleSubmit(async (values, e) => {
-    let isDraftSubmission = false
+    let isDraftSubmission = false;
     if (e?.nativeEvent instanceof SubmitEvent) {
-      const submitter = e?.nativeEvent?.submitter as HTMLButtonElement
-      isDraftSubmission = submitter.dataset.name === SAVE_DRAFT_BUTTON
+      const submitter = e?.nativeEvent?.submitter as HTMLButtonElement;
+      isDraftSubmission = submitter.dataset.name === SAVE_DRAFT_BUTTON;
     }
 
-    const media = values.media || []
-    const payload = { ...values, media: undefined }
+    const media = values.media || [];
+    const payload = { ...values, media: undefined };
 
-    let uploadedMedia: (HttpTypes.AdminFile & { isThumbnail: boolean })[] = []
+    let uploadedMedia: (HttpTypes.AdminFile & { isThumbnail: boolean })[] = [];
     try {
       if (media.length) {
-        const thumbnailReq = media.find((m) => m.isThumbnail)
-        const otherMediaReq = media.filter((m) => !m.isThumbnail)
+        const thumbnailReq = media.find((m) => m.isThumbnail);
+        const otherMediaReq = media.filter((m) => !m.isThumbnail);
 
-        const fileReqs = []
+        const fileReqs = [];
         if (thumbnailReq) {
           fileReqs.push(
-            sdk.admin.upload
+            sdk.vendor.upload
               .create({ files: [thumbnailReq.file] })
               .then((r) => r.files.map((f) => ({ ...f, isThumbnail: true })))
-          )
+          );
         }
         if (otherMediaReq?.length) {
           fileReqs.push(
-            sdk.admin.upload
+            sdk.vendor.upload
               .create({
                 files: otherMediaReq.map((m) => m.file),
               })
               .then((r) => r.files.map((f) => ({ ...f, isThumbnail: false })))
-          )
+          );
         }
 
-        uploadedMedia = (await Promise.all(fileReqs)).flat()
+        uploadedMedia = (await Promise.all(fileReqs)).flat();
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message)
+        toast.error(error.message);
       }
     }
 
@@ -156,61 +156,61 @@ export const ProductCreateForm = ({
             t("products.create.successToast", {
               title: data.product.title,
             })
-          )
+          );
 
-          handleSuccess(`../${data.product.id}`)
+          handleSuccess(`../${data.product.id}`);
         },
         onError: (error) => {
-          toast.error(error.message)
+          toast.error(error.message);
         },
       }
-    )
-  })
+    );
+  });
 
   const onNext = async (currentTab: Tab) => {
-    const valid = await form.trigger()
+    const valid = await form.trigger();
 
     if (!valid) {
-      return
+      return;
     }
 
     if (currentTab === Tab.DETAILS) {
-      setTab(Tab.ORGANIZE)
+      setTab(Tab.ORGANIZE);
     }
 
     if (currentTab === Tab.ORGANIZE) {
-      setTab(Tab.VARIANTS)
+      setTab(Tab.VARIANTS);
     }
 
     if (currentTab === Tab.VARIANTS) {
-      setTab(Tab.INVENTORY)
+      setTab(Tab.INVENTORY);
     }
-  }
+  };
 
   useEffect(() => {
-    const currentState = { ...tabState }
+    const currentState = { ...tabState };
     if (tab === Tab.DETAILS) {
-      currentState[Tab.DETAILS] = "in-progress"
+      currentState[Tab.DETAILS] = "in-progress";
     }
     if (tab === Tab.ORGANIZE) {
-      currentState[Tab.DETAILS] = "completed"
-      currentState[Tab.ORGANIZE] = "in-progress"
+      currentState[Tab.DETAILS] = "completed";
+      currentState[Tab.ORGANIZE] = "in-progress";
     }
     if (tab === Tab.VARIANTS) {
-      currentState[Tab.DETAILS] = "completed"
-      currentState[Tab.ORGANIZE] = "completed"
-      currentState[Tab.VARIANTS] = "in-progress"
+      currentState[Tab.DETAILS] = "completed";
+      currentState[Tab.ORGANIZE] = "completed";
+      currentState[Tab.VARIANTS] = "in-progress";
     }
     if (tab === Tab.INVENTORY) {
-      currentState[Tab.DETAILS] = "completed"
-      currentState[Tab.ORGANIZE] = "completed"
-      currentState[Tab.VARIANTS] = "completed"
-      currentState[Tab.INVENTORY] = "in-progress"
+      currentState[Tab.DETAILS] = "completed";
+      currentState[Tab.ORGANIZE] = "completed";
+      currentState[Tab.VARIANTS] = "completed";
+      currentState[Tab.INVENTORY] = "in-progress";
     }
 
-    setTabState({ ...currentState })
+    setTabState({ ...currentState });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- we only want this effect to run when the tab changes
-  }, [tab])
+  }, [tab]);
 
   return (
     <RouteFocusModal.Form form={form}>
@@ -222,21 +222,21 @@ export const ProductCreateForm = ({
               e.target instanceof HTMLTextAreaElement &&
               !(e.metaKey || e.ctrlKey)
             ) {
-              return
+              return;
             }
 
-            e.preventDefault()
+            e.preventDefault();
 
             if (e.metaKey || e.ctrlKey) {
               if (tab !== Tab.VARIANTS) {
-                e.preventDefault()
-                e.stopPropagation()
-                onNext(tab)
+                e.preventDefault();
+                e.stopPropagation();
+                onNext(tab);
 
-                return
+                return;
               }
 
-              handleSubmit()
+              handleSubmit();
             }
           }
         }}
@@ -246,13 +246,13 @@ export const ProductCreateForm = ({
         <ProgressTabs
           value={tab}
           onValueChange={async (tab) => {
-            const valid = await form.trigger()
+            const valid = await form.trigger();
 
             if (!valid) {
-              return
+              return;
             }
 
-            setTab(tab as Tab)
+            setTab(tab as Tab);
           }}
           className="flex h-full flex-col overflow-hidden"
         >
@@ -352,15 +352,15 @@ export const ProductCreateForm = ({
         </RouteFocusModal.Footer>
       </KeyboundForm>
     </RouteFocusModal.Form>
-  )
-}
+  );
+};
 
 type PrimaryButtonProps = {
-  tab: Tab
-  next: (tab: Tab) => void
-  isLoading?: boolean
-  showInventoryTab: boolean
-}
+  tab: Tab;
+  next: (tab: Tab) => void;
+  isLoading?: boolean;
+  showInventoryTab: boolean;
+};
 
 const PrimaryButton = ({
   tab,
@@ -368,7 +368,7 @@ const PrimaryButton = ({
   isLoading,
   showInventoryTab,
 }: PrimaryButtonProps) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   if (
     (tab === Tab.VARIANTS && !showInventoryTab) ||
@@ -385,7 +385,7 @@ const PrimaryButton = ({
       >
         {t("actions.publish")}
       </Button>
-    )
+    );
   }
 
   return (
@@ -398,5 +398,5 @@ const PrimaryButton = ({
     >
       {t("actions.continue")}
     </Button>
-  )
-}
+  );
+};

@@ -10,125 +10,132 @@ import {
   UniqueIdentifier,
   useSensor,
   useSensors,
-} from "@dnd-kit/core"
+} from "@dnd-kit/core";
 import {
   arrayMove,
   rectSortingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
-} from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ThumbnailBadge } from "@medusajs/icons"
-import { HttpTypes } from "@medusajs/types"
-import { Button, Checkbox, clx, CommandBar, toast, Tooltip } from "@medusajs/ui"
-import { Fragment, useCallback, useState } from "react"
-import { useFieldArray, useForm } from "react-hook-form"
-import { useTranslation } from "react-i18next"
-import { Link } from "react-router-dom"
-import { z } from "zod"
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ThumbnailBadge } from "@medusajs/icons";
+import { HttpTypes } from "@medusajs/types";
+import {
+  Button,
+  Checkbox,
+  clx,
+  CommandBar,
+  toast,
+  Tooltip,
+} from "@medusajs/ui";
+import { Fragment, useCallback, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { z } from "zod";
 
 import {
   RouteFocusModal,
   useRouteModal,
-} from "../../../../../components/modals"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useUpdateProduct } from "../../../../../hooks/api/products"
-import { sdk } from "../../../../../lib/client"
-import { UploadMediaFormItem } from "../../../common/components/upload-media-form-item"
+} from "../../../../../components/modals";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
+import { useUpdateProduct } from "../../../../../hooks/api/products";
+import { sdk } from "../../../../../lib/client";
+import { UploadMediaFormItem } from "../../../common/components/upload-media-form-item";
 import {
   EditProductMediaSchema,
   MediaSchema,
-} from "../../../product-create/constants"
-import { EditProductMediaSchemaType } from "../../../product-create/types"
+} from "../../../product-create/constants";
+import { EditProductMediaSchemaType } from "../../../product-create/types";
 
 type ProductMediaViewProps = {
-  product: HttpTypes.AdminProduct
-}
+  product: HttpTypes.AdminProduct;
+};
 
-type Media = z.infer<typeof MediaSchema>
+type Media = z.infer<typeof MediaSchema>;
 
 export const EditProductMediaForm = ({ product }: ProductMediaViewProps) => {
-  const [selection, setSelection] = useState<Record<string, true>>({})
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
+  const [selection, setSelection] = useState<Record<string, true>>({});
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
 
   const form = useForm<EditProductMediaSchemaType>({
     defaultValues: {
       media: getDefaultValues(product.images, product.thumbnail),
     },
     resolver: zodResolver(EditProductMediaSchema),
-  })
+  });
 
   const { fields, append, remove, update } = useFieldArray({
     name: "media",
     control: form.control,
     keyName: "field_id",
-  })
+  });
 
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
-  )
+  );
 
   const handleDragStart = (event: DragStartEvent) => {
-    setActiveId(event.active.id)
-  }
+    setActiveId(event.active.id);
+  };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    setActiveId(null)
-    const { active, over } = event
+    setActiveId(null);
+    const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const oldIndex = fields.findIndex((item) => item.field_id === active.id)
-      const newIndex = fields.findIndex((item) => item.field_id === over?.id)
+      const oldIndex = fields.findIndex((item) => item.field_id === active.id);
+      const newIndex = fields.findIndex((item) => item.field_id === over?.id);
 
       form.setValue("media", arrayMove(fields, oldIndex, newIndex), {
         shouldDirty: true,
         shouldTouch: true,
-      })
+      });
     }
-  }
+  };
 
   const handleDragCancel = () => {
-    setActiveId(null)
-  }
+    setActiveId(null);
+  };
 
-  const { mutateAsync, isPending } = useUpdateProduct(product.id!)
+  const { mutateAsync, isPending } = useUpdateProduct(product.id!);
 
   const handleSubmit = form.handleSubmit(async ({ media }) => {
     const filesToUpload = media
       .map((m, i) => ({ file: m.file, index: i }))
-      .filter((m) => !!m.file)
+      .filter((m) => !!m.file);
 
-    let uploaded: HttpTypes.AdminFile[] = []
+    let uploaded: HttpTypes.AdminFile[] = [];
 
     if (filesToUpload.length) {
-      const { files: uploads } = await sdk.admin.upload
+      const { files: uploads } = await sdk.vendor.upload
         .create({ files: filesToUpload.map((m) => m.file) })
         .catch(() => {
           form.setError("media", {
             type: "invalid_file",
             message: t("products.media.failedToUpload"),
-          })
-          return { files: [] }
-        })
-      uploaded = uploads
+          });
+          return { files: [] };
+        });
+      uploaded = uploads;
     }
 
     const withUpdatedUrls = media.map((entry, i) => {
-      const toUploadIndex = filesToUpload.findIndex((m) => m.index === i)
+      const toUploadIndex = filesToUpload.findIndex((m) => m.index === i);
       if (toUploadIndex > -1) {
-        return { ...entry, url: uploaded[toUploadIndex]?.url }
+        return { ...entry, url: uploaded[toUploadIndex]?.url };
       }
-      return entry
-    })
-    const thumbnail = withUpdatedUrls.find((m) => m.isThumbnail)?.url
+      return entry;
+    });
+    const thumbnail = withUpdatedUrls.find((m) => m.isThumbnail)?.url;
 
     await mutateAsync(
       {
@@ -137,65 +144,65 @@ export const EditProductMediaForm = ({ product }: ProductMediaViewProps) => {
       },
       {
         onSuccess: () => {
-          toast.success(t("products.media.successToast"))
-          handleSuccess()
+          toast.success(t("products.media.successToast"));
+          handleSuccess();
         },
         onError: (error) => {
-          toast.error(error.message)
+          toast.error(error.message);
         },
       }
-    )
-  })
+    );
+  });
 
   const handleCheckedChange = useCallback(
     (id: string) => {
       return (val: boolean) => {
         if (!val) {
-          const { [id]: _, ...rest } = selection
-          setSelection(rest)
+          const { [id]: _, ...rest } = selection;
+          setSelection(rest);
         } else {
-          setSelection((prev) => ({ ...prev, [id]: true }))
+          setSelection((prev) => ({ ...prev, [id]: true }));
         }
-      }
+      };
     },
     [selection]
-  )
+  );
 
   const handleDelete = () => {
-    const ids = Object.keys(selection)
-    const indices = ids.map((id) => fields.findIndex((m) => m.id === id))
+    const ids = Object.keys(selection);
+    const indices = ids.map((id) => fields.findIndex((m) => m.id === id));
 
-    remove(indices)
-    setSelection({})
-  }
+    remove(indices);
+    setSelection({});
+  };
 
   const handlePromoteToThumbnail = () => {
-    const ids = Object.keys(selection)
+    const ids = Object.keys(selection);
 
     if (!ids.length) {
-      return
+      return;
     }
 
-    const currentThumbnailIndex = fields.findIndex((m) => m.isThumbnail)
+    const currentThumbnailIndex = fields.findIndex((m) => m.isThumbnail);
 
     if (currentThumbnailIndex > -1) {
       update(currentThumbnailIndex, {
         ...fields[currentThumbnailIndex],
         isThumbnail: false,
-      })
+      });
     }
 
-    const index = fields.findIndex((m) => m.id === ids[0])
+    const index = fields.findIndex((m) => m.id === ids[0]);
 
     update(index, {
       ...fields[index],
       isThumbnail: true,
-    })
+    });
 
-    setSelection({})
-  }
+    setSelection({});
+  };
 
-  const selectionCount = Object.keys(selection).length
+  const selectionCount = Object.keys(selection).length;
 
   return (
     <RouteFocusModal.Form blockSearchParams form={form}>
@@ -234,7 +241,7 @@ export const EditProductMediaForm = ({ product }: ProductMediaViewProps) => {
                           key={m.field_id}
                           media={m}
                         />
-                      )
+                      );
                     })}
                   </SortableContext>
                   <DragOverlay dropAnimation={dropAnimationConfig}>
@@ -296,8 +303,8 @@ export const EditProductMediaForm = ({ product }: ProductMediaViewProps) => {
         </RouteFocusModal.Footer>
       </KeyboundForm>
     </RouteFocusModal.Form>
-  )
-}
+  );
+};
 
 const getDefaultValues = (
   images: HttpTypes.AdminProductImage[] | null | undefined,
@@ -309,27 +316,27 @@ const getDefaultValues = (
       url: image.url!,
       isThumbnail: image.url === thumbnail,
       file: null,
-    })) || []
+    })) || [];
 
   if (thumbnail && !media.some((mediaItem) => mediaItem.url === thumbnail)) {
-    const id = Math.random().toString(36).substring(7)
+    const id = Math.random().toString(36).substring(7);
 
     media.unshift({
       id: id,
       url: thumbnail,
       isThumbnail: true,
       file: null,
-    })
+    });
   }
 
-  return media
-}
+  return media;
+};
 
 interface MediaView {
-  id?: string
-  field_id: string
-  url: string
-  isThumbnail: boolean
+  id?: string;
+  field_id: string;
+  url: string;
+  isThumbnail: boolean;
 }
 
 const dropAnimationConfig: DropAnimation = {
@@ -340,12 +347,12 @@ const dropAnimationConfig: DropAnimation = {
       },
     },
   }),
-}
+};
 
 interface MediaGridItemProps {
-  media: MediaView
-  checked: boolean
-  onCheckedChange: (value: boolean) => void
+  media: MediaView;
+  checked: boolean;
+  onCheckedChange: (value: boolean) => void;
 }
 
 const MediaGridItem = ({
@@ -353,14 +360,14 @@ const MediaGridItem = ({
   checked,
   onCheckedChange,
 }: MediaGridItemProps) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const handleToggle = useCallback(
     (value: boolean) => {
-      onCheckedChange(value)
+      onCheckedChange(value);
     },
     [onCheckedChange]
-  )
+  );
 
   const {
     attributes,
@@ -370,13 +377,13 @@ const MediaGridItem = ({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: media.field_id })
+  } = useSortable({ id: media.field_id });
 
   const style = {
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Transform.toString(transform),
     transition,
-  }
+  };
 
   return (
     <div
@@ -410,7 +417,7 @@ const MediaGridItem = ({
       >
         <Checkbox
           onClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation();
           }}
           checked={checked}
           onCheckedChange={handleToggle}
@@ -422,15 +429,15 @@ const MediaGridItem = ({
         className="size-full object-cover object-center"
       />
     </div>
-  )
-}
+  );
+};
 
 export const MediaGridItemOverlay = ({
   media,
   checked,
 }: {
-  media: MediaView
-  checked: boolean
+  media: MediaView;
+  checked: boolean;
 }) => {
   return (
     <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover focus-visible:shadow-borders-focus bg-ui-bg-subtle-hover group relative aspect-square h-auto max-w-full cursor-grabbing overflow-hidden rounded-lg outline-none">
@@ -452,5 +459,5 @@ export const MediaGridItemOverlay = ({
         className="size-full object-cover object-center"
       />
     </div>
-  )
-}
+  );
+};

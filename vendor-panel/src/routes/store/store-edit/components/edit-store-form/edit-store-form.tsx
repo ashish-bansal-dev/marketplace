@@ -1,21 +1,21 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { HttpTypes } from "@medusajs/types"
-import { Button, Input, Select, toast } from "@medusajs/ui"
-import { useForm } from "react-hook-form"
-import { useTranslation } from "react-i18next"
-import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { HttpTypes } from "@medusajs/types";
+import { Button, Input, Select, toast } from "@medusajs/ui";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
 
-import { Form } from "../../../../../components/common/form"
-import { Combobox } from "../../../../../components/inputs/combobox"
-import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useUpdateStore } from "../../../../../hooks/api/store"
-import { useComboboxData } from "../../../../../hooks/use-combobox-data"
-import { sdk } from "../../../../../lib/client"
+import { Form } from "../../../../../components/common/form";
+import { Combobox } from "../../../../../components/inputs/combobox";
+import { RouteDrawer, useRouteModal } from "../../../../../components/modals";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
+import { useUpdateStore } from "../../../../../hooks/api/store";
+import { useComboboxData } from "../../../../../hooks/use-combobox-data";
+import { sdk } from "../../../../../lib/client";
 
 type EditStoreFormProps = {
-  store: HttpTypes.AdminStore
-}
+  store: HttpTypes.AdminStore;
+};
 
 const EditStoreSchema = z.object({
   name: z.string().min(1),
@@ -23,11 +23,11 @@ const EditStoreSchema = z.object({
   default_region_id: z.string().optional(),
   default_sales_channel_id: z.string().optional(),
   default_location_id: z.string().optional(),
-})
+});
 
 export const EditStoreForm = ({ store }: EditStoreFormProps) => {
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
 
   const form = useForm<z.infer<typeof EditStoreSchema>>({
     defaultValues: {
@@ -40,39 +40,39 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
       default_location_id: store.default_location_id || undefined,
     },
     resolver: zodResolver(EditStoreSchema),
-  })
+  });
 
-  const { mutateAsync, isPending } = useUpdateStore(store.id)
+  const { mutateAsync, isPending } = useUpdateStore(store.id);
 
   const regionsCombobox = useComboboxData({
     queryKey: ["regions", "default_region_id"],
     queryFn: (params) =>
-      sdk.admin.region.list({ ...params, fields: "id,name" }),
+      sdk.vendor.region.list({ ...params, fields: "id,name" }),
     defaultValue: store.default_region_id || undefined,
     getOptions: (data) =>
       data.regions.map((r) => ({ label: r.name, value: r.id })),
-  })
+  });
 
   const salesChannelsCombobox = useComboboxData({
     queryFn: (params) =>
-      sdk.admin.salesChannel.list({ ...params, fields: "id,name" }),
+      sdk.vendor.salesChannel.list({ ...params, fields: "id,name" }),
     getOptions: (data) =>
       data.sales_channels.map((sc) => ({ label: sc.name, value: sc.id })),
     queryKey: ["sales_channels", "default_sales_channel_id"],
     defaultValue: store.default_sales_channel_id || undefined,
-  })
+  });
 
   const locationsCombobox = useComboboxData({
     queryFn: (params) =>
-      sdk.admin.stockLocation.list({ ...params, fields: "id,name" }),
+      sdk.vendor.stockLocation.list({ ...params, fields: "id,name" }),
     getOptions: (data) =>
       data.stock_locations.map((l) => ({ label: l.name, value: l.id })),
     queryKey: ["stock_locations", "default_location_id"],
     defaultValue: store.default_location_id || undefined,
-  })
+  });
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    const { default_currency_code, ...rest } = values
+    const { default_currency_code, ...rest } = values;
 
     const normalizedMutation: HttpTypes.AdminUpdateStore = {
       ...rest,
@@ -80,17 +80,17 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
         ...c,
         is_default: c.currency_code === default_currency_code,
       })),
-    }
+    };
     await mutateAsync(normalizedMutation, {
       onSuccess: () => {
-        toast.success(t("store.toast.update"))
-        handleSuccess()
+        toast.success(t("store.toast.update"));
+        handleSuccess();
       },
       onError: (error) => {
-        toast.error(error.message)
+        toast.error(error.message);
       },
-    })
-  })
+    });
+  });
 
   return (
     <RouteDrawer.Form form={form}>
@@ -135,7 +135,7 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
                       </Select>
                     </Form.Control>
                   </Form.Item>
-                )
+                );
               }}
             />
             <Form.Field
@@ -157,7 +157,7 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
                       />
                     </Form.Control>
                   </Form.Item>
-                )
+                );
               }}
             />
             <Form.Field
@@ -179,7 +179,7 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
                       />
                     </Form.Control>
                   </Form.Item>
-                )
+                );
               }}
             />
             <Form.Field
@@ -201,7 +201,7 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
                       />
                     </Form.Control>
                   </Form.Item>
-                )
+                );
               }}
             />
           </div>
@@ -220,5 +220,5 @@ export const EditStoreForm = ({ store }: EditStoreFormProps) => {
         </RouteDrawer.Footer>
       </KeyboundForm>
     </RouteDrawer.Form>
-  )
-}
+  );
+};

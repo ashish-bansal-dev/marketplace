@@ -14,5 +14,74 @@ module.exports = defineConfig({
       // @ts-expect-error: vendorCors is not a valid config
       vendorCors: process.env.VENDOR_CORS!,
     }
-  }
+  },
+  modules: [
+    { resolve: './src/modules/seller' },
+    { resolve: './src/modules/marketplace' },
+    { resolve: './src/modules/configuration' },
+    { resolve: './src/modules/order-return-request' },
+    { resolve: './src/modules/requests' },
+    { resolve: './src/modules/reviews' },
+    { resolve: './src/modules/brand' },
+    { resolve: './src/modules/wishlist' },
+    { resolve: './src/modules/split-order-payment' },
+    {
+      resolve: './src/modules/taxcode',
+      options: {
+        apiKey: process.env.STRIPE_SECRET_API_KEY
+      }
+    },
+    { resolve: './src/modules/commission' },
+    {
+      resolve: './src/modules/payout',
+      options: {
+        apiKey: process.env.STRIPE_SECRET_API_KEY,
+        webhookSecret: process.env.STRIPE_CONNECTED_ACCOUNTS_WEBHOOK_SECRET
+      }
+    },
+    {
+      resolve: './src/modules/algolia',
+      options: {
+        apiKey: process.env.ALGOLIA_API_KEY,
+        appId: process.env.ALGOLIA_APP_ID
+      }
+    },
+    {
+      resolve: '@medusajs/medusa/payment',
+      options: {
+        providers: [
+          {
+            resolve: './src/modules/payment-stripe-connect',
+            id: 'stripe-connect',
+            options: {
+              apiKey: process.env.STRIPE_SECRET_API_KEY
+            }
+          }
+        ]
+      }
+    },
+    {
+      resolve: '@medusajs/medusa/notification',
+      options: {
+        providers: [
+          {
+            resolve: './src/modules/resend',
+            id: 'resend',
+            options: {
+              channels: ['email'],
+              api_key: process.env.RESEND_API_KEY,
+              from: process.env.RESEND_FROM_EMAIL
+            }
+          },
+          {
+            resolve: '@medusajs/medusa/notification-local',
+            id: 'local',
+            options: {
+              channels: ['feed']
+            }
+          }
+        ]
+      }
+    }
+  ]
 })

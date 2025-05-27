@@ -30,8 +30,11 @@
     "@mikro-orm/knex": "6.4.3",
     "@mikro-orm/migrations": "6.4.3",
     "@mikro-orm/postgresql": "6.4.3",
+    "algoliasearch": "^5.25.0",
     "awilix": "^8.0.1",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "resend": "^4.5.1",
+    "@ashishbansaldev/http-client": "*"
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.8.3",

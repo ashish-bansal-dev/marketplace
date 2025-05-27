@@ -114,7 +114,7 @@ export const Login = () => {
                   render={({ field }) => {
                     return (
                       <Form.Item>
-                        <Form.Label>{}</Form.Label>
+                        <Form.Label>{ }</Form.Label>
                         <Form.Control>
                           <Input
                             type="password"
@@ -161,6 +161,17 @@ export const Login = () => {
               <Link
                 key="reset-password-link"
                 to="/reset-password"
+                className="text-ui-fg-interactive transition-fg hover:text-ui-fg-interactive-hover focus-visible:text-ui-fg-interactive-hover font-medium outline-none"
+              />,
+            ]}
+          />
+        </span>
+        <span className="text-ui-fg-muted txt-small">
+          <Trans
+            i18nKey="login.register"
+            components={[
+              <Link
+                to="/register"
                 className="text-ui-fg-interactive transition-fg hover:text-ui-fg-interactive-hover focus-visible:text-ui-fg-interactive-hover font-medium outline-none"
               />,
             ]}

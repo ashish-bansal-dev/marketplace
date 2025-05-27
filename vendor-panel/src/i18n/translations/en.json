@@ -2675,8 +2675,14 @@
   },
   "login": {
     "forgotPassword": "Forgot password? - <0>Reset</0>",
-    "title": "Welcome to Medusa",
-    "hint": "Sign in to access the account area"
+    "title": "Welcome to Marketplace",
+    "hint": "Sign in to access the account area",
+    "register": "Not a seller yet? - <0>Create an account</0>"
+  },
+  "register": {
+    "title": "Join Marketplace Seller Panel",
+    "hint": "Sign up to start selling",
+    "alreadySeller": "Already have an account? - <0>Sign In</0>"
   },
   "invite": {
     "title": "Welcome to Medusa",

@@ -9971,10 +9971,21 @@
         },
         "hint": {
           "type": "string"
+        },
+        "register": {
+          "type": "string"
         }
       },
-      "required": ["forgotPassword", "title", "hint"],
+      "required": ["forgotPassword", "title", "hint", "register"],
       "additionalProperties": false
+    },
+    "register": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "hint": { "type": "string" },
+        "alreadySeller": { "type": "string" }
+      }
     },
     "invite": {
       "type": "object",

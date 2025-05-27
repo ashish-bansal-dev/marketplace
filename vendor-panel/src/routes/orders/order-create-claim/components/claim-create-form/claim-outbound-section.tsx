@@ -3,44 +3,44 @@ import {
   AdminOrder,
   AdminOrderPreview,
   InventoryLevelDTO,
-} from "@medusajs/types"
-import { Alert, Button, Heading, Text, toast } from "@medusajs/ui"
-import { useEffect, useMemo, useState } from "react"
-import { useFieldArray, UseFormReturn } from "react-hook-form"
-import { useTranslation } from "react-i18next"
+} from "@medusajs/types";
+import { Alert, Button, Heading, Text, toast } from "@medusajs/ui";
+import { useEffect, useMemo, useState } from "react";
+import { useFieldArray, UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
-import { HttpTypes } from "@medusajs/types"
-import { Form } from "../../../../../components/common/form"
-import { Combobox } from "../../../../../components/inputs/combobox"
+import { HttpTypes } from "@medusajs/types";
+import { Form } from "../../../../../components/common/form";
+import { Combobox } from "../../../../../components/inputs/combobox";
 import {
   RouteFocusModal,
   StackedFocusModal,
   useStackedModal,
-} from "../../../../../components/modals"
+} from "../../../../../components/modals";
 import {
   useAddClaimOutboundItems,
   useAddClaimOutboundShipping,
   useDeleteClaimOutboundShipping,
   useRemoveClaimOutboundItem,
   useUpdateClaimOutboundItems,
-} from "../../../../../hooks/api/claims"
-import { useShippingOptions } from "../../../../../hooks/api/shipping-options"
-import { sdk } from "../../../../../lib/client"
-import { OutboundShippingPlaceholder } from "../../../common/placeholders"
-import { AddClaimOutboundItemsTable } from "../add-claim-outbound-items-table"
-import { ClaimOutboundItem } from "./claim-outbound-item"
-import { ItemPlaceholder } from "./item-placeholder"
-import { CreateClaimSchemaType } from "./schema"
+} from "../../../../../hooks/api/claims";
+import { useShippingOptions } from "../../../../../hooks/api/shipping-options";
+import { sdk } from "../../../../../lib/client";
+import { OutboundShippingPlaceholder } from "../../../common/placeholders";
+import { AddClaimOutboundItemsTable } from "../add-claim-outbound-items-table";
+import { ClaimOutboundItem } from "./claim-outbound-item";
+import { ItemPlaceholder } from "./item-placeholder";
+import { CreateClaimSchemaType } from "./schema";
 
 type ClaimOutboundSectionProps = {
-  order: AdminOrder
-  claim: AdminClaim
-  preview: AdminOrderPreview
-  form: UseFormReturn<CreateClaimSchemaType>
-}
+  order: AdminOrder;
+  claim: AdminClaim;
+  preview: AdminOrderPreview;
+  form: UseFormReturn<CreateClaimSchemaType>;
+};
 
-let itemsToAdd: string[] = []
-let itemsToRemove: string[] = []
+let itemsToAdd: string[] = [];
+let itemsToRemove: string[] = [];
 
 export const ClaimOutboundSection = ({
   order,
@@ -48,12 +48,12 @@ export const ClaimOutboundSection = ({
   claim,
   form,
 }: ClaimOutboundSectionProps) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-  const { setIsOpen } = useStackedModal()
+  const { setIsOpen } = useStackedModal();
   const [inventoryMap, setInventoryMap] = useState<
     Record<string, InventoryLevelDTO[]>
-  >({})
+  >({});
 
   /**
    * HOOKS
@@ -61,37 +61,37 @@ export const ClaimOutboundSection = ({
   const { shipping_options = [] } = useShippingOptions({
     limit: 999,
     fields: "*prices,+service_zone.fulfillment_set.location.id",
-  })
+  });
 
   const outboundShippingOptions = shipping_options.filter(
     (shippingOption) =>
       !!shippingOption.rules.find(
         (r) => r.attribute === "is_return" && r.value === "false"
       )
-  )
+  );
 
   const { mutateAsync: addOutboundShipping } = useAddClaimOutboundShipping(
     claim.id,
     order.id
-  )
+  );
 
   const { mutateAsync: deleteOutboundShipping } =
-    useDeleteClaimOutboundShipping(claim.id, order.id)
+    useDeleteClaimOutboundShipping(claim.id, order.id);
 
   const { mutateAsync: addOutboundItem } = useAddClaimOutboundItems(
     claim.id,
     order.id
-  )
+  );
 
   const { mutateAsync: updateOutboundItem } = useUpdateClaimOutboundItems(
     claim.id,
     order.id
-  )
+  );
 
   const { mutateAsync: removeOutboundItem } = useRemoveClaimOutboundItem(
     claim.id,
     order.id
-  )
+  );
 
   /**
    * Only consider items that belong to this claim and is an outbound item
@@ -105,12 +105,12 @@ export const ClaimOutboundSection = ({
           )
       ),
     [preview.items]
-  )
+  );
 
   const variantItemMap = useMemo(
     () => new Map(order?.items?.map((i) => [i.variant_id, i])),
     [order.items]
-  )
+  );
 
   const {
     fields: outboundItems,
@@ -120,27 +120,27 @@ export const ClaimOutboundSection = ({
   } = useFieldArray({
     name: "outbound_items",
     control: form.control,
-  })
+  });
 
   const variantOutboundMap = useMemo(
     () => new Map(previewOutboundItems.map((i) => [i.variant_id, i])),
     [previewOutboundItems, outboundItems]
-  )
+  );
 
   useEffect(() => {
-    const existingItemsMap: Record<string, boolean> = {}
+    const existingItemsMap: Record<string, boolean> = {};
 
     previewOutboundItems.forEach((i) => {
-      const ind = outboundItems.findIndex((field) => field.item_id === i.id)
+      const ind = outboundItems.findIndex((field) => field.item_id === i.id);
 
-      existingItemsMap[i.id] = true
+      existingItemsMap[i.id] = true;
 
       if (ind > -1) {
         if (outboundItems[ind].quantity !== i.detail.quantity) {
           update(ind, {
             ...outboundItems[ind],
             quantity: i.detail.quantity,
-          })
+          });
         }
       } else {
         append(
@@ -150,19 +150,19 @@ export const ClaimOutboundSection = ({
             variant_id: i.variant_id,
           },
           { shouldFocus: false }
-        )
+        );
       }
-    })
+    });
 
     outboundItems.forEach((i, ind) => {
       if (!(i.item_id in existingItemsMap)) {
-        remove(ind)
+        remove(ind);
       }
-    })
-  }, [previewOutboundItems])
+    });
+  }, [previewOutboundItems]);
 
-  const locationId = form.watch("location_id")
-  const showOutboundItemsPlaceholder = !outboundItems.length
+  const locationId = form.watch("location_id");
+  const showOutboundItemsPlaceholder = !outboundItems.length;
 
   const onItemsSelected = async () => {
     itemsToAdd.length &&
@@ -175,27 +175,27 @@ export const ClaimOutboundSection = ({
         },
         {
           onError: (error) => {
-            toast.error(error.message)
+            toast.error(error.message);
           },
         }
-      ))
+      ));
 
     for (const itemToRemove of itemsToRemove) {
       const action = previewOutboundItems
         .find((i) => i.variant_id === itemToRemove)
-        ?.actions?.find((a) => a.action === "ITEM_ADD")
+        ?.actions?.find((a) => a.action === "ITEM_ADD");
 
       if (action?.id) {
         await removeOutboundItem(action?.id, {
           onError: (error) => {
-            toast.error(error.message)
+            toast.error(error.message);
           },
-        })
+        });
       }
     }
 
-    setIsOpen("outbound-items", false)
-  }
+    setIsOpen("outbound-items", false);
+  };
 
   const onShippingOptionChange = async (
     selectedOptionId: string | undefined
@@ -203,93 +203,93 @@ export const ClaimOutboundSection = ({
     const outboundShippingMethods = preview.shipping_methods.filter((s) => {
       const action = s.actions?.find(
         (a) => a.action === "SHIPPING_ADD" && !a.return_id
-      )
+      );
 
-      return action && !!!action?.return_id
-    })
+      return action && !!!action?.return_id;
+    });
 
     const promises = outboundShippingMethods
       .filter(Boolean)
       .map((outboundShippingMethod) => {
         const action = outboundShippingMethod.actions?.find(
           (a) => a.action === "SHIPPING_ADD" && !a.return_id
-        )
+        );
 
         if (action) {
-          return deleteOutboundShipping(action.id)
+          return deleteOutboundShipping(action.id);
         }
-      })
+      });
 
-    await Promise.all(promises)
+    await Promise.all(promises);
 
     if (selectedOptionId) {
       await addOutboundShipping(
         { shipping_option_id: selectedOptionId },
         {
           onError: (error) => {
-            toast.error(error.message)
+            toast.error(error.message);
           },
         }
-      )
+      );
     }
-  }
+  };
 
   const showLevelsWarning = useMemo(() => {
     if (!locationId) {
-      return false
+      return false;
     }
 
     const allItemsHaveLocation = outboundItems
       .map((i) => {
-        const item = variantItemMap.get(i.variant_id)
+        const item = variantItemMap.get(i.variant_id);
         if (!item?.variant_id || !item?.variant) {
-          return true
+          return true;
         }
 
         if (!item.variant?.manage_inventory) {
-          return true
+          return true;
         }
 
         return inventoryMap[item.variant_id]?.find(
           (l) => l.location_id === locationId
-        )
+        );
       })
-      .every(Boolean)
+      .every(Boolean);
 
-    return !allItemsHaveLocation
-  }, [outboundItems, inventoryMap, locationId])
+    return !allItemsHaveLocation;
+  }, [outboundItems, inventoryMap, locationId]);
 
   useEffect(() => {
     // TODO: Ensure inventory validation occurs correctly
     const getInventoryMap = async () => {
-      const ret: Record<string, InventoryLevelDTO[]> = {}
+      const ret: Record<string, InventoryLevelDTO[]> = {};
 
       if (!outboundItems.length) {
-        return ret
+        return ret;
       }
 
       const variantIds = outboundItems
         .map((item) => item?.variant_id)
-        .filter(Boolean)
+        .filter(Boolean);
 
       const variants = (
-        await sdk.admin.productVariant.list({
+        await sdk.vendor.productVariant.list({
           id: variantIds,
           fields: "*inventory.location_levels",
         })
-      ).variants
+      ).variants;
 
       variants.forEach((variant) => {
-        ret[variant.id] = variant.inventory?.[0]?.location_levels || []
-      })
+        ret[variant.id] = variant.inventory?.[0]?.location_levels || [];
+      });
 
-      return ret
-    }
+      return ret;
+    };
 
     getInventoryMap().then((map) => {
-      setInventoryMap(map)
-    })
-  }, [outboundItems])
+      setInventoryMap(map);
+    });
+  }, [outboundItems]);
 
   return (
     <div>
@@ -309,14 +309,14 @@ export const ClaimOutboundSection = ({
               selectedItems={outboundItems.map((i) => i.variant_id)}
               currencyCode={order.currency_code}
               onSelectionChange={(finalSelection) => {
-                const alreadySelected = outboundItems.map((i) => i.variant_id)
+                const alreadySelected = outboundItems.map((i) => i.variant_id);
 
                 itemsToAdd = finalSelection.filter(
                   (selection) => !alreadySelected.includes(selection)
-                )
+                );
                 itemsToRemove = alreadySelected.filter(
                   (selection) => !finalSelection.includes(selection)
-                )
+                );
               }}
             />
 
@@ -358,30 +358,30 @@ export const ClaimOutboundSection = ({
               onRemove={() => {
                 const actionId = previewOutboundItems
                   .find((i) => i.id === item.item_id)
-                  ?.actions?.find((a) => a.action === "ITEM_ADD")?.id
+                  ?.actions?.find((a) => a.action === "ITEM_ADD")?.id;
 
                 if (actionId) {
                   removeOutboundItem(actionId, {
                     onError: (error) => {
-                      toast.error(error.message)
+                      toast.error(error.message);
                     },
-                  })
+                  });
                 }
               }}
               onUpdate={(payload: HttpTypes.AdminUpdateReturnItems) => {
                 const actionId = previewOutboundItems
                   .find((i) => i.id === item.item_id)
-                  ?.actions?.find((a) => a.action === "ITEM_ADD")?.id
+                  ?.actions?.find((a) => a.action === "ITEM_ADD")?.id;
 
                 if (actionId) {
                   updateOutboundItem(
                     { ...payload, actionId },
                     {
                       onError: (error) => {
-                        toast.error(error.message)
+                        toast.error(error.message);
                       },
                     }
-                  )
+                  );
                 }
               }}
               index={index}
@@ -410,8 +410,8 @@ export const ClaimOutboundSection = ({
                         allowClear
                         value={value ?? undefined}
                         onChange={(val) => {
-                          onChange(val)
-                          onShippingOptionChange(val)
+                          onChange(val);
+                          onShippingOptionChange(val);
                         }}
                         {...field}
                         options={outboundShippingOptions.map((so) => ({
@@ -423,7 +423,7 @@ export const ClaimOutboundSection = ({
                       />
                     </Form.Control>
                   </Form.Item>
-                )
+                );
               }}
             />
           </div>
@@ -441,5 +441,5 @@ export const ClaimOutboundSection = ({
         </Alert>
       )}
     </div>
-  )
-}
+  );
+};

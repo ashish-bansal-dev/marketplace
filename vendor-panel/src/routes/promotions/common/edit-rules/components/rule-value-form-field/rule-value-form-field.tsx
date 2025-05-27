@@ -1,39 +1,39 @@
-import { HttpTypes } from "@medusajs/types"
-import { Input } from "@medusajs/ui"
-import { useWatch } from "react-hook-form"
-import { Form } from "../../../../../../components/common/form"
-import { Combobox } from "../../../../../../components/inputs/combobox"
-import { useStore } from "../../../../../../hooks/api/store"
-import { useComboboxData } from "../../../../../../hooks/use-combobox-data"
-import { sdk } from "../../../../../../lib/client"
+import { HttpTypes } from "@medusajs/types";
+import { Input } from "@medusajs/ui";
+import { useWatch } from "react-hook-form";
+import { Form } from "../../../../../../components/common/form";
+import { Combobox } from "../../../../../../components/inputs/combobox";
+import { useStore } from "../../../../../../hooks/api/store";
+import { useComboboxData } from "../../../../../../hooks/use-combobox-data";
+import { sdk } from "../../../../../../lib/client";
 
 type RuleValueFormFieldType = {
-  form: any
-  identifier: string
+  form: any;
+  identifier: string;
   scope:
     | "application_method.buy_rules"
     | "rules"
-    | "application_method.target_rules"
-  name: string
-  operator: string
-  fieldRule: any
-  attributes: HttpTypes.AdminRuleAttributeOption[]
-  ruleType: "rules" | "target-rules" | "buy-rules"
-}
+    | "application_method.target_rules";
+  name: string;
+  operator: string;
+  fieldRule: any;
+  attributes: HttpTypes.AdminRuleAttributeOption[];
+  ruleType: "rules" | "target-rules" | "buy-rules";
+};
 
 const buildFilters = (attribute?: string, store?: HttpTypes.AdminStore) => {
   if (!attribute || !store) {
-    return {}
+    return {};
   }
 
   if (attribute === "currency_code") {
     return {
       value: store.supported_currencies?.map((c) => c.currency_code),
-    }
+    };
   }
 
-  return {}
-}
+  return {};
+};
 
 export const RuleValueFormField = ({
   form,
@@ -47,20 +47,20 @@ export const RuleValueFormField = ({
 }: RuleValueFormFieldType) => {
   const attribute = attributes?.find(
     (attr) => attr.value === fieldRule.attribute
-  )
+  );
 
-  const { store, isLoading: isStoreLoading } = useStore()
+  const { store, isLoading: isStoreLoading } = useStore();
 
   const comboboxData = useComboboxData({
     queryFn: async (params) => {
-      return await sdk.admin.promotion.listRuleValues(
+      return await sdk.vendor.promotion.listRuleValues(
         ruleType,
         attribute?.id!,
         {
           ...params,
           ...buildFilters(attribute?.id, store!),
         }
-      )
+      );
     },
     enabled:
       !!attribute?.id &&
@@ -68,12 +68,12 @@ export const RuleValueFormField = ({
       !isStoreLoading,
     getOptions: (data) => data.values,
     queryKey: ["rule-value-options", ruleType, attribute?.id],
-  })
+  });
 
   const watchOperator = useWatch({
     control: form.control,
     name: operator,
-  })
+  });
 
   return (
     <Form.Field
@@ -96,7 +96,7 @@ export const RuleValueFormField = ({
               </Form.Control>
               <Form.ErrorMessage />
             </Form.Item>
-          )
+          );
         } else if (attribute?.field_type === "text") {
           return (
             <Form.Item className="basis-1/2">
@@ -111,7 +111,7 @@ export const RuleValueFormField = ({
               </Form.Control>
               <Form.ErrorMessage />
             </Form.Item>
-          )
+          );
         } else {
           return (
             <Form.Item className="basis-1/2">
@@ -129,9 +129,9 @@ export const RuleValueFormField = ({
               </Form.Control>
               <Form.ErrorMessage />
             </Form.Item>
-          )
+          );
         }
       }}
     />
-  )
-}
+  );
+};

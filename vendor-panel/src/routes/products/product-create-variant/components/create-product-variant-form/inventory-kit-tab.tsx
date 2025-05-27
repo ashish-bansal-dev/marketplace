@@ -1,40 +1,40 @@
-import React from "react"
-import { z } from "zod"
-import { useFieldArray, UseFormReturn } from "react-hook-form"
-import { Button, Heading, IconButton, Input, Label } from "@medusajs/ui"
+import React from "react";
+import { z } from "zod";
+import { useFieldArray, UseFormReturn } from "react-hook-form";
+import { Button, Heading, IconButton, Input, Label } from "@medusajs/ui";
 
-import { CreateProductVariantSchema } from "./constants"
-import { XMarkMini } from "@medusajs/icons"
-import { useTranslation } from "react-i18next"
+import { CreateProductVariantSchema } from "./constants";
+import { XMarkMini } from "@medusajs/icons";
+import { useTranslation } from "react-i18next";
 
-import { useComboboxData } from "../../../../../hooks/use-combobox-data"
-import { sdk } from "../../../../../lib/client"
-import { Form } from "../../../../../components/common/form"
-import { Combobox } from "../../../../../components/inputs/combobox"
+import { useComboboxData } from "../../../../../hooks/use-combobox-data";
+import { sdk } from "../../../../../lib/client";
+import { Form } from "../../../../../components/common/form";
+import { Combobox } from "../../../../../components/inputs/combobox";
 
 type InventoryKitTabProps = {
-  form: UseFormReturn<z.infer<typeof CreateProductVariantSchema>>
-}
+  form: UseFormReturn<z.infer<typeof CreateProductVariantSchema>>;
+};
 
 function InventoryKitTab({ form }: InventoryKitTabProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const inventory = useFieldArray({
     control: form.control,
     name: `inventory`,
-  })
+  });
 
-  const inventoryFormData = inventory.fields
+  const inventoryFormData = inventory.fields;
 
   const items = useComboboxData({
     queryKey: ["inventory_items"],
-    queryFn: (params) => sdk.admin.inventoryItem.list(params),
+    queryFn: (params) => sdk.vendor.inventoryItem.list(params),
     getOptions: (data) =>
       data.inventory_items.map((item) => ({
         label: item.title,
         value: item.id,
       })),
-  })
+  });
 
   /**
    * Will mark an option as disabled if another input already selected that option
@@ -48,8 +48,8 @@ function InventoryKitTab({ form }: InventoryKitTabProps) {
     return inventoryFormData?.some(
       (i, index) =>
         index != inventoryIndex && i.inventory_item_id === option.value
-    )
-  }
+    );
+  };
 
   return (
     <div className="flex flex-col items-center p-16">
@@ -71,7 +71,7 @@ function InventoryKitTab({ form }: InventoryKitTabProps) {
                   inventory.append({
                     inventory_item_id: "",
                     required_quantity: "",
-                  })
+                  });
                 }}
               >
                 {t("actions.add")}
@@ -120,7 +120,7 @@ function InventoryKitTab({ form }: InventoryKitTabProps) {
                             />
                           </Form.Control>
                         </Form.Item>
-                      )
+                      );
                     }}
                   />
 
@@ -147,12 +147,12 @@ function InventoryKitTab({ form }: InventoryKitTabProps) {
                               min={0}
                               value={value}
                               onChange={(e) => {
-                                const value = e.target.value
+                                const value = e.target.value;
 
                                 if (value === "") {
-                                  onChange(null)
+                                  onChange(null);
                                 } else {
-                                  onChange(Number(value))
+                                  onChange(Number(value));
                                 }
                               }}
                               {...field}
@@ -163,7 +163,7 @@ function InventoryKitTab({ form }: InventoryKitTabProps) {
                           </Form.Control>
                           <Form.ErrorMessage />
                         </Form.Item>
-                      )
+                      );
                     }}
                   />
                 </div>
@@ -182,7 +182,7 @@ function InventoryKitTab({ form }: InventoryKitTabProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default InventoryKitTab
+export default InventoryKitTab;

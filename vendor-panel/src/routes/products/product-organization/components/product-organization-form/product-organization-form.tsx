@@ -1,72 +1,72 @@
-import { HttpTypes } from "@medusajs/types"
-import { Button, toast } from "@medusajs/ui"
-import { useTranslation } from "react-i18next"
-import * as zod from "zod"
+import { HttpTypes } from "@medusajs/types";
+import { Button, toast } from "@medusajs/ui";
+import { useTranslation } from "react-i18next";
+import * as zod from "zod";
 
-import { Form } from "../../../../../components/common/form"
-import { Combobox } from "../../../../../components/inputs/combobox"
-import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
+import { Form } from "../../../../../components/common/form";
+import { Combobox } from "../../../../../components/inputs/combobox";
+import { RouteDrawer, useRouteModal } from "../../../../../components/modals";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
 import {
   FormExtensionZone,
   useExtendableForm,
-} from "../../../../../dashboard-app"
-import { useUpdateProduct } from "../../../../../hooks/api/products"
-import { useComboboxData } from "../../../../../hooks/use-combobox-data"
-import { sdk } from "../../../../../lib/client"
-import { useExtension } from "../../../../../providers/extension-provider"
-import { CategoryCombobox } from "../../../common/components/category-combobox"
+} from "../../../../../dashboard-app";
+import { useUpdateProduct } from "../../../../../hooks/api/products";
+import { useComboboxData } from "../../../../../hooks/use-combobox-data";
+import { sdk } from "../../../../../lib/client";
+import { useExtension } from "../../../../../providers/extension-provider";
+import { CategoryCombobox } from "../../../common/components/category-combobox";
 
 type ProductOrganizationFormProps = {
-  product: HttpTypes.AdminProduct
-}
+  product: HttpTypes.AdminProduct;
+};
 
 const ProductOrganizationSchema = zod.object({
   type_id: zod.string().nullable(),
   collection_id: zod.string().nullable(),
   category_ids: zod.array(zod.string()),
   tag_ids: zod.array(zod.string()),
-})
+});
 
 export const ProductOrganizationForm = ({
   product,
 }: ProductOrganizationFormProps) => {
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
-  const { getFormConfigs, getFormFields } = useExtension()
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
+  const { getFormConfigs, getFormFields } = useExtension();
 
-  const configs = getFormConfigs("product", "organize")
-  const fields = getFormFields("product", "organize")
+  const configs = getFormConfigs("product", "organize");
+  const fields = getFormFields("product", "organize");
 
   const collections = useComboboxData({
     queryKey: ["product_collections"],
-    queryFn: (params) => sdk.admin.productCollection.list(params),
+    queryFn: (params) => sdk.vendor.productCollection.list(params),
     getOptions: (data) =>
       data.collections.map((collection) => ({
         label: collection.title!,
         value: collection.id!,
       })),
-  })
+  });
 
   const types = useComboboxData({
     queryKey: ["product_types"],
-    queryFn: (params) => sdk.admin.productType.list(params),
+    queryFn: (params) => sdk.vendor.productType.list(params),
     getOptions: (data) =>
       data.product_types.map((type) => ({
         label: type.value,
         value: type.id,
       })),
-  })
+  });
 
   const tags = useComboboxData({
     queryKey: ["product_tags"],
-    queryFn: (params) => sdk.admin.productTag.list(params),
+    queryFn: (params) => sdk.vendor.productTag.list(params),
     getOptions: (data) =>
       data.product_tags.map((tag) => ({
         label: tag.value,
         value: tag.id,
       })),
-  })
+  });
 
   const form = useExtendableForm({
     defaultValues: {
@@ -78,9 +78,9 @@ export const ProductOrganizationForm = ({
     schema: ProductOrganizationSchema,
     configs: configs,
     data: product,
-  })
+  });
 
-  const { mutateAsync, isPending } = useUpdateProduct(product.id)
+  const { mutateAsync, isPending } = useUpdateProduct(product.id);
 
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
@@ -96,15 +96,15 @@ export const ProductOrganizationForm = ({
             t("products.organization.edit.toasts.success", {
               title: product.title,
             })
-          )
-          handleSuccess()
+          );
+          handleSuccess();
         },
         onError: (error) => {
-          toast.error(error.message)
+          toast.error(error.message);
         },
       }
-    )
-  })
+    );
+  });
 
   return (
     <RouteDrawer.Form form={form}>
@@ -131,7 +131,7 @@ export const ProductOrganizationForm = ({
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
-                )
+                );
               }}
             />
             <Form.Field
@@ -154,7 +154,7 @@ export const ProductOrganizationForm = ({
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
-                )
+                );
               }}
             />
             <Form.Field
@@ -171,7 +171,7 @@ export const ProductOrganizationForm = ({
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
-                )
+                );
               }}
             />
             <Form.Field
@@ -194,7 +194,7 @@ export const ProductOrganizationForm = ({
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
-                )
+                );
               }}
             />
             <FormExtensionZone fields={fields} form={form} />
@@ -214,5 +214,5 @@ export const ProductOrganizationForm = ({
         </RouteDrawer.Footer>
       </KeyboundForm>
     </RouteDrawer.Form>
-  )
-}
+  );
+};

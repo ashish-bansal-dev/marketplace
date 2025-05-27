@@ -1,50 +1,50 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { HttpTypes } from "@medusajs/types"
-import { Button, Divider, Input, RadioGroup, toast } from "@medusajs/ui"
-import { useForm } from "react-hook-form"
-import { useTranslation } from "react-i18next"
-import * as zod from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { HttpTypes } from "@medusajs/types";
+import { Button, Divider, Input, RadioGroup, toast } from "@medusajs/ui";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import * as zod from "zod";
 
-import { Form } from "../../../../../components/common/form"
-import { SwitchBox } from "../../../../../components/common/switch-box"
-import { Combobox } from "../../../../../components/inputs/combobox"
-import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
-import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useUpdateShippingOptions } from "../../../../../hooks/api/shipping-options"
-import { useComboboxData } from "../../../../../hooks/use-combobox-data"
-import { sdk } from "../../../../../lib/client"
-import { pick } from "../../../../../lib/common"
-import { isOptionEnabledInStore } from "../../../../../lib/shipping-options"
+import { Form } from "../../../../../components/common/form";
+import { SwitchBox } from "../../../../../components/common/switch-box";
+import { Combobox } from "../../../../../components/inputs/combobox";
+import { RouteDrawer, useRouteModal } from "../../../../../components/modals";
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form";
+import { useUpdateShippingOptions } from "../../../../../hooks/api/shipping-options";
+import { useComboboxData } from "../../../../../hooks/use-combobox-data";
+import { sdk } from "../../../../../lib/client";
+import { pick } from "../../../../../lib/common";
+import { isOptionEnabledInStore } from "../../../../../lib/shipping-options";
 import {
   FulfillmentSetType,
   ShippingOptionPriceType,
-} from "../../../common/constants"
+} from "../../../common/constants";
 
 type EditShippingOptionFormProps = {
-  locationId: string
-  shippingOption: HttpTypes.AdminShippingOption
-  type: FulfillmentSetType
-}
+  locationId: string;
+  shippingOption: HttpTypes.AdminShippingOption;
+  type: FulfillmentSetType;
+};
 
 const EditShippingOptionSchema = zod.object({
   name: zod.string().min(1),
   price_type: zod.nativeEnum(ShippingOptionPriceType),
   enabled_in_store: zod.boolean().optional(),
   shipping_profile_id: zod.string(),
-})
+});
 
 export const EditShippingOptionForm = ({
   locationId,
   shippingOption,
   type,
 }: EditShippingOptionFormProps) => {
-  const { t } = useTranslation()
-  const { handleSuccess } = useRouteModal()
+  const { t } = useTranslation();
+  const { handleSuccess } = useRouteModal();
 
-  const isPickup = type === FulfillmentSetType.Pickup
+  const isPickup = type === FulfillmentSetType.Pickup;
 
   const shippingProfiles = useComboboxData({
-    queryFn: (params) => sdk.admin.shippingProfile.list(params),
+    queryFn: (params) => sdk.vendor.shippingProfile.list(params),
     queryKey: ["shipping_profiles"],
     getOptions: (data) =>
       data.shipping_profiles.map((profile) => ({
@@ -52,7 +52,7 @@ export const EditShippingOptionForm = ({
         value: profile.id,
       })),
     defaultValue: shippingOption.shipping_profile_id,
-  })
+  });
 
   const form = useForm<zod.infer<typeof EditShippingOptionSchema>>({
     defaultValues: {
@@ -62,18 +62,18 @@ export const EditShippingOptionForm = ({
       shipping_profile_id: shippingOption.shipping_profile_id,
     },
     resolver: zodResolver(EditShippingOptionSchema),
-  })
+  });
 
   const { mutateAsync, isPending: isLoading } = useUpdateShippingOptions(
     shippingOption.id
-  )
+  );
 
   const handleSubmit = form.handleSubmit(async (values) => {
     const rules = shippingOption.rules.map((r) => ({
       ...pick(r, ["id", "attribute", "operator", "value"]),
-    })) as HttpTypes.AdminUpdateShippingOptionRule[]
+    })) as HttpTypes.AdminUpdateShippingOptionRule[];
 
-    const storeRule = rules.find((r) => r.attribute === "enabled_in_store")
+    const storeRule = rules.find((r) => r.attribute === "enabled_in_store");
 
     if (!storeRule) {
       // NOTE: should always exist since we always create this rule when we create a shipping option
@@ -81,9 +81,9 @@ export const EditShippingOptionForm = ({
         value: values.enabled_in_store ? "true" : "false",
         attribute: "enabled_in_store",
         operator: "eq",
-      })
+      });
     } else {
-      storeRule.value = values.enabled_in_store ? "true" : "false"
+      storeRule.value = values.enabled_in_store ? "true" : "false";
     }
 
     await mutateAsync(
@@ -99,15 +99,15 @@ export const EditShippingOptionForm = ({
             t("stockLocations.shippingOptions.edit.successToast", {
               name: shipping_option.name,
             })
-          )
-          handleSuccess(`/settings/locations/${locationId}`)
+          );
+          handleSuccess(`/settings/locations/${locationId}`);
         },
         onError: (e) => {
-          toast.error(e.message)
+          toast.error(e.message);
         },
       }
-    )
-  })
+    );
+  });
 
   return (
     <RouteDrawer.Form form={form}>
@@ -153,7 +153,7 @@ export const EditShippingOptionForm = ({
                         </Form.Control>
                         <Form.ErrorMessage />
                       </Form.Item>
-                    )
+                    );
                   }}
                 />
               )}
@@ -171,7 +171,7 @@ export const EditShippingOptionForm = ({
                         </Form.Control>
                         <Form.ErrorMessage />
                       </Form.Item>
-                    )
+                    );
                   }}
                 />
 
@@ -197,7 +197,7 @@ export const EditShippingOptionForm = ({
                         </Form.Control>
                         <Form.ErrorMessage />
                       </Form.Item>
-                    )
+                    );
                   }}
                 />
               </div>
@@ -230,5 +230,5 @@ export const EditShippingOptionForm = ({
         </RouteDrawer.Footer>
       </KeyboundForm>
     </RouteDrawer.Form>
-  )
-}
+  );
+};

@@ -1,36 +1,36 @@
-import { FetchError } from "@medusajs/js-sdk"
-import { LoaderFunctionArgs, redirect } from "react-router-dom"
+import { FetchError } from "@medusajs/js-sdk";
+import { LoaderFunctionArgs, redirect } from "react-router-dom";
 
-import { HttpTypes } from "@medusajs/types"
-import { stockLocationsQueryKeys } from "../../../hooks/api/stock-locations"
-import { sdk } from "../../../lib/client"
-import { queryClient } from "../../../lib/query-client"
-import { LOCATION_LIST_FIELDS } from "./constants"
+import { HttpTypes } from "@medusajs/types";
+import { stockLocationsQueryKeys } from "../../../hooks/api/stock-locations";
+import { sdk } from "../../../lib/client";
+import { queryClient } from "../../../lib/query-client";
+import { LOCATION_LIST_FIELDS } from "./constants";
 
 const shippingListQuery = () => ({
   queryKey: stockLocationsQueryKeys.lists(),
   queryFn: async () => {
-    return await sdk.admin.stockLocation
+    return await sdk.vendor.stockLocation
       .list({
         // TODO: change this when RQ is fixed
         fields: LOCATION_LIST_FIELDS,
       })
       .catch((error: FetchError) => {
         if (error.status === 401) {
-          throw redirect("/login")
+          throw redirect("/login");
         }
 
-        throw error
-      })
+        throw error;
+      });
   },
-})
+});
 
 export const shippingListLoader = async (_: LoaderFunctionArgs) => {
-  const query = shippingListQuery()
+  const query = shippingListQuery();
 
   return (
     queryClient.getQueryData<HttpTypes.AdminStockLocationListResponse>(
       query.queryKey
     ) ?? (await queryClient.fetchQuery(query))
-  )
-}
+  );
+};
