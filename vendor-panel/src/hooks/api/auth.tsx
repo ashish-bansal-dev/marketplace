@@ -7,8 +7,8 @@ export const useSignInWithEmailPass = (
   options?: UseMutationOptions<
     | string
     | {
-        location: string;
-      },
+      location: string;
+    },
     FetchError,
     HttpTypes.AdminSignUpWithEmailPassword
   >
@@ -36,7 +36,7 @@ export const useSignUpWithEmailPass = (
 ) => {
   return useMutation({
     mutationFn: (payload) => sdk.auth.register("seller", "emailpass", payload),
-    onSuccess: async (_, variables) => {
+    onSuccess: async (data, variables) => {
       const sellerPayload = {
         name: variables.name,
         phone: variables.phone,
@@ -48,6 +48,9 @@ export const useSignUpWithEmailPass = (
         },
       };
       await sdk.client.fetch("/vendor/sellers", {
+        headers: {
+          "Authorization": `Bearer ${data}`,
+        },
         method: "POST",
         body: sellerPayload,
       });
