@@ -34,6 +34,9 @@ import {
   CreateProductVariant,
 } from "./validators"
 import IndexEngineFeatureFlag from "../../../loaders/feature-flags/index-engine"
+import { filterBySellerId } from "#/shared/infra/http/middlewares/filter-by-seller-id"
+import SellerProductLink from "../../../links/seller-product"
+import { maybeApplyLinkFilterCombine } from "#/shared/infra/http/middlewares/may-be-apply-link-filter-combine"
 
 const upload = multer({ storage: multer.memoryStorage() })
 
@@ -58,7 +61,14 @@ export const adminProductRoutesMiddlewares: MiddlewareRoute[] = [
         })(req, res, next)
       },
       maybeApplyPriceListsFilter(),
+      filterBySellerId(),
+      maybeApplyLinkFilterCombine({
+        entryPoint: SellerProductLink.entryPoint,
+        resourceId: "product_id",
+        filterableField: "seller_id",
+      }),
     ],
+
   },
   {
     method: ["POST"],

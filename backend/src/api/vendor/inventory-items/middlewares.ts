@@ -2,7 +2,7 @@ import {
   validateAndTransformBody,
   validateAndTransformQuery,
 } from "@medusajs/framework"
-import { MiddlewareRoute } from "@medusajs/framework/http"
+import { maybeApplyLinkFilter, MiddlewareRoute } from "@medusajs/framework/http"
 import { DEFAULT_BATCH_ENDPOINTS_SIZE_LIMIT } from "../../utils/middlewares"
 import * as QueryConfig from "./query-config"
 import {
@@ -17,6 +17,8 @@ import {
   AdminUpdateInventoryItem,
   AdminUpdateInventoryLocationLevel,
 } from "./validators"
+import { filterBySellerId } from "#/shared/infra/http/middlewares/filter-by-seller-id";
+import sellerInventoryItemLink from "../../../links/seller-inventory-item";
 
 export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
   {
@@ -27,6 +29,12 @@ export const adminInventoryRoutesMiddlewares: MiddlewareRoute[] = [
         AdminGetInventoryItemsParams,
         QueryConfig.listTransformQueryConfig
       ),
+      filterBySellerId(),
+      maybeApplyLinkFilter({
+        entryPoint: sellerInventoryItemLink.entryPoint,
+        resourceId: "inventory_item_id",
+        filterableField: "seller_id",
+      }),
     ],
   },
   {

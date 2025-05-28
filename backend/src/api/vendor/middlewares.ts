@@ -45,6 +45,8 @@ import { adminWorkflowsExecutionsMiddlewares } from "./workflows-executions/midd
 import { vendorCors } from "./cors";
 
 import { vendorSellersMiddlewares } from "./sellers/middlewares";
+import { unlessBaseUrl } from "#/shared/infra/http/utils/unless-base-url";
+import { checkSellerActive } from "#/shared/infra/http/middlewares/check-seller-active";
 
 export const vendorMiddlewares: MiddlewareRoute[] = [
   {
@@ -58,6 +60,21 @@ export const vendorMiddlewares: MiddlewareRoute[] = [
         allowUnregistered: true,
       }),
     ],
+  },
+  {
+    matcher: '/vendor/*',
+    middlewares: [
+      // unlessBaseUrl(
+      //   /^\/vendor\/(sellers|invites\/accept)$/,
+      //   checkSellerActive(['bearer', 'session'])
+      // ),
+      unlessBaseUrl(
+        /^\/vendor\/(sellers|invites\/accept)$/,
+        authenticate('seller', ['bearer', 'session'], {
+          allowUnregistered: false
+        })
+      )
+    ]
   },
   ...adminCustomerGroupRoutesMiddlewares,
   ...adminCustomerRoutesMiddlewares,
